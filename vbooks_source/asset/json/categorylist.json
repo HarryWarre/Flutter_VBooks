@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Comic"
+    },
+    {
+      "id": 2,
+      "name": "Kinh tế"
+    },
+    {
+      "id": 3,
+      "name": "Manga"
+    },
+    {
+      "id": 4,
+      "name": "Trinh thám"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ import 'pages/category/categorywidget.dart';
 import 'pages/home/homeWidget.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({Key? key}) : super(key: key);
+  const Mainpage({super.key});
 
   @override
   State<Mainpage> createState() => _MainpageState();
@@ -35,10 +35,11 @@ class _MainpageState extends State<Mainpage> {
     return MaterialApp(
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(88.0),
+          preferredSize: const Size.fromHeight(0.0),
           child: AppBar(),
         ),
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.all(10),
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
