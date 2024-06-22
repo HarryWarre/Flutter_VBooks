@@ -6,7 +6,6 @@ class SearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         color: const Color.fromRGBO(248, 249, 254, 1),
