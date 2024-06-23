@@ -15,7 +15,14 @@ class PaymentPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Thanh toán'),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Color.fromRGBO(21, 139, 125, 1)),
+          onPressed: () {
+            Navigator.pop(context); // Quay lại trang trước đó
+          },
+        ),
       ),
+      
       body: Column(
         children: [
           Padding(
@@ -88,6 +95,7 @@ class PaymentForm extends StatefulWidget {
 class _PaymentFormState extends State<PaymentForm> {
   final _formKey = GlobalKey<FormState>();
   String _paymentMethod = 'cash'; // Giá trị mặc định cho phương thức thanh toán
+  String _selectedBank = ''; // Biến lưu trữ ngân hàng được chọn
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
@@ -115,30 +123,71 @@ class _PaymentFormState extends State<PaymentForm> {
               fontSize: 18,
             ),
           ),
-          ListTile(
+          RadioListTile<String>(
             title: const Text('Thanh toán tiền mặt'),
-            leading: Radio<String>(
-              value: 'cash',
-              groupValue: _paymentMethod,
-              onChanged: (value) {
-                setState(() {
-                  _paymentMethod = value!;
-                });
-              },
-            ),
+            value: 'cash',
+            groupValue: _paymentMethod,
+            onChanged: (value) {
+              setState(() {
+                _paymentMethod = value!;
+              });
+            },
+            secondary: const Icon(Icons.attach_money), // Biểu tượng cho thanh toán tiền mặt
           ),
-          ListTile(
+          RadioListTile<String>(
             title: const Text('Chuyển khoản'),
-            leading: Radio<String>(
-              value: 'bank_transfer',
-              groupValue: _paymentMethod,
-              onChanged: (value) {
-                setState(() {
-                  _paymentMethod = value!;
-                });
-              },
-            ),
+            value: 'bank_transfer',
+            groupValue: _paymentMethod,
+            onChanged: (value) {
+              setState(() {
+                _paymentMethod = value!;
+              });
+            },
+            secondary: const Icon(Icons.account_balance), // Biểu tượng cho chuyển khoản
           ),
+          if (_paymentMethod == 'bank_transfer') ...[
+            const SizedBox(height: 16.0),
+            Text(
+              'Chọn ngân hàng:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            ListTile(
+              title: const Text('Ngân hàng VietComBank'),
+              leading: Radio<String>(
+                value: 'Ngân hàng VietComBank',
+                groupValue: _selectedBank,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedBank = value!;
+                  });
+                },
+              ),
+            ),
+            ListTile(
+              title: const Text('Ngân hàng Sacombank'),
+              leading: Radio<String>(
+                value: 'Ngân hàng Sacombank',
+                groupValue: _selectedBank,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedBank = value!;
+                  });
+                },
+              ),
+            ),
+            ListTile(
+              title: const Text('Ngân hàng Techcombank'),
+              leading: Radio<String>(
+                value: 'Ngân hàng Techcombank',
+                groupValue: _selectedBank,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedBank = value!;
+                  });
+                },
+              ),
+            ),
+          ],
           const SizedBox(height: 32.0),
           ElevatedButton(
             onPressed: _submitForm,

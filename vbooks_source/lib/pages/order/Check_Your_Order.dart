@@ -15,6 +15,12 @@ class OrderReviewPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Kiểm tra đơn hàng'),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Color.fromRGBO(21, 139, 125, 1)),
+          onPressed: () {
+            Navigator.pop(context); // Quay lại trang trước đó
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -90,12 +96,12 @@ class OrderReviewForm extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         ListTile(
-          title: Text('Họ và tên: Nguyễn Văn A'),
-          subtitle: Text('Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM'),
+          title: Text('Họ và tên: Ngô Trung Đạt'),
+          subtitle: Text('Địa chỉ: Hai Bà Trưng, Quận 1, TP.HCM'),
         ),
         ListTile(
           title: Text('Số điện thoại: 0123456789'),
-          subtitle: Text('Email: nguyenvana@example.com'),
+          subtitle: Text('Email: siucr7@gmail.com'),
         ),
         SizedBox(height: 16.0),
         Text(
@@ -117,7 +123,7 @@ class OrderReviewForm extends StatelessWidget {
               width: 35,
               height: 55,
               fit: BoxFit.cover),
-          title: Text('Sách Tâm Lý Học'),
+          title: Text('Red Queen'),
           trailing: Text('x1'),
         ),
         SizedBox(height: 16.0),
@@ -127,7 +133,7 @@ class OrderReviewForm extends StatelessWidget {
               width: 35,
               height: 55,
               fit: BoxFit.cover),
-          title: Text('Sách Đắc Nhân Tâm'),
+          title: Text('To Kill A Mockingbird'),
           trailing: Text('x2'),
         ),
         SizedBox(height: 16.0),
@@ -137,7 +143,7 @@ class OrderReviewForm extends StatelessWidget {
               width: 35,
               height: 55,
               fit: BoxFit.cover),
-          title: Text('Sách Chó Sủa Nhầm Cây'),
+          title: Text('How to Drink'),
           trailing: Text('x1'),
         ),
         SizedBox(height: 32.0),
