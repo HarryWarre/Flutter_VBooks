@@ -23,11 +23,11 @@ class _MainpageState extends State<Mainpage> {
     'Tài khoản'
   ];
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     CategoryWidget(),
     CartWidget(),
-    AuthWidget()
+    AuthScreen()
   ];
 
   void _onItemTapped(int index) {
