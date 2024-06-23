@@ -5,10 +5,144 @@ class CartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        "Cart Widget", //Phần thay đổi code để push lên
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Giỏ hàng',
+          textAlign: TextAlign.center,
+        ),
+        centerTitle: true,
+      ),
+      body: ListView(
+        children: const [
+          CartItemWidget(
+            imageUrl:
+                "https://bizweb.dktcdn.net/thumb/large/100/197/269/products/tam-ly-hoc-thanh-cong-304x472.jpg?v=1516592128997",
+            name: "Sách Tâm Lý Học",
+            price: 100000,
+            initialQuantity: 1,
+          ),
+          CartItemWidget(
+            imageUrl:
+                "https://static.oreka.vn/800-800_0fa33f3c-4354-4a55-ad59-868547814f67",
+            name: "Sách Đắc Nhân Tâm",
+            price: 2000,
+            initialQuantity: 2,
+          ),
+          CartItemWidget(
+            imageUrl:
+                "https://www.elleman.vn/wp-content/uploads/2019/12/05/cho-sua-nham-cay-sach-tam-ly-elleman-1119-Vidoda.jpg",
+            name: "Sách Chó Sủa Nhầm Cây",
+            price: 95000,
+            initialQuantity: 1,
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Tổng cộng: 800 đ',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Xử lý logic khi nhấn nút thanh toán
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Color.fromRGBO(21, 139, 125, 1), // Đặt màu nền cho nút
+                ),
+                child: const Text(
+                  'Thanh toán',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
+}
+
+class CartItemWidget extends StatefulWidget {
+  final String name;
+  final int price;
+  final int initialQuantity;
+  final String imageUrl;
+
+  const CartItemWidget({
+    super.key,
+    required this.name,
+    required this.price,
+    required this.initialQuantity,
+    required this.imageUrl,
+  });
+
+  @override
+  _CartItemWidgetState createState() => _CartItemWidgetState();
+}
+
+class _CartItemWidgetState extends State<CartItemWidget> {
+  late int quantity;
+
+  @override
+  void initState() {
+    super.initState();
+    quantity = widget.initialQuantity;
+  }
+
+  void _incrementQuantity() {
+    setState(() {
+      quantity++;
+    });
+  }
+
+  void _decrementQuantity() {
+    if (quantity > 1) {
+      setState(() {
+        quantity--;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        leading: Image.network(
+          widget.imageUrl,
+          width: 70,
+          height: 120,
+          fit: BoxFit.cover,
+        ),
+        title: Text(widget.name),
+        subtitle: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.remove),
+              onPressed: _decrementQuantity,
+            ),
+            Text('Số lượng: $quantity'),
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: _incrementQuantity,
+            ),
+          ],
+        ),
+        trailing: Text('${widget.price * quantity} đ'),
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: CartWidget(),
+  ));
 }
