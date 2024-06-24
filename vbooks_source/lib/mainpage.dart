@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/accountinfowidget.dart';
+import 'package:vbooks_source/pages/account/updateinfowidget.dart';
 import 'package:vbooks_source/pages/cart/cartWidget.dart';
 
 // import 'pages/account/accountwidget.dart';
@@ -28,7 +30,7 @@ class _MainpageState extends State<Mainpage> {
     HomeWidget(),
     CategoryWidget(),
     CartWidget(),
-    AccountInfoWidget()
+    UpdateInfoScreen()
   ];
 
   void _onItemTapped(int index) {
