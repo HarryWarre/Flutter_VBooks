@@ -8,7 +8,6 @@ class UpdateInfoScreen extends StatefulWidget {
 }
 
 class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
-  bool _isCheck = false;
   TextEditingController _dateController = TextEditingController();
   String _gender = '';
 
@@ -57,7 +56,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: const Text(
-                    'Mật khẩu',
+                    'Email',
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.bold,
@@ -72,23 +71,12 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: TextField(
+                  child: const TextField(
                     textAlign: TextAlign.left,
-                    obscureText: _isCheck,
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                      labelText: "Nhập mật khẩu",
-                      border: InputBorder.none,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                            _isCheck ? Icons.visibility : Icons.visibility_off),
-                        color: Colors.grey,
-                        onPressed: () {
-                          setState(() {
-                            _isCheck = !_isCheck;
-                          });
-                        },
-                      ),
+                      labelText: "Nhập Email",
+                      border: InputBorder.none,             
                     ),
                   ),
                 ),
@@ -200,6 +188,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                   ],
                   
                 ),
+                
                 const SizedBox(height: 16,),
                 Column(
                   children: [
@@ -234,6 +223,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
           ),
         ),
       ),
+      
     );
   }
 
