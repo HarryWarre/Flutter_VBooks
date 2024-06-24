@@ -1,18 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AuthScreen(),
-    );
-  }
-}
-
 class AuthScreen extends StatefulWidget {
   @override
   _AuthScreenState createState() => _AuthScreenState();
@@ -56,12 +43,12 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         ),
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
                           width: isLogin ? 120 : 0,
                           height: 2,
                           child: Transform.translate(
-                            offset: isLogin ? Offset(0, 0) : Offset(100, 0),
+                            offset: isLogin ? const Offset(0, 0) : const Offset(100, 0),
                             child: Container(
                               width: 100,
                               height: 2,
@@ -71,7 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(width: 32),
+                    const SizedBox(width: 32),
                     Column(
                       children: [
                         TextButton(
@@ -90,7 +77,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         ),
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
                           width: !isLogin ? 100 : 0,
                           height: 2,
@@ -107,12 +94,12 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     'Email/ Số điện thoại',
                     style: TextStyle(
                       fontFamily: 'Inter',
@@ -121,14 +108,14 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 8), // Add some space
+                const SizedBox(height: 8), // Add some space
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: TextField(
+                  child: const TextField(
                     textAlign: TextAlign.left, // Align text to the left
                     decoration: InputDecoration(
                       labelText: "Nhập Email / Số điện thoại",
@@ -136,7 +123,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: const Text(
@@ -149,31 +136,28 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child:  TextField(
+                  child: TextField(
                     textAlign: TextAlign.left,
                     obscureText: _isCheck,
-                    
                     decoration: InputDecoration(
                       labelText: "Nhập mật khẩu",
                       border: InputBorder.none,
                       suffixIcon: IconButton(
-                       icon: Icon(_isCheck
-                         ? Icons.visibility
-                         : Icons.visibility_off),
-                         color: Colors.grey,
-                         onPressed: (){
+                        icon: Icon(
+                            _isCheck ? Icons.visibility : Icons.visibility_off),
+                        color: Colors.grey,
+                        onPressed: () {
                           setState(() {
                             _isCheck = !_isCheck;
                           });
-                         },
-                         
+                        },
                       ),
                     ),
                   ),
@@ -185,7 +169,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     visible: isLogin,
                     child: TextButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         'Quên mật khẩu?',
                         style: TextStyle(
                           fontFamily: 'Inter',
@@ -201,7 +185,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 Column(
                   children: [
                     if (!isLogin)
-                      SizedBox(
+                      const SizedBox(
                           height:
                               14), // Add SizedBox with height 12 above the ElevatedButton when isLogin is false
                     SizedBox(
@@ -217,7 +201,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         child: Text(
                           isLogin ? 'Đăng nhập' : 'Đăng ký',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'Inter',
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -229,7 +213,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ],
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 TextButton(
                   onPressed: () {
@@ -242,7 +226,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       text: isLogin
                           ? 'Bạn đã có tài khoản? '
                           : 'Bạn chưa có tài khoản? ',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors
                             .black, // Always set this part of text to black
                       ),
@@ -250,7 +234,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextSpan(
                           text:
                               isLogin ? 'Đăng nhập tại đây' : 'Đăng ký tại đây',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.teal, // Set this part of text to teal
                             fontWeight: FontWeight.bold,
                           ),

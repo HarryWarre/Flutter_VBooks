@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
+import 'package:vbooks_source/pages/account/accountinfowidget.dart';
 import 'package:vbooks_source/pages/cart/cartWidget.dart';
 
 // import 'pages/account/accountwidget.dart';
@@ -27,7 +28,7 @@ class _MainpageState extends State<Mainpage> {
     HomeWidget(),
     CategoryWidget(),
     CartWidget(),
-    AuthScreen()
+    AccountInfoWidget()
   ];
 
   void _onItemTapped(int index) {
@@ -49,12 +50,6 @@ class _MainpageState extends State<Mainpage> {
               textAlign: TextAlign.center,
             ),
             centerTitle: true,
-            leading: _selectedIndex == 0 || _selectedIndex == 1
-                ? null 
-                : IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.arrow_back_ios),
-                  ),
           ),
         ),
         body: Center(
