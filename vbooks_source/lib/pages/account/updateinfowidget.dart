@@ -10,7 +10,7 @@ class UpdateInfoScreen extends StatefulWidget {
 class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
   bool _isCheck = false;
   TextEditingController _dateController = TextEditingController();
-  String _gender = ''; // Variable to store selected gender
+  String _gender = '';
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
         },
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            padding: EdgeInsets.fromLTRB(22, 0, 20, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -167,12 +167,11 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      RadioListTile<String>(
+                const SizedBox(height: 4), // Adjusted spacing here
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile<String>(
                         title: Text('Nam'),
                         value: 'Nam',
                         groupValue: _gender,
@@ -183,8 +182,10 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                         },
                         activeColor: Colors.teal,
                       ),
-                      SizedBox(width: 16), // Add space between RadioButtons
-                      RadioListTile<String>(
+                    ),
+                    const SizedBox(width: 100,),
+                    Expanded(
+                      child: RadioListTile<String>(
                         title: Text('Nữ'),
                         value: 'Nữ',
                         groupValue: _gender,
@@ -195,8 +196,38 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                         },
                         activeColor: Colors.teal,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                  
+                ),
+                const SizedBox(height: 16,),
+                Column(
+                  children: [
+                    Center(
+                      child: SizedBox(
+                        width: 320,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.teal,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            'Cập nhật thông tin',
+                            style: const TextStyle(
+                              fontFamily: 'Inter',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
