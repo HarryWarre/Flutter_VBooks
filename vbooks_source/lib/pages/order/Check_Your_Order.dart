@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/order/successful_purchase.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -149,10 +150,11 @@ class OrderReviewForm extends StatelessWidget {
         SizedBox(height: 32.0),
         ElevatedButton(
           onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Đơn hàng đã được xác nhận')),
-            );
-          },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderSuccessPage()),
+                    );
+                  },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
             textStyle: const TextStyle(fontSize: 20),

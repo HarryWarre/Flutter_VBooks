@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/order/Checkout.dart';
 
 class ShippingInfoWidget extends StatelessWidget {
   const ShippingInfoWidget({super.key});
@@ -117,7 +118,7 @@ class _ShippingFormState extends State<ShippingForm> {
     return Form(
       key: _formKey,
       child: ListView(
-        children: [
+        children: [         
           Padding(
             padding: EdgeInsets.only(top: 10.0, bottom: 8.0),
             child: Text('Họ và tên', style: TextStyle(fontSize: 18)),
@@ -196,7 +197,12 @@ class _ShippingFormState extends State<ShippingForm> {
           ),
           const SizedBox(height: 32.0),
           ElevatedButton(
-            onPressed: _submitForm,
+            onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PaymentPage()),
+                    );
+                  },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               textStyle: const TextStyle(fontSize: 20),

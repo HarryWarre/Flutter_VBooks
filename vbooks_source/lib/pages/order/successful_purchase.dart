@@ -26,7 +26,7 @@ class OrderSuccessPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.check_circle, size: 150, color: Colors.green),
+            Icon(Icons.check_circle, size: 150, color: Color.fromRGBO(21, 139, 125, 1)),
             SizedBox(height: 16.0),
             Text(
               'Cảm ơn quý khách!',
@@ -44,9 +44,8 @@ class OrderSuccessPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền
-               
               ),
-              child: Text('Xem chi tiết đơn hàng',style: TextStyle(color: Colors.white),),
+              child: Text('Xem chi tiết đơn hàng', style: TextStyle(color: Colors.white)),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
@@ -55,13 +54,18 @@ class OrderSuccessPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền
-               
               ),
-              child: Text('Quay về trang chủ',style: TextStyle(color: Colors.white),),
+              child: Text('Quay về trang chủ', style: TextStyle(color: Colors.white)),
             ),
+             SizedBox(height: 80.0),
           ],
+          
         ),
+        
       ),
+      
     );
+    
   }
 }
+

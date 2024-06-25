@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/order/Delivery_Information.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -35,7 +36,7 @@ class CartWidget extends StatelessWidget {
                   imageUrl:
                       "https://bizweb.dktcdn.net/thumb/large/100/197/269/products/tam-ly-hoc-thanh-cong-304x472.jpg?v=1516592128997",
                   name: "Red Queen",
-                  price: 100000,  
+                  price: 100000,
                   initialQuantity: 1,
                 ),
                 CartItemWidget(
@@ -67,8 +68,11 @@ class CartWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                 onPressed: () {
-                    
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ShippingInfoWidget()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 20),
