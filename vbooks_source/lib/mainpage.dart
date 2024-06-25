@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/accountinfowidget.dart';
+import 'package:vbooks_source/pages/account/changepasswordwidget.dart';
 import 'package:vbooks_source/pages/account/updateinfowidget.dart';
 import 'package:vbooks_source/pages/cart/cartWidget.dart';
 
@@ -30,7 +31,7 @@ class _MainpageState extends State<Mainpage> {
     HomeWidget(),
     CategoryWidget(),
     CartWidget(),
-    UpdateInfoScreen()
+    ChangePasswordWidget()
   ];
 
   void _onItemTapped(int index) {

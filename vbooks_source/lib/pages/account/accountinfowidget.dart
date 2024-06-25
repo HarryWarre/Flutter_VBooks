@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/pages/widgets/widgetforscreen.dart';
+import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 
 class AccountInfoWidget extends StatefulWidget {
   const AccountInfoWidget({super.key});
