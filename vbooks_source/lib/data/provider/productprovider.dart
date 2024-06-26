@@ -4,13 +4,13 @@ import 'package:flutter/services.dart';
 
 class ReadData {
   Future<List<Product>> loadData() async {
-    var data = await rootBundle.loadString("asset/json/productlist.json");
+    var data = await rootBundle.loadString("assets/json/productlist.json");
     var dataJson = jsonDecode(data);
     return (dataJson["data"] as List).map((e) => Product.fromJson(e)).toList();
   }
 
   Future<List<Product>> loadDatabyCat(int catId) async {
-    var data = await rootBundle.loadString("asset/json/productlist.json");
+    var data = await rootBundle.loadString("assets/json/productlist.json");
     var dataJson = jsonDecode(data);
     return (dataJson["data"] as List)
         .map((e) => Product.fromJson(e))
@@ -19,7 +19,7 @@ class ReadData {
   }
 
   Future<Product> getProductById(int id) async {
-    var data = await rootBundle.loadString("asset/json/productlist.json");
+    var data = await rootBundle.loadString("assets/json/productlist.json");
     var dataJson = jsonDecode(data);
     return (dataJson["data"] as List)
         .map((e) => Product.fromJson(e))
