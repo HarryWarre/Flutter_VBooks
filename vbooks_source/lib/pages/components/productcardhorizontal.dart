@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 // import 'package:vbooks_source/conf/const.dart'; // Uncomment if necessary
 
-import '../data/model/productmodel.dart'; // Adjust the import path as needed
+import '../../data/model/productmodel.dart'; // Adjust the import path as needed
 
 class HorizontalProductCard extends StatelessWidget {
   final Product product;

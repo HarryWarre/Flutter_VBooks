@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../component/productcardhorizontal.dart';
+import '../components/productcardhorizontal.dart';
 import '../../data/model/productmodel.dart';
 import '../../data/provider/productprovider.dart';
 import '../../data/provider/typeproductslist.dart';

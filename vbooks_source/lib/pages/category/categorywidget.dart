@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vbooks_source/data/model/categorymodel.dart';
 
-import '../../component/productcard.dart';
-import '../../component/searchform.dart';
+import '../components/productcard.dart';
+import '../components/searchform.dart';
 import '../../data/model/productmodel.dart';
 import '../../data/provider/categoryprovider.dart';
 import '../../data/provider/productprovider.dart' as productprovider;
