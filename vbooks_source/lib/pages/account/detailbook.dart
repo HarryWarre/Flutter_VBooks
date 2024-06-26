@@ -30,7 +30,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                     alignment: Alignment.center,
                     child: Image.asset('assets/spy.png'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Container(
@@ -39,18 +39,18 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                         Row(
                           children: [
-                            Text(
+                            const Text(
                               'Spy x Family',
                               style: TextStyle(
                                 fontSize: 26,
                               ),
                             ),
-                            Spacer(), // Đẩy IconButton ra ngoài rìa phải
+                            const Spacer(), // Đẩy IconButton ra ngoài rìa phải
                             IconButton(
                               onPressed: () {},
-                              icon: Icon(
+                              icon: const Icon(
                                 CupertinoIcons.heart_circle_fill,
                                 color: Colors.red,
                                 size: 40,
@@ -58,10 +58,10 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
-                        Row(
+                        const Row(
                           children: [
                             Text(
                               '40.000 VNĐ',
@@ -70,9 +70,9 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                                 fontSize: 18,
                               ),
                             ),
-                            SizedBox(
+                             SizedBox(
                                 width: 40), // Khoảng cách giữa hai đoạn văn bản
-                            Text(
+                             Text(
                               '45.000 VNĐ',
                               style: TextStyle(
                                 color: Colors.grey,
@@ -100,7 +100,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                     children: [
                       TextInfo(
                         label: 'Thông tin sản phẩm',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ],
@@ -127,7 +127,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
@@ -135,11 +135,11 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                     children: [
                       TextInfo(
                         label: 'Mô tả:',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      SizedBox(width: 10),
-                      Flexible(
+                      const SizedBox(width: 10),
+                      const Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -152,16 +152,16 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      CartItemWidget(initialQuantity: 1),
+                      const CartItemWidget(initialQuantity: 1),
                       Button(
                         width: 200,
-                        height: 30,
+                        height: 40,
                         text: 'Mua Ngay',
                         onPressed: () {},
                       ),
