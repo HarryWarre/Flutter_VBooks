@@ -22,7 +22,7 @@ class HorizontalProductCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.asset(
-                  'asset/images/product/${product.img}',
+                  'assets/images/product/${product.img}',
                   width: 100,
                   height: 150,
                   fit: BoxFit.cover,
