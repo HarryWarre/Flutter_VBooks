@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
+import 'package:vbooks_source/pages/account/authwidget.dart';
+import 'package:vbooks_source/pages/account/accountinfowidget.dart';
+import 'package:vbooks_source/pages/account/changepasswordwidget.dart';
+import 'package:vbooks_source/pages/account/detailbook.dart';
+import 'package:vbooks_source/pages/account/favoritebook.dart';
+import 'package:vbooks_source/pages/account/updateinfowidget.dart';
 import 'package:vbooks_source/pages/cart/cartWidget.dart';
 
-import 'pages/account/accountwidget.dart';
+// import 'pages/account/accountwidget.dart';
 import 'pages/category/categorywidget.dart';
 import 'pages/home/homeWidget.dart';
 
@@ -14,14 +21,19 @@ class Mainpage extends StatefulWidget {
 
 class _MainpageState extends State<Mainpage> {
   int _selectedIndex = 0;
-  // static const TextStyle optionStyle =
-  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static const List<String> _titles = <String>[
+    'Trang chủ',
+    'Thể loại',
+    'Giỏ hàng',
+    'Tài khoản'
+  ];
+
+  static List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
-    CategoryWidget(),
-    CartWidget(),
-    AccountWidget()
+    AuthScreen(),
+    AccountInfoWidget(),
+    DetailBookScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -33,10 +45,17 @@ class _MainpageState extends State<Mainpage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(88.0),
-          child: AppBar(),
+          child: AppBar(
+            title: Text(
+              _titles[_selectedIndex],
+              textAlign: TextAlign.center,
+            ),
+            centerTitle: true,
+          ),
         ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
@@ -63,8 +82,7 @@ class _MainpageState extends State<Mainpage> {
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: const Color.fromRGBO(21, 139, 125, 1),
-          unselectedItemColor: const Color.fromRGBO(
-              212, 214, 221, 1), // Màu cho các icon không được chọn
+          unselectedItemColor: const Color.fromRGBO(212, 214, 221, 1),
           onTap: _onItemTapped,
           showSelectedLabels: true,
           showUnselectedLabels: true,
@@ -73,3 +91,5 @@ class _MainpageState extends State<Mainpage> {
     );
   }
 }
+
+
