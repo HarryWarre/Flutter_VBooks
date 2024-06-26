@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 // ignore: unused_import
 import 'package:vbooks_source/conf/const.dart';
 
-import '../data/model/productmodel.dart';
+import '../../data/model/productmodel.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;

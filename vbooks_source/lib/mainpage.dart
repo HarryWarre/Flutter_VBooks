@@ -31,7 +31,7 @@ class _MainpageState extends State<Mainpage> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
-    AuthScreen(),
+    CategoryWidget(),
     AccountInfoWidget(),
     DetailBookScreen()
   ];
