@@ -41,8 +41,10 @@ class AccountShoppingRow extends StatelessWidget {
 class AccountInfoRow extends StatelessWidget {
   final String label;
   final String value;
+  final TextStyle? style;
+  final double? width;
 
-  AccountInfoRow({required this.label, required this.value});
+  AccountInfoRow({required this.label,  required this.value, this.style, this.width = 120});
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +53,20 @@ class AccountInfoRow extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 100,
-            padding: const EdgeInsets.only(right: 12),
+            width: width,
+            padding: const EdgeInsets.only(right: 40),
             child: Text(
               label,
-              style: TextStyle(fontFamily: 'Italic'),
+              style: style,
               overflow: TextOverflow.ellipsis, // tránh overflow
             ),
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.only(left: 10),
               child: Text(
                 value,
-                style: TextStyle(fontFamily: 'Italic'),
+                style: style,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -104,15 +106,14 @@ class AccountSelectWidget extends StatelessWidget {
 
 class CustomDivider extends StatelessWidget {
   final double height;
-  final Color color;
-  
+  final Color? color;
   CustomDivider({this.height = 2, this.color = Colors.grey});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      color: Colors.grey[400],
+      color: Colors.grey[300],
       width: double.infinity,
     );
   }

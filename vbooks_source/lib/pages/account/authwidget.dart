@@ -11,13 +11,13 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: GestureDetector(
-        onTap: () {
+    return GestureDetector(
+      onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: SingleChildScrollView(
+        },     
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(
