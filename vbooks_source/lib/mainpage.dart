@@ -29,7 +29,7 @@ class _MainpageState extends State<Mainpage> {
     'Tài khoản'
   ];
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     AuthScreen(),
     AccountInfoWidget(),
@@ -86,5 +86,3 @@ class _MainpageState extends State<Mainpage> {
     );
   }
 }
-
-

@@ -20,9 +20,6 @@ dev_dependencies:
   cupertino_icons: ^1.0.0
 
 flutter:
-
-  assets:
-    - assets/spy.png
   fonts:
     - family: Inter
       fonts:
@@ -34,4 +31,4 @@ flutter:
     - asset/json/
     - asset/images/
     - asset/images/product/
-
+    - assets/spy.png
