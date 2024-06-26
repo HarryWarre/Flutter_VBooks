@@ -9,18 +9,14 @@ class ChangePasswordWidget extends StatefulWidget {
 }
 
 class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
-  bool _isCheckOldPass = true;
-  bool _isCheckNewPass =  true;
-  bool _isCheckConfirmPass = true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: GestureDetector(
-        onTap: () {
+    return GestureDetector(
+      onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: SingleChildScrollView(
+        },   
+      child: Scaffold(       
+        body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(22, 0, 20, 0),
             child: Column(

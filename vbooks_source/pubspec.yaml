@@ -17,6 +17,9 @@ dev_dependencies:
   cupertino_icons: ^1.0.0
 
 flutter:
+
+  assets:
+    - assets/spy.png
   fonts:
     - family: Inter
       fonts:
