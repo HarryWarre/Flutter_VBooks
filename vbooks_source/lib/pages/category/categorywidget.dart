@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vbooks_source/data/model/categorymodel.dart';
 
 import '../components/productcard.dart';
-import '../components/searchform.dart';
+import '../components/search/searchform.dart';
 import '../../data/model/productmodel.dart';
 import '../../data/provider/categoryprovider.dart';
 import '../../data/provider/productprovider.dart' as productprovider;
@@ -43,9 +43,9 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
           return Column(
             children: [
-              const SearchWidget(), // Add SearchWidget at the top
+              SearchWidget(), // Thêm SearchWidget ở đầu
               SafeArea(
-                top: true, // Only set top safety to true
+                top: true, // Chỉ đặt top safety là true
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -55,8 +55,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                               isSelected: category.id == selectedCategoryId,
                               onTap: () {
                                 setState(() {
-                                  selectedCategoryId = category.id;
-                                  _loadProductsByCategory(category.id ?? 1);
+                                  selectedCategoryId = category.id!;
+                                  _loadProductsByCategory(category.id!);
                                 });
                               },
                             ))
@@ -66,15 +66,16 @@ class _CategoryWidgetState extends State<CategoryWidget> {
               ),
               Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.all(8.0), // Add padding around the grid
+                  padding: const EdgeInsets.all(
+                      8.0), // Thêm padding xung quanh GridView
                   child: GridView.count(
                     crossAxisCount: 2,
-                    childAspectRatio: 0.7, // Adjust the aspect ratio if needed
+                    childAspectRatio:
+                        0.7, // Điều chỉnh tỷ lệ khung hình nếu cần thiết
                     children: products
                         .map((product) => Padding(
                               padding: const EdgeInsets.all(
-                                  8.0), // Add padding between grid items
+                                  8.0), // Thêm padding giữa các mục trong grid
                               child: ProductCard(product: product),
                             ))
                         .toList(),

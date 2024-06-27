@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-// import 'package:vbooks_source/conf/const.dart'; // Uncomment if necessary
+import 'package:vbooks_source/conf/const.dart';
 
 import '../../data/model/productmodel.dart'; // Adjust the import path as needed
 
-class HorizontalProductCard extends StatelessWidget {
+class HorizontalProductCard extends StatefulWidget {
   final Product product;
-  const HorizontalProductCard({super.key, required this.product});
+  const HorizontalProductCard({Key? key, required this.product})
+      : super(key: key);
+
+  @override
+  _HorizontalProductCardState createState() => _HorizontalProductCardState();
+}
+
+class _HorizontalProductCardState extends State<HorizontalProductCard> {
+  bool _isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,7 @@ class HorizontalProductCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.asset(
-                  'assets/images/product/${product.img}',
+                  'assets/images/product/${widget.product.img}',
                   width: 100,
                   height: 150,
                   fit: BoxFit.cover,
@@ -35,7 +42,7 @@ class HorizontalProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.name!,
+                      widget.product.name!,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -46,7 +53,7 @@ class HorizontalProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${NumberFormat('###,###,###').format(product.price!)} Đ',
+                      '${NumberFormat('###,###,###').format(widget.product.price!)} Đ',
                       style: const TextStyle(
                         fontSize: 14,
                         color: Color.fromRGBO(21, 139, 125, 1),
@@ -63,11 +70,13 @@ class HorizontalProductCard extends StatelessWidget {
             right: 8.0,
             child: IconButton(
               icon: Icon(
-                Icons.favorite_border,
-                color: Colors.grey[400],
+                Icons.favorite,
+                color: _isFavorite ? primaryColor : Colors.grey[400],
               ),
               onPressed: () {
-                // Handle favorite action
+                setState(() {
+                  _isFavorite = !_isFavorite;
+                });
               },
             ),
           ),

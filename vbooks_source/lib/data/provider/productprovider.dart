@@ -25,4 +25,29 @@ class ReadData {
         .map((e) => Product.fromJson(e))
         .firstWhere((product) => product.id == id);
   }
+
+  Future<List<Product>> searchProducts(String pattern) async {
+    var data = await rootBundle.loadString("assets/json/productlist.json");
+    var dataJson = jsonDecode(data);
+
+    List<Product> products = (dataJson["data"] as List)
+        .map((e) => Product.fromJson(e))
+        .where((product) =>
+            product.name!.toLowerCase().contains(pattern.toLowerCase()))
+        .take(5) // Giới hạn chỉ lấy top 5 kết quả
+        .toList();
+
+    return products;
+  }
+
+  Future<List<Product>> getNameByKey(String keyword) async {
+    var data = await rootBundle.loadString("assets/json/productlist.json");
+    var dataJson = jsonDecode(data);
+    List<Product> products = (dataJson["data"] as List)
+        .map((e) => Product.fromJson(e))
+        .where((product) =>
+            product.name!.toLowerCase().contains(keyword.toLowerCase()))
+        .toList();
+    return products;
+  }
 }
