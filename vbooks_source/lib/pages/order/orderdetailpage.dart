@@ -5,7 +5,7 @@ class OrderDetailPage extends StatefulWidget {
   final String ngayDat;
   final String nguoiDat;
   final String tongTien;
-  String trangThai; // Make trangThai mutable
+  String trangThai; 
 
   OrderDetailPage({
     required this.idDonHang,
