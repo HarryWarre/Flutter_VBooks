@@ -134,6 +134,7 @@ class _PaymentFormState extends State<PaymentForm> {
               });
             },
             secondary: const Icon(Icons.attach_money), // Biểu tượng cho thanh toán tiền mặt
+            activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
           ),
           RadioListTile<String>(
             title: const Text('Chuyển khoản'),
@@ -145,6 +146,7 @@ class _PaymentFormState extends State<PaymentForm> {
               });
             },
             secondary: const Icon(Icons.account_balance), // Biểu tượng cho chuyển khoản
+            activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
           ),
           if (_paymentMethod == 'bank_transfer') ...[
             const SizedBox(height: 16.0),
@@ -162,6 +164,7 @@ class _PaymentFormState extends State<PaymentForm> {
                     _selectedBank = value!;
                   });
                 },
+                activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
               ),
             ),
             ListTile(
@@ -174,6 +177,7 @@ class _PaymentFormState extends State<PaymentForm> {
                     _selectedBank = value!;
                   });
                 },
+                activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
               ),
             ),
             ListTile(
@@ -186,6 +190,7 @@ class _PaymentFormState extends State<PaymentForm> {
                     _selectedBank = value!;
                   });
                 },
+                activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
               ),
             ),
           ],

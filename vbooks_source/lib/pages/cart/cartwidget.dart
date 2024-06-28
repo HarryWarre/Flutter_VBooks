@@ -7,8 +7,40 @@ void main() {
   ));
 }
 
-class CartWidget extends StatelessWidget {
+class CartWidget extends StatefulWidget {
   const CartWidget({super.key});
+
+  @override
+  _CartWidgetState createState() => _CartWidgetState();
+}
+
+class _CartWidgetState extends State<CartWidget> {
+  List<CartItem> cartItems = [
+    CartItem(
+      imageUrl: "https://bizweb.dktcdn.net/thumb/large/100/197/269/products/tam-ly-hoc-thanh-cong-304x472.jpg?v=1516592128997",
+      name: "Red Queen",
+      price: 100000,
+      quantity: 1,
+    ),
+    CartItem(
+      imageUrl: "https://static.oreka.vn/800-800_0fa33f3c-4354-4a55-ad59-868547814f67",
+      name: "To Kill A Mockingbird",
+      price: 2000,
+      quantity: 2,
+    ),
+    CartItem(
+      imageUrl: "https://www.elleman.vn/wp-content/uploads/2019/12/05/cho-sua-nham-cay-sach-tam-ly-elleman-1119-Vidoda.jpg",
+      name: "How to Drink",
+      price: 95000,
+      quantity: 1,
+    ),
+  ];
+
+  void _removeCartItem(int index) {
+    setState(() {
+      cartItems.removeAt(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +62,14 @@ class CartWidget extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView(
-              children: const [
-                CartItemWidget(
-                  imageUrl:
-                      "https://bizweb.dktcdn.net/thumb/large/100/197/269/products/tam-ly-hoc-thanh-cong-304x472.jpg?v=1516592128997",
-                  name: "Red Queen",
-                  price: 100000,
-                  initialQuantity: 1,
-                ),
-                CartItemWidget(
-                  imageUrl:
-                      "https://static.oreka.vn/800-800_0fa33f3c-4354-4a55-ad59-868547814f67",
-                  name: "To Kill A Mockingbird",
-                  price: 2000,
-                  initialQuantity: 2,
-                ),
-                CartItemWidget(
-                  imageUrl:
-                      "https://www.elleman.vn/wp-content/uploads/2019/12/05/cho-sua-nham-cay-sach-tam-ly-elleman-1119-Vidoda.jpg",
-                  name: "How to Drink",
-                  price: 95000,
-                  initialQuantity: 1,
-                ),
-              ],
+            child: ListView.builder(
+              itemCount: cartItems.length,
+              itemBuilder: (context, index) {
+                return CartItemWidget(
+                  cartItem: cartItems[index],
+                  onRemove: () => _removeCartItem(index),
+                );
+              },
             ),
           ),
           Container(
@@ -62,8 +78,8 @@ class CartWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Total:                                            800.000 đ',
+                Text(
+                  'Total:                                            ${cartItems.fold<int>(0, (total, item) => total + item.price * item.quantity)} đ',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
@@ -93,18 +109,28 @@ class CartWidget extends StatelessWidget {
   }
 }
 
-class CartItemWidget extends StatefulWidget {
+class CartItem {
   final String name;
   final int price;
-  final int initialQuantity;
+  int quantity;
   final String imageUrl;
+
+  CartItem({
+    required this.name,
+    required this.price,
+    required this.quantity,
+    required this.imageUrl,
+  });
+}
+
+class CartItemWidget extends StatefulWidget {
+  final CartItem cartItem;
+  final VoidCallback onRemove;
 
   const CartItemWidget({
     super.key,
-    required this.name,
-    required this.price,
-    required this.initialQuantity,
-    required this.imageUrl,
+    required this.cartItem,
+    required this.onRemove,
   });
 
   @override
@@ -117,12 +143,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
   @override
   void initState() {
     super.initState();
-    quantity = widget.initialQuantity;
+    quantity = widget.cartItem.quantity;
   }
 
   void _incrementQuantity() {
     setState(() {
       quantity++;
+      widget.cartItem.quantity = quantity;
     });
   }
 
@@ -130,6 +157,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     if (quantity > 1) {
       setState(() {
         quantity--;
+        widget.cartItem.quantity = quantity;
       });
     }
   }
@@ -141,12 +169,12 @@ class _CartItemWidgetState extends State<CartItemWidget> {
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         leading: Image.network(
-          widget.imageUrl,
+          widget.cartItem.imageUrl,
           width: 70,
           height: 120,
           fit: BoxFit.cover,
         ),
-        title: Text(widget.name),
+        title: Text(widget.cartItem.name),
         subtitle: Row(
           children: [
             IconButton(
@@ -160,16 +188,23 @@ class _CartItemWidgetState extends State<CartItemWidget> {
             ),
           ],
         ),
-        trailing: Text(
-          '${widget.price * quantity} đ',
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${widget.cartItem.price * quantity} đ',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color:  Color.fromRGBO(21, 139, 125, 1)),
+              onPressed: widget.onRemove,
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
-
