@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/admin/orderadminpage.dart';
 import 'package:vbooks_source/pages/order/ordermainpage.dart';
 
 class AccountWidget extends StatelessWidget {
@@ -29,6 +30,25 @@ class AccountWidget extends StatelessWidget {
                   child: Text('Lịch sử mua hàng'),
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.blue),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                height: 50,
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderAdminPage(),
+                      ),
+                    );
+                  },
+                  child: Text('Đơn hàng admin'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.red),
                   ),
                 ),
               ),
