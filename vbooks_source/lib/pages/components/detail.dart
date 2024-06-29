@@ -25,7 +25,7 @@ class Detail extends StatelessWidget {
                   Container(
                     height: 260,
                     alignment: Alignment.center,
-                    child: Image.asset('assets/${book.img}'),
+                    child: Image.asset('assets/images${book.img}'),
                   ),
                   const SizedBox(
                     height: 16,
@@ -61,7 +61,7 @@ class Detail extends StatelessWidget {
                          Row(
                           children: [
                             Text(
-                              '${NumberFormat('###,###,###').format(book.price!)} Đ',
+                              '${NumberFormat('###,###,###').format(book.price)} Đ',
                               style:  const TextStyle(
                                 color: Colors.teal,
                                 fontSize: 18,

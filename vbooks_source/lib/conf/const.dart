@@ -1,0 +1,1 @@
+const urlImg = 'assets/images/spy.png';

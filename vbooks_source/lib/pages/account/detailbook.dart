@@ -26,7 +26,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                   Container(
                     height: 260,
                     alignment: Alignment.center,
-                    child: Image.asset('assets/spy.png'),
+                    child: Image.asset('assets/images/spy.png'),
                   ),
                   const SizedBox(
                     height: 16,
