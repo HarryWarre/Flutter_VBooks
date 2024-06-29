@@ -1,4 +1,5 @@
 import 'package:admin_vbooks/mainpage.dart';
+import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 import 'package:flutter/material.dart';
 // Include the Google Fonts package to provide more text format options
 // https://pub.dev/packages/google_fonts
@@ -24,6 +25,6 @@ class MyApp extends StatelessWidget {
               //           and see that all colors change
               //           to better contrast a light background.
             ).copyWith(background: Colors.white)),
-        home: const MainPage());
+        home: const ProductManagement());
   }
 }
