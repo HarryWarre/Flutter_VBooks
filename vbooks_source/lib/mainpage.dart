@@ -7,7 +7,7 @@ import 'pages/category/categorywidget.dart';
 import 'pages/home/homeWidget.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({Key? key}) : super(key: key);
+  const Mainpage({super.key});
 
   @override
   State<Mainpage> createState() => _MainpageState();
@@ -23,7 +23,7 @@ class _MainpageState extends State<Mainpage> {
     'Tài khoản'
   ];
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     CategoryWidget(),
     AuthScreen(),
@@ -42,16 +42,11 @@ class _MainpageState extends State<Mainpage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(88.0),
-          child: AppBar(
-            title: Text(
-              _titles[_selectedIndex],
-              textAlign: TextAlign.center,
-            ),
-            centerTitle: true,
-          ),
+          preferredSize: const Size.fromHeight(0.0),
+          child: AppBar(),
         ),
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.all(10),
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -85,5 +80,3 @@ class _MainpageState extends State<Mainpage> {
     );
   }
 }
-
-
