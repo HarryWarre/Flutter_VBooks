@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:vbooks_source/data/model/bookModel.dart';
+import 'package:vbooks_source/pages/account/detailbook.dart';
 import 'package:vbooks_source/pages/components/button.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 
-class DetailBookScreen extends StatefulWidget {
-  const DetailBookScreen({super.key});
+class Detail extends StatelessWidget {
+  final Book book;
+  const Detail({super.key,required this.book});
+  
 
-  @override
-  State<DetailBookScreen> createState() => _DetailBookScreenState();
-}
-
-class _DetailBookScreenState extends State<DetailBookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +25,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                   Container(
                     height: 260,
                     alignment: Alignment.center,
-                    child: Image.asset('assets/spy.png'),
+                    child: Image.asset('assets/${book.img}'),
                   ),
                   const SizedBox(
                     height: 16,
@@ -39,9 +38,9 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                       children: [
                          Row(
                           children: [
-                            const Text(
-                              'Spy x Family',
-                              style: TextStyle(
+                             Text(
+                              '${book.name}',
+                              style: const TextStyle(
                                 fontSize: 26,
                               ),
                             ),
@@ -59,11 +58,11 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                         const SizedBox(
                           height: 4,
                         ),
-                        const Row(
+                         Row(
                           children: [
                             Text(
-                              '40.000 VNĐ',
-                              style: TextStyle(
+                              '${NumberFormat('###,###,###').format(book.price!)} Đ',
+                              style:  const TextStyle(
                                 color: Colors.teal,
                                 fontSize: 18,
                               ),
@@ -107,7 +106,7 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                     children: [
                       AccountInfoRow(
                         label: 'Mã hàng:',
-                        value: '#123456789',
+                        value: '${book.id}',
                         style: TextStyle(fontSize: 16),
                         width: 150,
                       ),
@@ -137,12 +136,12 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       const SizedBox(width: 10),
-                      const Flexible(
+                       Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Vì những lý do riêng, một điệp viên, một sát thủ và một nhà ngoại cảm bắt tay đóng giả làm một gia đình trong khi che giấu danh tính thật của họ với nhau.',
+                              '${book.des}',
                               softWrap: true,
                             ),
                           ],
@@ -170,78 +169,6 @@ class _DetailBookScreenState extends State<DetailBookScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class TextInfo extends StatelessWidget {
-  final String label;
-  final TextStyle? style;
-
-  TextInfo({Key? key, required this.label, this.style}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: style,
-    );
-  }
-}
-
-class CartItemWidget extends StatefulWidget {
-  final int initialQuantity;
-
-  const CartItemWidget({
-    super.key,
-    required this.initialQuantity,
-  });
-
-  @override
-  _CartItemWidgetState createState() => _CartItemWidgetState();
-}
-
-class _CartItemWidgetState extends State<CartItemWidget> {
-  late int quantity;
-
-  @override
-  void initState() {
-    super.initState();
-    quantity = widget.initialQuantity;
-  }
-
-  void _incrementQuantity() {
-    setState(() {
-      quantity++;
-    });
-  }
-
-  void _decrementQuantity() {
-    if (quantity > 1) {
-      setState(() {
-        quantity--;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.remove),
-            onPressed: _decrementQuantity,
-          ),
-          Text('$quantity',
-              style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _incrementQuantity,
-          ),
-        ],
       ),
     );
   }
