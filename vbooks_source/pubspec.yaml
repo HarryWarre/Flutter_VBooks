@@ -33,6 +33,6 @@ flutter:
     - assets/json/
     - assets/images/
     - assets/images/product/
-    - assets/spy.png
+    - assets/images/spy.png
     - assets/breathingroom.jpg
     - assets/mockingbird.jpg
