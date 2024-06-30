@@ -167,8 +167,16 @@ class Detail extends StatelessWidget {
                 ],
               ),
             ),
+            
           ],
+          
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: Colors.teal,
+        backgroundColor: Colors.white,
+        onPressed: () {},
+        child: Icon(CupertinoIcons.cart),
       ),
     );
   }

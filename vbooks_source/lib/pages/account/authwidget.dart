@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/account/forgotpassword.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -170,7 +171,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: Visibility(
                     visible: isLogin,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                      },
                       child: const Text(
                         'Quên mật khẩu?',
                         style: TextStyle(
