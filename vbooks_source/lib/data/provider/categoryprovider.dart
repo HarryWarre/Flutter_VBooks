@@ -1,4 +1,4 @@
-import '../model/categorymodel.dart';
+import 'package:vbooks_source/data/model/categorymodel.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 

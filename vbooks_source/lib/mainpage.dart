@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/accountinfowidget.dart';
-import 'package:vbooks_source/pages/account/changepasswordwidget.dart';
-import 'package:vbooks_source/pages/account/detailbook.dart';
-import 'package:vbooks_source/pages/account/favoritebook.dart';
-import 'package:vbooks_source/pages/account/updateinfowidget.dart';
-import 'package:vbooks_source/pages/cart/cartWidget.dart';
 
 // import 'pages/account/accountwidget.dart';
 import 'pages/category/categorywidget.dart';
@@ -32,8 +26,8 @@ class _MainpageState extends State<Mainpage> {
   static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     CategoryWidget(),
-    AccountInfoWidget(),
-    DetailBookScreen()
+    AuthScreen(),
+    AccountInfoWidget()
   ];
 
   void _onItemTapped(int index) {
