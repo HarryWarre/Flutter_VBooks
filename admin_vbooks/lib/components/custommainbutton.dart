@@ -1,3 +1,4 @@
+import 'package:admin_vbooks/config/const.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -23,6 +24,7 @@ class CustomButton extends StatelessWidget {
           shadowColor: Colors.black45,
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           backgroundColor: const Color.fromRGBO(248, 249, 254, 1),
+          foregroundColor: primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16), // Bo tròn 16px
           ),
@@ -35,6 +37,7 @@ class CustomButton extends StatelessWidget {
                 Icon(
                   icon,
                   size: 30,
+                  color: primary,
                 ),
                 const SizedBox(width: 10),
                 Text(

@@ -45,9 +45,9 @@ class _CategoryAddState extends State<CategoryAdd> {
       _descController.text = widget.categoryModel!.desc;
     }
     if (widget.isUpdate) {
-      titleText = "Update Category";
+      titleText = "Cập nhật danh mục";
     } else {
-      titleText = "Add New Category";
+      titleText = "Thêm danh mục";
     }
   }
 
@@ -67,7 +67,7 @@ class _CategoryAddState extends State<CategoryAdd> {
               controller: _nameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Enter name',
+                hintText: 'Thêm tên danh mục',
               ),
             ),
             const SizedBox(height: 16.0),
@@ -76,7 +76,7 @@ class _CategoryAddState extends State<CategoryAdd> {
               maxLines: 7,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Enter description',
+                hintText: 'Thêm mô tả',
               ),
             ),
             const SizedBox(height: 16.0),
@@ -87,7 +87,7 @@ class _CategoryAddState extends State<CategoryAdd> {
                   widget.isUpdate ? _onUpdate() : _onSave();
                 },
                 child: const Text(
-                  'Save',
+                  'Lưu',
                   style: TextStyle(
                     fontSize: 16.0,
                   ),

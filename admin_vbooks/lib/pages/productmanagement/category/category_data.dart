@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import '../../../config/const.dart';
 import '/../data/model/category.dart';
 import '/../data/helper/db_helper.dart';
 import 'category_add.dart';
 
 class CategoryBuilder extends StatefulWidget {
-  const CategoryBuilder({
-    super.key,
-  });
+  final Function(List<int>) onSelectionChanged;
+
+  const CategoryBuilder({required this.onSelectionChanged, super.key});
 
   @override
   State<CategoryBuilder> createState() => _CategoryBuilderState();
@@ -14,8 +15,9 @@ class CategoryBuilder extends StatefulWidget {
 
 class _CategoryBuilderState extends State<CategoryBuilder> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
+  final List<int> _selectedCategories = [];
 
-  Future<List<CategoryModel>> _getCategorys() async {
+  Future<List<CategoryModel>> _getCategories() async {
     // thêm vào 1 dòng dữ liệu nếu getdata không có hoặc chưa có database
     return await _databaseHelper.categories();
   }
@@ -23,7 +25,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CategoryModel>>(
-      future: _getCategorys(),
+      future: _getCategories(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -44,75 +46,64 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
     );
   }
 
-  Widget _buildCategory(CategoryModel breed, BuildContext context) {
+  Widget _buildCategory(CategoryModel category, BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
+      child: ListTile(
+        leading: Checkbox(
+          checkColor: Colors.white,
+          activeColor: primary,
+          value: _selectedCategories.contains(category.id),
+          onChanged: (bool? value) {
+            setState(() {
+              if (value == true) {
+                _selectedCategories.add(category.id!);
+              } else {
+                _selectedCategories.remove(category.id);
+              }
+              widget.onSelectionChanged(_selectedCategories);
+            });
+          },
+        ),
+        title: Row(
           children: [
-            Container(
-              height: 40.0,
-              width: 40.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey[300],
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                breed.id.toString(),
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(width: 20.0),
+            const SizedBox(width: 10.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    breed.name,
+                    category.name!,
                     style: const TextStyle(
                       fontSize: 18.0,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4.0),
-                  Text(breed.desc),
+                  Text(
+                    'S${category.id.toString().padLeft(2, '0')}',
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ],
               ),
             ),
             IconButton(
-                onPressed: () {
-                  setState(() {
-                    DatabaseHelper().deleteCategory(breed.id!);
-                  });
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                )),
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    Navigator.of(context)
-                        .push(
-                          MaterialPageRoute(
-                            builder: (_) => CategoryAdd(
-                              isUpdate: true,
-                              categoryModel: breed,
-                            ),
-                            fullscreenDialog: true,
-                          ),
-                        )
-                        .then((_) => setState(() {}));
-                  });
-                },
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.yellow.shade800,
-                ))
+              icon: const Icon(Icons.arrow_forward_ios),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (_) => CategoryAdd(
+                          isUpdate: true,
+                          categoryModel: category,
+                        ),
+                        fullscreenDialog: true,
+                      ),
+                    )
+                    .then((_) => setState(() {}));
+              },
+            ),
           ],
         ),
       ),

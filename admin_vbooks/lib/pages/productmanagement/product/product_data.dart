@@ -1,11 +1,14 @@
 import 'dart:io'; // Import this package to handle file images
+import 'package:admin_vbooks/config/const.dart';
 import 'package:flutter/material.dart';
 import '/../data/model/product.dart';
 import '/../data/helper/db_helper.dart';
 import 'product_add.dart';
 
 class ProductBuilder extends StatefulWidget {
-  const ProductBuilder({super.key});
+  final Function(List<int>) onSelectionChanged;
+
+  const ProductBuilder({required this.onSelectionChanged, super.key});
 
   @override
   State<ProductBuilder> createState() => _ProductBuilderState();
@@ -13,6 +16,7 @@ class ProductBuilder extends StatefulWidget {
 
 class _ProductBuilderState extends State<ProductBuilder> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
+  final List<int> _selectedProducts = [];
 
   Future<List<Product_Model>> _getProducts() async {
     // Thêm vào 1 dòng dữ liệu nếu getdata không có hoặc chưa có database
@@ -45,52 +49,29 @@ class _ProductBuilderState extends State<ProductBuilder> {
 
   Widget _buildProduct(Product_Model product, BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
+      child: ListTile(
+        // Check box for delete products
+        leading: Checkbox(
+          checkColor: Colors.white,
+          activeColor: primary,
+          value: _selectedProducts.contains(product.id),
+          onChanged: (bool? value) {
+            setState(() {
+              if (value == true) {
+                _selectedProducts.add(product.id!);
+              } else {
+                _selectedProducts.remove(product.id);
+              }
+              widget.onSelectionChanged(_selectedProducts);
+            });
+          },
+        ),
+        title: Row(
           children: [
-            Container(
-              height: 40.0,
-              width: 40.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey[300],
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                product.id.toString(),
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(width: 20.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.name!,
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text('Description: ${product.desc!}'),
-                  const SizedBox(height: 4.0),
-                  Text('Price: \$${product.price!}'),
-                  const SizedBox(height: 4.0),
-                  Text('Category ID: ${product.catId!}'),
-                ],
-              ),
-            ),
             if (product.img != null && product.img!.isNotEmpty)
               Container(
-                height: 50.0,
-                width: 50.0,
-                margin: const EdgeInsets.only(left: 16.0),
+                height: 60.0,
+                width: 60.0,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   image: DecorationImage(
@@ -99,37 +80,50 @@ class _ProductBuilderState extends State<ProductBuilder> {
                   ),
                 ),
               ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _databaseHelper.deleteProduct(product.id!);
-                });
-              },
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
+            const SizedBox(width: 10.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.name!,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '${product.price} đ',
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      color: primary,
+                    ),
+                  ),
+                  Text(
+                    'S${product.id.toString().padLeft(2, '0')}',
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
             ),
             IconButton(
+              icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () {
-                setState(() {
-                  Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (_) => ProductAdd(
-                            isUpdate: true,
-                            productmodel: product,
-                          ),
-                          fullscreenDialog: true,
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (_) => ProductAdd(
+                          isUpdate: true,
+                          productmodel: product,
                         ),
-                      )
-                      .then((_) => setState(() {}));
-                });
+                        fullscreenDialog: true,
+                      ),
+                    )
+                    .then((_) => setState(() {}));
               },
-              icon: Icon(
-                Icons.edit,
-                color: Colors.yellow.shade800,
-              ),
             ),
           ],
         ),

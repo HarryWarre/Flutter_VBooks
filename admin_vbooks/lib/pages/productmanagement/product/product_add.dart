@@ -1,3 +1,4 @@
+import 'package:admin_vbooks/config/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -98,7 +99,7 @@ class _ProductAddState extends State<ProductAdd> {
           ? File(widget.productmodel!.img!)
           : null;
     }
-    titleText = widget.isUpdate ? "Update Product" : "Add New Product";
+    titleText = widget.isUpdate ? "Cập nhật sản phẩm" : "Thêm sản phẩm";
     _loadCategories();
   }
 
@@ -118,7 +119,11 @@ class _ProductAddState extends State<ProductAdd> {
               controller: _nameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Enter name',
+                hintText: 'Nhập tên sách',
+                focusColor: primary,
+                fillColor: primary,
+                prefixIconColor: primary,
+                suffixIconColor: primary
               ),
             ),
             const SizedBox(height: 16.0),
@@ -126,7 +131,7 @@ class _ProductAddState extends State<ProductAdd> {
               controller: _priceController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Enter price',
+                hintText: 'Nhập giá',
               ),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
@@ -138,7 +143,10 @@ class _ProductAddState extends State<ProductAdd> {
               children: [
                 ElevatedButton(
                   onPressed: _pickImage,
-                  child: const Text('Pick Image'),
+                  child: const Text(
+                    'Chọn ảnh',
+                    style: TextStyle(color: primary),
+                  ),
                 ),
                 const SizedBox(width: 16.0),
                 _imageFile != null
@@ -147,7 +155,7 @@ class _ProductAddState extends State<ProductAdd> {
                         width: 100,
                         height: 100,
                       )
-                    : const Text('No image selected'),
+                    : const Text('Không có ảnh được chọn'),
               ],
             ),
             const SizedBox(height: 16.0),
@@ -156,7 +164,7 @@ class _ProductAddState extends State<ProductAdd> {
               maxLines: 7,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Enter description',
+                hintText: 'Thêm mô tả',
               ),
             ),
             const SizedBox(height: 16.0),
@@ -175,7 +183,7 @@ class _ProductAddState extends State<ProductAdd> {
               },
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Select category',
+                hintText: 'Chọn danh mục',
               ),
             ),
             const SizedBox(height: 16.0),
@@ -186,10 +194,8 @@ class _ProductAddState extends State<ProductAdd> {
                   widget.isUpdate ? _onUpdate() : _onSave();
                 },
                 child: const Text(
-                  'Save',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
+                  'Lưu',
+                  style: TextStyle(fontSize: 16.0, color: primary),
                 ),
               ),
             ),
