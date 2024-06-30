@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/favoritebook.dart';
-import 'package:vbooks_source/pages/account/forgotpassword.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 
 class AccountInfoWidget extends StatefulWidget {
@@ -76,7 +75,7 @@ CustomDivider(height: 2,),
                 
               },
               ),
-              CustomDivider(height: 2,),
+CustomDivider(height: 2,),
               AccountSelectWidget(
               value: 'Đăng xuất',
               iconLeft: Icons.logout,
@@ -85,13 +84,6 @@ CustomDivider(height: 2,),
                 
               },),
               CustomDivider(height: 2,),
-              AccountSelectWidget(
-              value: 'Quên mật khẩu',
-              iconLeft: Icons.logout,
-              iconRight: Icons.arrow_forward_ios,
-              onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
-              },),
         ],
         
       ),

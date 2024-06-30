@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:vbooks_source/pages/components/passwordfield.dart';
 
 class ChangePasswordWidget extends StatefulWidget {
@@ -14,29 +13,20 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
+          FocusManager.instance.primaryFocus?.unfocus();
+        },   
+      child: Scaffold(       
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(22, 0, 20, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PasswordInputField(
-                  labelText: 'Mật khẩu cũ',
-                  hintText: 'Nhập mật khẩu cũ',
-                ),
+                PasswordInputField(labelText: 'Mật khẩu cũ',hintText: 'Nhập mật khẩu cũ',),
                 const SizedBox(height: 16),
-                PasswordInputField(
-                  labelText: 'Mật khẩu mới',
-                  hintText: 'Nhập mật khẩu cũ',
-                ),
+                PasswordInputField(labelText: 'Mật khẩu mới',hintText: 'Nhập mật khẩu cũ',),
                 const SizedBox(height: 16),
-                PasswordInputField(
-                  labelText: 'Xác nhận mật khẩu mới',
-                  hintText: 'Nhập lại mật khẩu mới',
-                ),
+                PasswordInputField(labelText: 'Xác nhận mật khẩu mới',hintText: 'Nhập lại mật khẩu mới',),
                 const SizedBox(height: 32),
                 Column(
                   children: [
@@ -51,7 +41,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                          ),     
+                          ),
                           child: Text(
                             'Đổi mật khẩu',
                             style: const TextStyle(
@@ -65,12 +55,13 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       ),
                     ),
                   ],
-                ),                       
+                ),
               ],
             ),
           ),
         ),
       ),
+      
     );
   }
 }
