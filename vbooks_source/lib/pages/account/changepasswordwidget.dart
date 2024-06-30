@@ -15,10 +15,12 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
       onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },   
-      child: Scaffold(       
+      child: Scaffold(    
+        appBar: AppBar(centerTitle: true,
+      title: Text('Đổi mật khẩu',),),   
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(22, 0, 20, 0),
+            padding: EdgeInsets.fromLTRB(22, 20, 20, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

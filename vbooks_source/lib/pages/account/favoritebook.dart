@@ -18,6 +18,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(centerTitle: true,
+      title: Text('Trang Yêu thích',),),
       body: FutureBuilder<List<Book>>(
         future: ReadData.loadData(),
         builder: (context, snapshot) {

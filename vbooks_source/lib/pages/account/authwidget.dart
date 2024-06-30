@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/mainpage.dart';
 import 'package:vbooks_source/pages/account/forgotpassword.dart';
+import 'package:vbooks_source/pages/home/homewidget.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -197,7 +199,9 @@ class _AuthScreenState extends State<AuthScreen> {
                       width: 320,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Mainpage()));
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.teal,
                           shape: RoundedRectangleBorder(

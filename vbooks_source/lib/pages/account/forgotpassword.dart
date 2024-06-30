@@ -15,7 +15,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('hello world'),
+          title: Text('Quên mật khẩu'),
+          centerTitle: true,
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(22, 0, 20, 0),

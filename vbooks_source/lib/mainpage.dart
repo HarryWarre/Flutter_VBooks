@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/accountinfowidget.dart';
 
@@ -27,7 +28,7 @@ class _MainpageState extends State<Mainpage> {
     HomeWidget(),
     CategoryWidget(),
     AuthScreen(),
-    AccountInfoWidget()
+    AccountInfoWidget(),
   ];
 
   void _onItemTapped(int index) {
