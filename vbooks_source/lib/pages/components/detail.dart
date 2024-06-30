@@ -2,14 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vbooks_source/data/model/bookModel.dart';
-import 'package:vbooks_source/pages/account/detailbook.dart';
 import 'package:vbooks_source/pages/components/button.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 
-class Detail extends StatelessWidget {
+class Detail extends StatefulWidget {
   final Book book;
-  const Detail({super.key,required this.book});
-  
+  const Detail({Key? key, required this.book}) : super(key: key);
+
+  @override
+  _DetailState createState() => _DetailState();
+}
+
+class _DetailState extends State<Detail> {
+  bool _isFavorite = false;
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +36,7 @@ class Detail extends StatelessWidget {
                   Container(
                     height: 260,
                     alignment: Alignment.center,
-                    child: Image.asset('assets/images${book.img}'),
+                    child: Image.asset('assets/images${widget.book.img}'),
                   ),
                   const SizedBox(
                     height: 16,
@@ -36,20 +47,22 @@ class Detail extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Row(
+                        Row(
                           children: [
-                             Text(
-                              '${book.name}',
+                            Text(
+                              '${widget.book.name}',
                               style: const TextStyle(
                                 fontSize: 26,
                               ),
                             ),
-                            const Spacer(), // Đẩy IconButton ra ngoài rìa phải
+                            const Spacer(),
                             IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                CupertinoIcons.heart_circle_fill,
-                                color: Colors.red,
+                              onPressed: _toggleFavorite,
+                              icon: Icon(
+                                _isFavorite
+                                    ? CupertinoIcons.heart_circle
+                                    : CupertinoIcons.heart_circle_fill,
+                                color: _isFavorite ? Colors.teal : Colors.grey,
                                 size: 40,
                               ),
                             ),
@@ -58,18 +71,19 @@ class Detail extends StatelessWidget {
                         const SizedBox(
                           height: 4,
                         ),
-                         Row(
+                        Row(
                           children: [
                             Text(
-                              '${NumberFormat('###,###,###').format(book.price)} Đ',
-                              style:  const TextStyle(
+                              '${NumberFormat('###,###,###').format(widget.book.price)} Đ',
+                              style: const TextStyle(
                                 color: Colors.teal,
                                 fontSize: 18,
                               ),
                             ),
-                             SizedBox(
-                                width: 40), // Khoảng cách giữa hai đoạn văn bản
-                             Text(
+                            SizedBox(
+                              width: 40,
+                            ),
+                            Text(
                               '45.000 VNĐ',
                               style: TextStyle(
                                 color: Colors.grey,
@@ -106,7 +120,7 @@ class Detail extends StatelessWidget {
                     children: [
                       AccountInfoRow(
                         label: 'Mã hàng:',
-                        value: '${book.id}',
+                        value: '${widget.book.id}',
                         style: TextStyle(fontSize: 16),
                         width: 150,
                       ),
@@ -136,12 +150,12 @@ class Detail extends StatelessWidget {
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       const SizedBox(width: 10),
-                       Flexible(
+                      Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${book.des}',
+                              '${widget.book.des}',
                               softWrap: true,
                             ),
                           ],
@@ -167,9 +181,7 @@ class Detail extends StatelessWidget {
                 ],
               ),
             ),
-            
           ],
-          
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -181,3 +193,76 @@ class Detail extends StatelessWidget {
     );
   }
 }
+
+class CartItemWidget extends StatefulWidget {
+  final int initialQuantity;
+
+  const CartItemWidget({
+    Key? key,
+    required this.initialQuantity,
+  }) : super(key: key);
+
+  @override
+  _CartItemWidgetState createState() => _CartItemWidgetState();
+}
+
+class _CartItemWidgetState extends State<CartItemWidget> {
+  late int quantity;
+
+  @override
+  void initState() {
+    super.initState();
+    quantity = widget.initialQuantity;
+  }
+
+  void _incrementQuantity() {
+    setState(() {
+      quantity++;
+    });
+  }
+
+  void _decrementQuantity() {
+    if (quantity > 1) {
+      setState(() {
+        quantity--;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Row(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.remove),
+            onPressed: _decrementQuantity,
+          ),
+          Text('$quantity',
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: _incrementQuantity,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TextInfo extends StatelessWidget {
+  final String label;
+  final TextStyle? style;
+
+  TextInfo({Key? key, required this.label, this.style}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      label,
+      style: style,
+    );
+  }
+}
+

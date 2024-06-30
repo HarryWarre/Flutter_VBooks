@@ -48,7 +48,7 @@ class HomeWidget extends StatelessWidget {
                       );
                     },
                     child: const Text(
-                      'xem thêm',
+                      'Xem thêm',
                       style: TextStyle(
                         color: primaryColor,
                       ),
@@ -57,6 +57,7 @@ class HomeWidget extends StatelessWidget {
                 ],
               ),
             ),
+            
             Container(
               height: 270,
               color: Colors.white,
@@ -92,7 +93,7 @@ class HomeWidget extends StatelessWidget {
                       );
                     },
                     child: const Text(
-                      'xem thêm',
+                      'Xem thêm',
                       style: TextStyle(
                         color: primaryColor,
                       ),
