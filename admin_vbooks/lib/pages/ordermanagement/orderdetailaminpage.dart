@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class OrderDetailPage extends StatefulWidget {
+class OrderDetailAdminPage extends StatefulWidget {
   final String idDonHang;
   final String ngayDat;
   final String nguoiDat;
   final String tongTien;
-  String trangThai; // Make trangThai mutable
+  String trangThai;
 
-  OrderDetailPage({
+  OrderDetailAdminPage({
     required this.idDonHang,
     required this.ngayDat,
     required this.nguoiDat,
@@ -16,36 +16,29 @@ class OrderDetailPage extends StatefulWidget {
   });
 
   @override
-  _OrderDetailPageState createState() => _OrderDetailPageState();
+  State<OrderDetailAdminPage> createState() => _OrderDetailAdminPageState();
 }
 
-class _OrderDetailPageState extends State<OrderDetailPage> {
-  void _cancelOrder() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Bạn muốn hủy đơn hàng này?'),
-          actions: [
-            TextButton(
-              child: Text('Có'),
-              onPressed: () {
-                setState(() {
-                  widget.trangThai = 'Bị hủy';
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Không'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+class _OrderDetailAdminPageState extends State<OrderDetailAdminPage> {
+  bool showConfirmButton = false;
+  String searchQuery = '';
+  int currentPage = 1;
+  int pageSize = 10;
+  String? selectedStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedStatus = widget.trangThai;
+  }
+
+  void _confirmCompletion() {
+    setState(() {
+      if (selectedStatus != null) {
+        widget.trangThai = selectedStatus!;
+        showConfirmButton = false;
+      }
+    });
   }
 
   @override
@@ -75,6 +68,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               nguoiDat: widget.nguoiDat,
               tongTien: widget.tongTien,
               trangThai: widget.trangThai,
+              selectedStatus: selectedStatus,
+              showConfirmButton: showConfirmButton,
+              onStatusChanged: (String? newStatus) {
+                setState(() {
+                  selectedStatus = newStatus;
+                });
+              },
             ),
             SizedBox(height: 10),
             Container(
@@ -111,27 +111,49 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               soLuong: 1,
               urlHinh: 'assets/breathingroom.jpg',
             ),
-            SizedBox(height: 15,),
-            if (widget.trangThai == 'Đang xử lý')
+            SizedBox(height: 15),
+            if (showConfirmButton)
               Center(
-                child: SizedBox(
-                  width: 400,
-                  child: ElevatedButton(
-                    onPressed: _cancelOrder,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 400,
+                      child: ElevatedButton(
+                        onPressed: _confirmCompletion,
+                        child: Text(
+                          'Hoàn thành',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF158B7D),
+                        ),
+                      ),
                     ),
-                    child: Text(
-                      'Hủy đơn hàng',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
+                  ],
                 ),
               ),
           ],
         ),
       ),
+      floatingActionButton: !showConfirmButton
+          ? FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  showConfirmButton = true;
+                });
+              },
+              backgroundColor: Color(0xFFE8E9F1),
+              shape: CircleBorder(),
+              child: Icon(
+                Icons.edit,
+                color: Color(0xFF158B7D),
+              ),
+            )
+          : null,
     );
   }
 }
@@ -142,6 +164,9 @@ class ThongTinDonHang extends StatelessWidget {
   final String nguoiDat;
   final String tongTien;
   final String trangThai;
+  final String? selectedStatus;
+  final bool showConfirmButton;
+  final ValueChanged<String?> onStatusChanged;
 
   const ThongTinDonHang({
     required this.idDonHang,
@@ -149,6 +174,9 @@ class ThongTinDonHang extends StatelessWidget {
     required this.nguoiDat,
     required this.tongTien,
     required this.trangThai,
+    required this.selectedStatus,
+    required this.showConfirmButton,
+    required this.onStatusChanged,
   });
 
   @override
@@ -179,21 +207,33 @@ class ThongTinDonHang extends StatelessWidget {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: statusColor,
-                  borderRadius: BorderRadius.circular(20),
+          showConfirmButton
+              ? DropdownButton<String>(
+                  value: selectedStatus,
+                  items: <String>['Đang xử lý', 'Hoàn tất', 'Bị hủy']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: onStatusChanged,
+                )
+              : Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: statusColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        'Đơn hàng $trangThai',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
                 ),
-                child: Text(
-                  'Đơn hàng $trangThai',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
           SizedBox(height: 8),
           Text('Ngày mua: $ngayDat', style: TextStyle(fontSize: 16)),
           Text('Tổng tiền: $tongTien', style: TextStyle(fontSize: 16)),
@@ -275,8 +315,10 @@ class SanPhamDaMua extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 34,),
-                Text(tenSach, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                SizedBox(height: 34),
+                Text(tenSach,
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 SizedBox(height: 4),
                 Text(gia, style: TextStyle(fontSize: 16)),
                 SizedBox(height: 4),

@@ -1,5 +1,5 @@
+import 'package:admin_vbooks/pages/ordermanagement/orderdetailaminpage.dart';
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/pages/admin/orderdetailadminpage.dart';
 
 class OrderAdminPage extends StatefulWidget {
   const OrderAdminPage({super.key});
