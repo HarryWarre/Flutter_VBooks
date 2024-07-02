@@ -1,4 +1,5 @@
 import 'package:admin_vbooks/components/custommainbutton.dart';
+import 'package:admin_vbooks/pages/ordermanagement/orderaminpage.dart';
 import 'package:admin_vbooks/pages/productmanagement/category/category_list.dart';
 
 import 'package:admin_vbooks/pages/productmanagement/product/product_list.dart';
@@ -14,7 +15,7 @@ class ProductManagement extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            // Action for back button
           },
         ),
         title: const Text('Quản lý sản phẩm'),
@@ -46,6 +47,20 @@ class ProductManagement extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CategoryList()),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 37,
+            ),
+            CustomButton(
+              icon: Icons.window_sharp,
+              text: 'Đơn hàng',
+              onPressed: () {
+                // Action for button
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => OrderAdminPage()),
                 );
               },
             )

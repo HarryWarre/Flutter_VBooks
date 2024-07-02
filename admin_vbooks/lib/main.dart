@@ -1,4 +1,5 @@
-import 'package:admin_vbooks/pages/auth/login.dart';
+import 'package:admin_vbooks/config/const.dart';
+import 'package:admin_vbooks/mainpage.dart';
 import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,13 @@ class MyApp extends StatelessWidget {
     const appName = 'Custom Themes';
 
     return MaterialApp(
-      title: appName,
       debugShowCheckedModeBanner: false,
+      title: appName,
+<<<<<<< HEAD
+
+=======
+      // debugShowCheckedModeBanner: false,
+>>>>>>> Hung
       // theme: ThemeData(
       //     useMaterial3: true,
       //     primaryColor: primary,
@@ -31,7 +37,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromRGBO(37, 195, 177, 1.000),
           ),
           dialogTheme: const DialogTheme(backgroundColor: Colors.white)),
-      home: AuthScreen(),
+      home: const ProductManagement(),
     );
   }
 }

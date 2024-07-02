@@ -5,7 +5,7 @@ class OrderDetailPage extends StatefulWidget {
   final String ngayDat;
   final String nguoiDat;
   final String tongTien;
-  String trangThai; 
+  String trangThai;
 
   OrderDetailPage({
     required this.idDonHang,
@@ -21,32 +21,79 @@ class OrderDetailPage extends StatefulWidget {
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
   void _cancelOrder() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Bạn muốn hủy đơn hàng này?'),
-          actions: [
-            TextButton(
-              child: Text('Có'),
-              onPressed: () {
-                setState(() {
-                  widget.trangThai = 'Bị hủy';
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Không'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Bạn muốn hủy đơn hàng này?',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.trangThai = 'Bị hủy';
+                        });
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF158B7D),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      child: Text(
+                        'Có',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        side: BorderSide(color: Color(0xFF158B7D)),
+                      ),
+                      child: Text(
+                        'Không',
+                        style: TextStyle(color: Color(0xFF158B7D), fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +158,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               soLuong: 1,
               urlHinh: 'assets/breathingroom.jpg',
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             if (widget.trangThai == 'Đang xử lý')
               Center(
                 child: SizedBox(
@@ -120,7 +169,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     onPressed: _cancelOrder,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                     ),
                     child: Text(
                       'Hủy đơn hàng',
@@ -275,8 +325,12 @@ class SanPhamDaMua extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 34,),
-                Text(tenSach, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 34,
+                ),
+                Text(tenSach,
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 SizedBox(height: 4),
                 Text(gia, style: TextStyle(fontSize: 16)),
                 SizedBox(height: 4),

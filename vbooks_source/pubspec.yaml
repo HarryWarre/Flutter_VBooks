@@ -35,7 +35,7 @@ flutter:
     - assets/json/
     - assets/images/
     - assets/images/product/
-    - assets/images/product/spy.png
+    - assets/images/spy.png
     - assets/breathingroom.jpg
     - assets/mockingbird.jpg
 
