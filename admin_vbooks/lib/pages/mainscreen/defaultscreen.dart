@@ -13,20 +13,21 @@ class MainScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Action for back button
-          },
-        ),
-        title: const Text('Quản lý đơn hàng'),
-        centerTitle: true,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              'ADMIN MANAGEMENT',
+              style: TextStyle(
+                color: Colors.teal,
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              height: 100,
+            ),
             CustomButton(
               icon: Icons.store,
               text: 'Quản lý đơn hàng',
@@ -45,7 +46,7 @@ class MainScreenWidget extends StatelessWidget {
               icon: PhosphorIcons.pen(),
               text: 'Quản lý sản phẩm',
               onPressed: () {
-               Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProductManagement()),
                 );
@@ -59,7 +60,6 @@ class MainScreenWidget extends StatelessWidget {
               text: 'Quản lý tài khoản',
               onPressed: () {
                 // Action for button
-                
               },
             )
           ],
