@@ -1,11 +1,9 @@
-import 'package:admin_vbooks/admin_acount/acountadmin.dart';
+import 'package:admin_vbooks/admin_acount/acountmanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:admin_vbooks/admin_acount/acountadmin.dart';  // Import your AccountManagementPage
 
 class UpdateInfoScreen extends StatefulWidget {
- 
   @override
   _UpdateInfoScreenState createState() => _UpdateInfoScreenState();
 }
@@ -32,11 +30,12 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Quản lý tài khoản',
           textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold), // Bold title
         ),
         centerTitle: true,
         leading: IconButton(
@@ -61,7 +60,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                   children: [
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         'Họ và tên',
                         style: TextStyle(
                           fontFamily: 'Inter',
@@ -79,10 +78,9 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       ),
                       child: TextField(
                         controller: _nameController,
-                        keyboardType: TextInputType.phone,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
+                        keyboardType: TextInputType.text,
+                        enabled: false,
+                        style: TextStyle(fontWeight: FontWeight.bold), // Bold text
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -92,7 +90,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     const SizedBox(height: 16),
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         'Email',
                         style: TextStyle(
                           fontFamily: 'Inter',
@@ -111,6 +109,8 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       child: TextField(
                         controller: _emailController,
                         textAlign: TextAlign.left,
+                        enabled: false,
+                        style: TextStyle(fontWeight: FontWeight.bold), // Bold text
                         decoration: const InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           border: InputBorder.none,
@@ -120,7 +120,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     const SizedBox(height: 16),
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         'Số điện thoại',
                         style: TextStyle(
                           fontFamily: 'Inter',
@@ -139,6 +139,8 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       child: TextField(
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
+                        enabled: false,
+                        style: TextStyle(fontWeight: FontWeight.bold), // Bold text
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
@@ -151,7 +153,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     const SizedBox(height: 16),
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         'Ngày sinh',
                         style: TextStyle(
                           fontFamily: 'Inter',
@@ -169,21 +171,20 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       ),
                       child: TextField(
                         controller: _dateController,
+                        enabled: false,
+                        style: TextStyle(fontWeight: FontWeight.bold), // Bold text
                         decoration: const InputDecoration(
                           suffixIcon: Icon(CupertinoIcons.calendar),
                           labelText: '01/05/2003',
                           border: InputBorder.none,
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                         ),
-                        onTap: () {
-                          _selectDate();
-                        },
                       ),
                     ),
                     const SizedBox(height: 16),
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         'Giới tính',
                         style: TextStyle(
                           fontFamily: 'Inter',
@@ -193,7 +194,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Container(
+                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 16),
                       decoration: BoxDecoration(
@@ -202,9 +203,11 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       ),
                       child: Row(
                         children: [
-                          Icon(CupertinoIcons.person, color: Colors.grey),
+                          SizedBox(width: 10),
+                          Icon(Icons.male, color: Colors.grey), // Icon added here
                           SizedBox(width: 10),
                           Text(
+                            textAlign: TextAlign.start,
                             _gender,
                             style: TextStyle(
                               fontFamily: 'Inter',
@@ -238,7 +241,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Xóa tài khoản',
                       style: TextStyle(
                         fontFamily: 'Inter',
@@ -255,21 +258,6 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _selectDate() async {
-    DateTime? _picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (_picked != null) {
-      setState(() {
-        _dateController.text = _picked.toString().split(" ")[0];
-      });
-    }
   }
 
   void _showDeleteConfirmationDialog(BuildContext context) {
@@ -289,7 +277,6 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  
                   _nameController.text = '';
                   _emailController.text = '';
                   _phoneController.text = '';
@@ -310,9 +297,8 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>AccountManagementPage() ),
+                      builder: (context) => AccountManagementPage()),
                 );
-                
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(21, 139, 125, 1),
