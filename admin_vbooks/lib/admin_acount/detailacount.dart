@@ -312,6 +312,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                   MaterialPageRoute(
                       builder: (context) =>AccountManagementPage() ),
                 );
+                
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(21, 139, 125, 1),
