@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/mainpage.dart';
+import 'package:vbooks_source/pages/account/forgotpassword.dart';
+import 'package:vbooks_source/pages/home/homewidget.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -7,7 +10,7 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = true;
-  bool _isCheck = false;
+  bool _isCheck = true;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +122,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     textAlign: TextAlign.left, // Align text to the left
                     decoration: InputDecoration(
                       labelText: "Nhập Email / Số điện thoại",
+                      floatingLabelStyle: TextStyle(color: Colors.teal),
                       border: InputBorder.none,
                     ),
                   ),
@@ -147,6 +151,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     textAlign: TextAlign.left,
                     obscureText: _isCheck,
                     decoration: InputDecoration(
+                      floatingLabelStyle: TextStyle(color: Colors.teal),
                       labelText: "Nhập mật khẩu",
                       border: InputBorder.none,
                       suffixIcon: IconButton(
@@ -168,7 +173,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: Visibility(
                     visible: isLogin,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                      },
                       child: const Text(
                         'Quên mật khẩu?',
                         style: TextStyle(
@@ -192,7 +199,9 @@ class _AuthScreenState extends State<AuthScreen> {
                       width: 320,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Mainpage()));
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.teal,
                           shape: RoundedRectangleBorder(
@@ -223,7 +232,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   },
                   child: Text.rich(
                     TextSpan(
-                      text: isLogin
+                      text: !isLogin
                           ? 'Bạn đã có tài khoản? '
                           : 'Bạn chưa có tài khoản? ',
                       style: const TextStyle(
@@ -233,7 +242,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       children: [
                         TextSpan(
                           text:
-                              isLogin ? 'Đăng nhập tại đây' : 'Đăng ký tại đây',
+                              !isLogin ? 'Đăng nhập tại đây' : 'Đăng ký tại đây',
                           style: const TextStyle(
                             color: Colors.teal, // Set this part of text to teal
                             fontWeight: FontWeight.bold,

@@ -81,9 +81,10 @@ class AccountSelectWidget extends StatelessWidget {
   final String value;
   final IconData iconLeft;
   final IconData iconRight;
+  final VoidCallback? onTap;
 
   AccountSelectWidget(
-      {required this.value, required this.iconLeft, required this.iconRight});
+      {required this.value, required this.iconLeft, required this.iconRight, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,7 @@ class AccountSelectWidget extends StatelessWidget {
         weight: 16,
         color: Colors.teal,
       ),
-      onTap: () {},
+      onTap: onTap,
     );
   }
 }

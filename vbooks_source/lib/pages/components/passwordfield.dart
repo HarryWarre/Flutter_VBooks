@@ -52,7 +52,9 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
             textAlign: TextAlign.left,
             obscureText: isObscured,
             decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
+              floatingLabelStyle: TextStyle(
+                color: Colors.teal,
+              ),
               labelText: widget.hintText,
               border: InputBorder.none,
               suffixIcon: IconButton(

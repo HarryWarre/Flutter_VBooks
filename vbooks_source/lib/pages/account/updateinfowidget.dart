@@ -18,10 +18,11 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
           FocusManager.instance.primaryFocus?.unfocus();
         },
       child: Scaffold(
+        appBar: AppBar(centerTitle: true, title: Text('Thông tin của tôi',),),
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(22, 0, 20, 0),
+            padding: EdgeInsets.fromLTRB(22, 20, 20, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
