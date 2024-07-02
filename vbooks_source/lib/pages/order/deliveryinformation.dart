@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/pages/order/Checkout.dart';
+import 'package:vbooks_source/pages/order/checkoutorder.dart';
 
 class ShippingInfoWidget extends StatelessWidget {
   const ShippingInfoWidget({super.key});
