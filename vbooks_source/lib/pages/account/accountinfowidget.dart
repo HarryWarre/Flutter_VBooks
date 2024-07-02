@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/mainpage.dart';
 import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/favoritebook.dart';
@@ -83,7 +84,7 @@ CustomDivider(height: 2,),
               iconLeft: Icons.logout,
               iconRight: Icons.arrow_forward_ios,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AuthScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> AuthScreen()));
               },),
               CustomDivider(height: 2,),
         ],

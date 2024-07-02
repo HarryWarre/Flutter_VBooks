@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
-import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/accountinfowidget.dart';
+import 'package:vbooks_source/pages/cart/cartwidget.dart';
 import 'package:vbooks_source/pages/order/ordermainpage.dart';
 
 // import 'pages/account/accountwidget.dart';
@@ -28,7 +27,7 @@ class _MainpageState extends State<Mainpage> {
   static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     CategoryWidget(),
-    OrderMainPage(),
+    CartWidget(),
     AccountInfoWidget(),
   ];
 

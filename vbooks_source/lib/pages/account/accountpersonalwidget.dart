@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/mainpage.dart';
-import 'package:vbooks_source/pages/account/accountinfowidget.dart';
 import 'package:vbooks_source/pages/account/changepasswordwidget.dart';
 import 'package:vbooks_source/pages/account/updateinfowidget.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
