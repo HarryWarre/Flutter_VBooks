@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: appName,
-      debugShowCheckedModeBanner: false,
+      // debugShowCheckedModeBanner: false,
       // theme: ThemeData(
       //     useMaterial3: true,
       //     primaryColor: primary,
