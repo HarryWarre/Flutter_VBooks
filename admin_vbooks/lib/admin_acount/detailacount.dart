@@ -1,4 +1,5 @@
-import 'package:admin_vbooks/admin_acount/acountmanager.dart';
+
+import 'package:admin_vbooks/admin_acount/acountadmin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -207,7 +208,6 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                           Icon(Icons.male, color: Colors.grey), // Icon added here
                           SizedBox(width: 10),
                           Text(
-                            textAlign: TextAlign.start,
                             _gender,
                             style: TextStyle(
                               fontFamily: 'Inter',
