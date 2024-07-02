@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:vbooks_source/data/model/bookModel.dart';
+import 'package:vbooks_source/conf/const.dart';
+import 'package:vbooks_source/data/model/productmodel.dart';
 import 'package:vbooks_source/pages/components/button.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 
 class Detail extends StatefulWidget {
-  final Book book;
+  final Product book;
   const Detail({Key? key, required this.book}) : super(key: key);
 
   @override
@@ -25,7 +26,7 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('Chi tiết',),),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: SingleChildScrollView(
@@ -39,33 +40,38 @@ class _DetailState extends State<Detail> {
                     Container(
                       height: 260,
                       alignment: Alignment.center,
-                      child: Image.asset('assets/images${widget.book.img}'),
+                      child: Image.asset(
+                          'assets/images/product/${widget.book.img}'),
                     ),
                     const SizedBox(
                       height: 16,
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                      height: 100,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                      // height: 150,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
-                              Text(
-                                '${widget.book.name}',
-                                style: const TextStyle(
-                                  fontSize: 26,
+                              Container(
+                                width: 200,
+                                child: Text(
+                                  '${widget.book.name}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 26,
+                                  ),
                                 ),
                               ),
                               const Spacer(),
                               IconButton(
                                 onPressed: _toggleFavorite,
                                 icon: Icon(
-                                  _isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite,
-                                  color: _isFavorite ? Colors.teal : Colors.grey,
+                                  _isFavorite ? Icons.favorite : Icons.favorite,
+                                  color:
+                                      _isFavorite ? Colors.teal : Colors.grey,
                                   size: 40,
                                 ),
                               ),
@@ -83,11 +89,11 @@ class _DetailState extends State<Detail> {
                                   fontSize: 18,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 40,
                               ),
-                              Text(
-                                '45.000 VNĐ',
+                              const Text(
+                                '45.000 VNĐ', //oldprice
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 18,
@@ -103,11 +109,11 @@ class _DetailState extends State<Detail> {
                 ),
               ),
               CustomDivider(
-                height: 12,
+                height: 1,
                 color: Colors.grey[300],
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 0, 0),
+                padding: const EdgeInsets.fromLTRB(16, 16, 0, 0),
                 child: Column(
                   children: [
                     Row(
@@ -124,19 +130,19 @@ class _DetailState extends State<Detail> {
                         AccountInfoRow(
                           label: 'Mã hàng:',
                           value: '${widget.book.id}',
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                           width: 150,
                         ),
                         AccountInfoRow(
                           label: 'Nhà cung cấp:',
                           value: 'Công ty xxx',
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                           width: 150,
                         ),
                         AccountInfoRow(
                           label: 'Nhà xuất bản:',
                           value: 'Kim Đồng',
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                           width: 150,
                         ),
                       ],
@@ -147,9 +153,9 @@ class _DetailState extends State<Detail> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextInfo(
+                        const TextInfo(
                           label: 'Mô tả:',
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                         const SizedBox(width: 10),
@@ -169,17 +175,20 @@ class _DetailState extends State<Detail> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const CartItemWidget(initialQuantity: 1),
-                        Button(
-                          width: 200,
-                          height: 40,
-                          text: 'Mua Ngay',
-                          onPressed: () {},
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const CartItemWidget(initialQuantity: 1),
+                          Button(
+                            width: 200,
+                            height: 40,
+                            text: 'Mua Ngay',
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -189,10 +198,10 @@ class _DetailState extends State<Detail> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        foregroundColor: Colors.teal,
+        foregroundColor: primaryColor,
         backgroundColor: Colors.white,
         onPressed: () {},
-        child: Icon(CupertinoIcons.cart),
+        child: const Icon(CupertinoIcons.cart),
       ),
     );
   }
@@ -202,9 +211,9 @@ class CartItemWidget extends StatefulWidget {
   final int initialQuantity;
 
   const CartItemWidget({
-    Key? key,
+    super.key,
     required this.initialQuantity,
-  }) : super(key: key);
+  });
 
   @override
   _CartItemWidgetState createState() => _CartItemWidgetState();
@@ -259,7 +268,7 @@ class TextInfo extends StatelessWidget {
   final String label;
   final TextStyle? style;
 
-  TextInfo({Key? key, required this.label, this.style}) : super(key: key);
+  const TextInfo({super.key, required this.label, this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -269,4 +278,3 @@ class TextInfo extends StatelessWidget {
     );
   }
 }
-

@@ -5,7 +5,6 @@ import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/favoritebook.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
-import 'package:vbooks_source/pages/order/ordermainpage.dart';
 
 class AccountInfoWidget extends StatefulWidget {
   const AccountInfoWidget({super.key});
@@ -67,18 +66,18 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
               iconLeft: Icons.history,
               iconRight: Icons.arrow_forward_ios,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => (OrderMainPage())));
-              },
-              ),
-CustomDivider(height: 2,),
-              AccountSelectWidget(
-              value: 'Voucher',
-              iconLeft: CupertinoIcons.ticket_fill,
-              iconRight: Icons.arrow_forward_ios,
-              onTap: () {
                 
               },
               ),
+// CustomDivider(height: 2,),
+//               AccountSelectWidget(
+//               value: 'Voucher',
+//               iconLeft: CupertinoIcons.ticket_fill,
+//               iconRight: Icons.arrow_forward_ios,
+//               onTap: () {
+                
+//               },
+//               ),
 CustomDivider(height: 2,),
               AccountSelectWidget(
               value: 'Đăng xuất',
@@ -94,7 +93,3 @@ CustomDivider(height: 2,),
     );
   }
 }
-
-
-
-

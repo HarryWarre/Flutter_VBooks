@@ -119,4 +119,3 @@ class CustomDivider extends StatelessWidget {
     );
   }
 }
-
