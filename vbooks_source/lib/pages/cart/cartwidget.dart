@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:vbooks_source/pages/order/Delivery_Information.dart';
+=======
+import 'package:vbooks_source/pages/order/deliveryinformation.dart';
+>>>>>>> main
 
 void main() {
   runApp(const MaterialApp(
@@ -52,12 +56,16 @@ class _CartWidgetState extends State<CartWidget> {
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
+<<<<<<< HEAD
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Color.fromRGBO(21, 139, 125, 1)),
           onPressed: () {
             Navigator.pop(context); // Quay lại trang trước đó
           },
         ),
+=======
+    
+>>>>>>> main
       ),
       body: Column(
         children: [

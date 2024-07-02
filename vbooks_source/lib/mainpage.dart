@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/pages/cart/cartWidget.dart';
+import 'package:vbooks_source/pages/account/accountinfowidget.dart';
+import 'package:vbooks_source/pages/cart/cartwidget.dart';
+import 'package:vbooks_source/pages/order/ordermainpage.dart';
 
-import 'pages/account/accountwidget.dart';
+// import 'pages/account/accountwidget.dart';
 import 'pages/category/categorywidget.dart';
 import 'pages/home/homeWidget.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({Key? key}) : super(key: key);
+  const Mainpage({super.key});
 
   @override
   State<Mainpage> createState() => _MainpageState();
@@ -14,14 +16,19 @@ class Mainpage extends StatefulWidget {
 
 class _MainpageState extends State<Mainpage> {
   int _selectedIndex = 0;
-  // static const TextStyle optionStyle =
-  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static const List<String> _titles = <String>[
+    'Trang chủ',
+    'Thể loại',
+    'Giỏ hàng',
+    'Tài khoản'
+  ];
+
+  static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     CategoryWidget(),
     CartWidget(),
-    AccountWidget()
+    AccountInfoWidget(),
   ];
 
   void _onItemTapped(int index) {
@@ -33,12 +40,14 @@ class _MainpageState extends State<Mainpage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(88.0),
+          preferredSize: const Size.fromHeight(0.0),
           child: AppBar(),
         ),
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.all(10),
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -63,8 +72,7 @@ class _MainpageState extends State<Mainpage> {
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: const Color.fromRGBO(21, 139, 125, 1),
-          unselectedItemColor: const Color.fromRGBO(
-              212, 214, 221, 1), // Màu cho các icon không được chọn
+          unselectedItemColor: const Color.fromRGBO(212, 214, 221, 1),
           onTap: _onItemTapped,
           showSelectedLabels: true,
           showUnselectedLabels: true,

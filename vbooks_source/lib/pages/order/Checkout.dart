@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:vbooks_source/pages/order/Check_Your_Order.dart';
+=======
+import 'package:vbooks_source/pages/order/checkyourorder.dart';
+>>>>>>> main
 
 void main() {
   runApp(const MaterialApp(
@@ -216,4 +220,8 @@ class _PaymentFormState extends State<PaymentForm> {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main
