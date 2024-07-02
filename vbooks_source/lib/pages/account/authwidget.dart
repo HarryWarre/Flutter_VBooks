@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/mainpage.dart';
+import 'package:vbooks_source/pages/account/forgotpassword.dart';
+import 'package:vbooks_source/pages/home/homewidget.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
   _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
-  bool isLogin = true;
+class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   bool _isCheck = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      setState(() {}); // Rebuild the widget when the tab changes
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },     
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
@@ -22,75 +40,29 @@ class _AuthScreenState extends State<AuthScreen> {
             padding: EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              isLogin = true;
-                            });
-                          },
-                          child: Text(
-                            'ĐĂNG NHẬP',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: isLogin ? Colors.teal : Colors.grey,
-                            ),
-                          ),
+                TabBar(
+                  controller: _tabController,
+                  indicatorColor: Colors.teal,
+                  labelColor: Colors.teal,
+                  unselectedLabelColor: Colors.grey,
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        'ĐĂNG NHẬP',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                          width: isLogin ? 120 : 0,
-                          height: 2,
-                          child: Transform.translate(
-                            offset: isLogin ? const Offset(0, 0) : const Offset(100, 0),
-                            child: Container(
-                              width: 100,
-                              height: 2,
-                              color: Colors.teal,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                    const SizedBox(width: 32),
-                    Column(
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              isLogin = false;
-                            });
-                          },
-                          child: Text(
-                            'ĐĂNG KÝ',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: !isLogin ? Colors.teal : Colors.grey,
-                            ),
-                          ),
+                    Tab(
+                      child: Text(
+                        'ĐĂNG KÝ',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                          width: !isLogin ? 100 : 0,
-                          height: 2,
-                          child: Transform.translate(
-                            offset: isLogin ? Offset(100, 0) : Offset(0, 0),
-                            child: Container(
-                              width: 100,
-                              height: 2,
-                              color: Colors.teal,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -136,7 +108,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -152,8 +123,9 @@ class _AuthScreenState extends State<AuthScreen> {
                       labelText: "Nhập mật khẩu",
                       border: InputBorder.none,
                       suffixIcon: IconButton(
-                        icon: Icon(
-                            _isCheck ? Icons.visibility : Icons.visibility_off),
+                        icon: Icon(_isCheck
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                         color: Colors.grey,
                         onPressed: () {
                           setState(() {
@@ -164,13 +136,15 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                 ),
-
                 Container(
                   alignment: Alignment.centerRight,
                   child: Visibility(
-                    visible: isLogin,
+                    visible: _tabController.index == 0,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ForgotPassword()));
+                      },
                       child: const Text(
                         'Quên mật khẩu?',
                         style: TextStyle(
@@ -183,18 +157,18 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                 ),
-
                 Column(
                   children: [
-                    if (!isLogin)
-                      const SizedBox(
-                          height:
-                              14), // Add SizedBox with height 12 above the ElevatedButton when isLogin is false
+                    if (_tabController.index == 1)
+                      const SizedBox(height: 14),
                     SizedBox(
                       width: 320,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Mainpage()));
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.teal,
                           shape: RoundedRectangleBorder(
@@ -202,7 +176,9 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         ),
                         child: Text(
-                          isLogin ? 'Đăng nhập' : 'Đăng ký',
+                          _tabController.index == 0
+                              ? 'Đăng nhập'
+                              : 'Đăng ký',
                           style: const TextStyle(
                             fontFamily: 'Inter',
                             color: Colors.white,
@@ -214,28 +190,26 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 16),
-
                 TextButton(
                   onPressed: () {
-                    setState(() {
-                      isLogin = !isLogin;
-                    });
+                    _tabController.animateTo(
+                      _tabController.index == 0 ? 1 : 0,
+                    );
                   },
                   child: Text.rich(
                     TextSpan(
-                      text: !isLogin
+                      text: _tabController.index == 1
                           ? 'Bạn đã có tài khoản? '
                           : 'Bạn chưa có tài khoản? ',
                       style: const TextStyle(
-                        color: Colors
-                            .black, // Always set this part of text to black
+                        color: Colors.black, // Always set this part of text to black
                       ),
                       children: [
                         TextSpan(
-                          text:
-                              !isLogin ? 'Đăng nhập tại đây' : 'Đăng ký tại đây',
+                          text: _tabController.index == 1
+                              ? 'Đăng nhập tại đây'
+                              : 'Đăng ký tại đây',
                           style: const TextStyle(
                             color: Colors.teal, // Set this part of text to teal
                             fontWeight: FontWeight.bold,

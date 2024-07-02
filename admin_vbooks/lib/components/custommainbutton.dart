@@ -5,12 +5,14 @@ class CustomButton extends StatelessWidget {
   final IconData icon;
   final String text;
   final VoidCallback onPressed;
+  final String? des;
 
   const CustomButton({
     super.key,
     required this.icon,
     required this.text,
     required this.onPressed,
+    this.des,
   });
 
   @override

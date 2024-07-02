@@ -14,6 +14,8 @@ dependencies:
   shared_preferences: ^2.1.0
   flutter_typeahead: ^4.0.0
   provider: ^6.1.2
+  flutter_otp_text_field: ^1.1.3+2
+  flutter_native_splash: ^2.4.0
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +35,10 @@ flutter:
     - assets/json/
     - assets/images/
     - assets/images/product/
-    - assets/images/spy.png
+    - assets/images/product/spy.png
     - assets/breathingroom.jpg
     - assets/mockingbird.jpg
+
+flutter_native_splash:
+  android: true
+  background_image: "assets/images/splash.jpg"

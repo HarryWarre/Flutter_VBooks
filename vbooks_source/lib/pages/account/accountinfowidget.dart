@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
+import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/favoritebook.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 import 'package:vbooks_source/pages/order/ordermainpage.dart';
@@ -17,6 +18,7 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(centerTitle: true, title: Text('Thông tin tài khoản',),),
       body: ListView(
         children: [        
           AccountSelectWidget(
@@ -24,7 +26,7 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
               iconLeft: CupertinoIcons.person,
               iconRight: Icons.arrow_forward_ios,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => AccountPersonalWidget()));
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => AccountPersonalWidget()));
               },
               ),
               
@@ -67,22 +69,22 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => (OrderMainPage())));
               },
               ),
-CustomDivider(height: 2,),
-              AccountSelectWidget(
-              value: 'Voucher',
-              iconLeft: CupertinoIcons.ticket_fill,
-              iconRight: Icons.arrow_forward_ios,
-              onTap: () {
+// CustomDivider(height: 2,),
+//               AccountSelectWidget(
+//               value: 'Voucher',
+//               iconLeft: CupertinoIcons.ticket_fill,
+//               iconRight: Icons.arrow_forward_ios,
+//               onTap: () {
                 
-              },
-              ),
+//               },
+//               ),
 CustomDivider(height: 2,),
               AccountSelectWidget(
               value: 'Đăng xuất',
               iconLeft: Icons.logout,
               iconRight: Icons.arrow_forward_ios,
               onTap: () {
-                
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AuthScreen()));
               },),
               CustomDivider(height: 2,),
         ],
