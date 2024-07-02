@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class ReadData {
-  static Future<List<Product>> loadData() async {
+  Future<List<Product>> loadData() async {
     var data = await rootBundle.loadString("assets/json/productlist.json");
     var dataJson = jsonDecode(data);
     return (dataJson["data"] as List).map((e) => Product.fromJson(e)).toList();

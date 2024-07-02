@@ -15,7 +15,7 @@ class ProductManagement extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            // Action for back button
           },
         ),
         title: const Text('Quản lý sản phẩm'),

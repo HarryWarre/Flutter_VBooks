@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:vbooks_source/data/model/productmodel.dart';
+import 'package:vbooks_source/data/model/bookModel.dart';
+import 'package:vbooks_source/data/provider/bookprovider.dart';
 import 'package:vbooks_source/pages/components/button.dart';
 import 'package:vbooks_source/pages/components/detail.dart';
 
-import '../../data/provider/productprovider.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -18,13 +18,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Trang Yêu thích',
-        ),
-      ),
-      body: FutureBuilder<List<Product>>(
+      appBar: AppBar(centerTitle: true,
+      title: Text('Trang Yêu thích',),),
+      body: FutureBuilder<List<Book>>(
         future: ReadData.loadData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -40,11 +36,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               itemCount: books.length,
               itemBuilder: (context, index) {
                 final book = books[index];
-                return _buildBookItem(
-                    'assets/images/product/${book.img}',
-                    book.name!,
-                    book.price!,
-                    () => _navigateToDetailScreen(book));
+                return _buildBookItem('assets/images${book.img}', book.name!, book.price!,() =>  _navigateToDetailScreen(book));
               },
             );
           } else {
@@ -69,7 +61,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           padding: const EdgeInsets.fromLTRB(10, 8, 12, 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: [
+            children: [              
               FittedBox(
                 fit: BoxFit.cover,
                 child: Image.asset(
@@ -118,8 +110,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     );
   }
 
-  void _navigateToDetailScreen(Product book) {
+  void _navigateToDetailScreen(Book book) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Detail(book: book)));
+      context,
+      MaterialPageRoute(builder: (context) => Detail(book: book))
+    );
   }
+
 }
