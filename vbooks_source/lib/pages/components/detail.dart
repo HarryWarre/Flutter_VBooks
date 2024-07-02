@@ -6,6 +6,10 @@ import 'package:vbooks_source/data/model/productmodel.dart';
 import 'package:vbooks_source/pages/components/button.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 
+import '../order/deliveryinformation.dart';
+import '../order/orderdetailpage.dart';
+import '../order/ordermainpage.dart';
+
 class Detail extends StatefulWidget {
   final Product book;
   const Detail({Key? key, required this.book}) : super(key: key);
@@ -21,6 +25,21 @@ class _DetailState extends State<Detail> {
     setState(() {
       _isFavorite = !_isFavorite;
     });
+  }
+
+  void _showSnackbar() {
+    const snackBar = SnackBar(
+      content: Text(
+        'Đã thêm sản phẩm vào giỏ hàng',
+        style: TextStyle(color: Colors.black), // Text color
+      ),
+      backgroundColor: Colors.white, // Background color
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      duration: Duration(seconds: 2),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -185,7 +204,13 @@ class _DetailState extends State<Detail> {
                             width: 200,
                             height: 40,
                             text: 'Mua Ngay',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ShippingInfoWidget()));
+                            },
                           ),
                         ],
                       ),
@@ -200,7 +225,7 @@ class _DetailState extends State<Detail> {
       floatingActionButton: FloatingActionButton(
         foregroundColor: primaryColor,
         backgroundColor: Colors.white,
-        onPressed: () {},
+        onPressed: _showSnackbar,
         child: const Icon(CupertinoIcons.cart),
       ),
     );

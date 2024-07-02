@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/conf/const.dart';
 import 'package:vbooks_source/pages/order/checkyourorder.dart';
 
 void main() {
@@ -17,13 +18,12 @@ class PaymentPage extends StatelessWidget {
         title: const Text('Thanh toán'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color.fromRGBO(21, 139, 125, 1)),
+          icon: Icon(Icons.arrow_back, color: primaryColor),
           onPressed: () {
             Navigator.pop(context); // Quay lại trang trước đó
           },
         ),
       ),
-      
       body: Column(
         children: [
           Padding(
@@ -133,8 +133,10 @@ class _PaymentFormState extends State<PaymentForm> {
                 _paymentMethod = value!;
               });
             },
-            secondary: const Icon(Icons.attach_money), // Biểu tượng cho thanh toán tiền mặt
-            activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
+            secondary: const Icon(
+                Icons.attach_money), // Biểu tượng cho thanh toán tiền mặt
+            activeColor:
+                Color.fromRGBO(21, 139, 125, 1), // Set the active color
           ),
           RadioListTile<String>(
             title: const Text('Chuyển khoản'),
@@ -145,8 +147,10 @@ class _PaymentFormState extends State<PaymentForm> {
                 _paymentMethod = value!;
               });
             },
-            secondary: const Icon(Icons.account_balance), // Biểu tượng cho chuyển khoản
-            activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
+            secondary: const Icon(
+                Icons.account_balance), // Biểu tượng cho chuyển khoản
+            activeColor:
+                Color.fromRGBO(21, 139, 125, 1), // Set the active color
           ),
           if (_paymentMethod == 'bank_transfer') ...[
             const SizedBox(height: 16.0),
@@ -164,7 +168,8 @@ class _PaymentFormState extends State<PaymentForm> {
                     _selectedBank = value!;
                   });
                 },
-                activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
+                activeColor:
+                    Color.fromRGBO(21, 139, 125, 1), // Set the active color
               ),
             ),
             ListTile(
@@ -177,7 +182,8 @@ class _PaymentFormState extends State<PaymentForm> {
                     _selectedBank = value!;
                   });
                 },
-                activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
+                activeColor:
+                    Color.fromRGBO(21, 139, 125, 1), // Set the active color
               ),
             ),
             ListTile(
@@ -190,18 +196,20 @@ class _PaymentFormState extends State<PaymentForm> {
                     _selectedBank = value!;
                   });
                 },
-                activeColor: Color.fromRGBO(21, 139, 125, 1), // Set the active color
+                activeColor:
+                    Color.fromRGBO(21, 139, 125, 1), // Set the active color
               ),
             ),
           ],
           const SizedBox(height: 32.0),
           ElevatedButton(
             onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const OrderReviewPage()),
-                    );
-                  },
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const OrderReviewPage()),
+              );
+            },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               textStyle: const TextStyle(fontSize: 20),

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/mainpage.dart';
 import 'package:vbooks_source/pages/components/detail.dart';
+import 'package:vbooks_source/pages/home/homewidget.dart';
 import 'package:vbooks_source/pages/order/checkyourorder.dart';
 import 'package:vbooks_source/pages/order/orderdetailpage.dart';
+
+import '../components/button.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -10,7 +14,6 @@ void main() {
 }
 
 class OrderSuccessPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +33,8 @@ class OrderSuccessPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.check_circle, size: 150, color: Color.fromRGBO(21, 139, 125, 1)),
+            Icon(Icons.check_circle,
+                size: 150, color: Color.fromRGBO(21, 139, 125, 1)),
             SizedBox(height: 16.0),
             Text(
               'Cảm ơn quý khách!',
@@ -46,23 +50,37 @@ class OrderSuccessPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => OrderDetailPage(idDonHang: '', nguoiDat: '', tongTien: '', trangThai: '', ngayDat: '',)),
+                  MaterialPageRoute(
+                      builder: (context) => OrderDetailPage(
+                            idDonHang: '',
+                            nguoiDat: '',
+                            tongTien: '',
+                            trangThai: '',
+                            ngayDat: '',
+                          )),
                 );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền
               ),
-              child: Text('Xem chi tiết đơn hàng', style: TextStyle(color: Colors.white)),
+              child: Text('Xem chi tiết đơn hàng',
+                  style: TextStyle(color: Colors.white)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Mainpage()));
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền
+              ),
+              child:
+                  Text('Về trang chủ', style: TextStyle(color: Colors.white)),
             ),
             SizedBox(height: 200.0),
-          
           ],
-          
         ),
-        
       ),
-      
     );
-    
   }
 }
