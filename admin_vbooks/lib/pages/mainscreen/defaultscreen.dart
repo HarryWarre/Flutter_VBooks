@@ -1,0 +1,70 @@
+import 'package:admin_vbooks/components/custommainbutton.dart';
+import 'package:admin_vbooks/pages/productmanagement/category/category_list.dart';
+
+import 'package:admin_vbooks/pages/productmanagement/product/product_list.dart';
+import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+class MainScreenWidget extends StatelessWidget {
+  const MainScreenWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Action for back button
+          },
+        ),
+        title: const Text('Quản lý đơn hàng'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomButton(
+              icon: Icons.store,
+              text: 'Quản lý đơn hàng',
+              onPressed: () {
+                // Action for button
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ProductList()),
+                // );
+              },
+            ),
+            const SizedBox(
+              height: 37,
+            ),
+            CustomButton(
+              icon: PhosphorIcons.pen(),
+              text: 'Quản lý sản phẩm',
+              onPressed: () {
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductManagement()),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 37,
+            ),
+            CustomButton(
+              icon: CupertinoIcons.person_fill,
+              text: 'Quản lý tài khoản',
+              onPressed: () {
+                // Action for button
+                
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
