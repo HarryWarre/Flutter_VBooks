@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:vbooks_source/pages/components/detail.dart';
 
 import '../../../data/model/productmodel.dart';
 import '../../../data/provider/productprovider.dart';
@@ -62,7 +63,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               onSuggestionSelected: (Product suggestion) {
                 _controller.text = suggestion.name!;
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ProductDetail(product: suggestion),
+                  builder: (context) => Detail(book: suggestion),
                 ));
               },
             ),
