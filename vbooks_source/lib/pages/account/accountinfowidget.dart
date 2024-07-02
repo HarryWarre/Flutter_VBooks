@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/mainpage.dart';
 import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/favoritebook.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
+import 'package:vbooks_source/pages/order/ordermainpage.dart';
 
 class AccountInfoWidget extends StatefulWidget {
   const AccountInfoWidget({super.key});
@@ -65,7 +67,7 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
               iconLeft: Icons.history,
               iconRight: Icons.arrow_forward_ios,
               onTap: () {
-                
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => (OrderMainPage())));
               },
               ),
 CustomDivider(height: 2,),
@@ -83,7 +85,7 @@ CustomDivider(height: 2,),
               iconLeft: Icons.logout,
               iconRight: Icons.arrow_forward_ios,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AuthScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> AuthScreen()));
               },),
               CustomDivider(height: 2,),
         ],

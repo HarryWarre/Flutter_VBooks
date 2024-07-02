@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
-import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/accountinfowidget.dart';
 import 'package:vbooks_source/pages/cart/cartwidget.dart';
 import 'package:vbooks_source/pages/order/ordermainpage.dart';

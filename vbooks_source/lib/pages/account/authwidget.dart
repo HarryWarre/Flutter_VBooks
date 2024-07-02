@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vbooks_source/mainpage.dart';
 import 'package:vbooks_source/pages/account/forgotpassword.dart';
-import 'package:vbooks_source/pages/home/homewidget.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -19,6 +18,9 @@ class _AuthScreenState extends State<AuthScreen> {
           FocusManager.instance.primaryFocus?.unfocus();
         },     
       child: Scaffold(
+        appBar: AppBar(    
+               automaticallyImplyLeading: false,
+        ),
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
           child: Padding(

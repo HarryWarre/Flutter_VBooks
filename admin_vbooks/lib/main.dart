@@ -19,8 +19,13 @@ class MyApp extends StatelessWidget {
     const appName = 'Custom Themes';
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: appName,
+<<<<<<< HEAD
 
+=======
+      // debugShowCheckedModeBanner: false,
+>>>>>>> Hung
       // theme: ThemeData(
       //     useMaterial3: true,
       //     primaryColor: primary,
