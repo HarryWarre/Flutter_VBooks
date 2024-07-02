@@ -1,3 +1,5 @@
+import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
+import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 import 'package:flutter/material.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -18,31 +20,19 @@ class _AuthScreenState extends State<AuthScreen> {
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.fromLTRB(16, 50, 16, 16),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() {});
-                          },
-                          child: Text(
-                            'ĐĂNG NHẬP',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.teal,
-                            ),
-                          ),
-                        ),
-                      ],
+                Center(
+                  child: Text(
+                    'ĐĂNG NHẬP',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
                     ),
-                    const SizedBox(width: 32),
-                  ],
+                  ),
                 ),
                 const SizedBox(
                   height: 32,
@@ -120,7 +110,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   width: 320,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainScreenWidget()));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
                       shape: RoundedRectangleBorder(
