@@ -1,3 +1,4 @@
+import 'package:admin_vbooks/admin_acount/detailacount.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -6,13 +7,9 @@ void main() {
   ));
 }
 
-class AccountManagementPage extends StatefulWidget {
-  @override
-  _AccountManagementPageState createState() => _AccountManagementPageState();
-}
 
-class _AccountManagementPageState extends State<AccountManagementPage> {
-  List<User> users = [
+class AccountManagementPage extends StatelessWidget {
+  final List<User> users = [
     User(id: 1, name: 'Alice'),
     User(id: 2, name: 'Bob'),
     User(id: 3, name: 'Charlie'),
@@ -38,28 +35,27 @@ class _AccountManagementPageState extends State<AccountManagementPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.fromLTRB(15, 12, 0, 12),
+          Container(                       
+            padding: EdgeInsets.fromLTRB(15, 12, 0, 12), // Lề trái là 35 pixels
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
-                  width: 1.0,
-                  color: Colors.grey[400]!,
-                ),
+                    width: 1.0,
+                    color: Colors.grey[400]!), // Đường viền màu xám phía trên
                 bottom: BorderSide(
-                  width: 1.0,
-                  color: Colors.grey[400]!,
-                ),
+                    width: 1.0,
+                    color: Colors.grey[400]!), // Đường viền màu xám phía dưới
               ),
             ),
             child: Text(
-              'Danh sách tài khoản',
+              'Danh sách tài khoản',
               style: TextStyle(
                 fontSize: 18.0,
               ),
-              textAlign: TextAlign.start,
+              textAlign: TextAlign.start, // Căn chữ về phía trái
             ),
           ),
+
           Expanded(
             child: ListView.builder(
               itemCount: users.length,
@@ -67,111 +63,34 @@ class _AccountManagementPageState extends State<AccountManagementPage> {
                 return ListTile(
                   leading: Icon(
                     Icons.person,
-                    size: 36,
-                    color: Color.fromRGBO(21, 139, 125, 1),
-                  ),
+                    size: 36, // Kích thước của icon
+                    color: Color.fromRGBO(21, 139, 125, 1), // Màu sắc của icon
+                  ), // Icon person
                   subtitle: Text('ID: ${users[index].id}'),
                   title: Text(users[index].name),
+
+                  // Hiển thị tên người dùng
                   onTap: () {
+                    // Chuyển đến trang chi tiết tài khoản
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => UpdateInfoScreen(user: users[index])),
+                      MaterialPageRoute(builder: (context) => UpdateInfoScreen()),
                     );
                   },
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      setState(() {
-                        users.removeAt(index);
-                      });
-                    },
-                  ),
                 );
               },
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigate to a screen to add new user
-          // For simplicity, let's assume you have an AddUserScreen to add new users
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddUserScreen()),
-          ).then((newUser) {
-            if (newUser != null) {
-              setState(() {
-                users.add(newUser);
-              });
-            }
-          });
-        },
-        child: Icon(Icons.add),
-      ),
     );
   }
 }
+
 
 class User {
   final int id;
   final String name;
-  // Additional fields for account details can be added here
 
   User({required this.id, required this.name});
-}
-
-// Example of a detailed account information screen
-class UpdateInfoScreen extends StatelessWidget {
-  final User user;
-
-  UpdateInfoScreen({required this.user});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Chi tiết tài khoản'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'User ID: ${user.id}',
-              style: TextStyle(fontSize: 24),
-            ),
-            Text(
-              'Name: ${user.name}',
-              style: TextStyle(fontSize: 24),
-            ),
-            // Add more account details as needed
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Example screen to add new users
-class AddUserScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Example form to add new user
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Thêm tài khoản mới'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Simulate adding a new user
-            User newUser = User(id: 4, name: 'New User');
-            Navigator.pop(context, newUser);
-          },
-          child: Text('Thêm tài khoản'),
-        ),
-      ),
-    );
-  }
 }
