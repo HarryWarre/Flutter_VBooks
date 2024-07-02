@@ -68,15 +68,15 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
                 
               },
               ),
-CustomDivider(height: 2,),
-              AccountSelectWidget(
-              value: 'Voucher',
-              iconLeft: CupertinoIcons.ticket_fill,
-              iconRight: Icons.arrow_forward_ios,
-              onTap: () {
+// CustomDivider(height: 2,),
+//               AccountSelectWidget(
+//               value: 'Voucher',
+//               iconLeft: CupertinoIcons.ticket_fill,
+//               iconRight: Icons.arrow_forward_ios,
+//               onTap: () {
                 
-              },
-              ),
+//               },
+//               ),
 CustomDivider(height: 2,),
               AccountSelectWidget(
               value: 'Đăng xuất',
