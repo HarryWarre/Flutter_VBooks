@@ -52,12 +52,7 @@ class _CartWidgetState extends State<CartWidget> {
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color.fromRGBO(21, 139, 125, 1)),
-          onPressed: () {
-            Navigator.pop(context); // Quay lại trang trước đó
-          },
-        ),
+    
       ),
       body: Column(
         children: [

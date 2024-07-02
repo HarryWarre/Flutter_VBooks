@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/pages/components/detail.dart';
+import 'package:vbooks_source/pages/order/checkyourorder.dart';
+import 'package:vbooks_source/pages/order/orderdetailpage.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -7,6 +10,7 @@ void main() {
 }
 
 class OrderSuccessPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,24 +44,18 @@ class OrderSuccessPage extends StatelessWidget {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => OrderDetailPage(idDonHang: '', nguoiDat: '', tongTien: '', trangThai: '', ngayDat: '',)),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền
               ),
               child: Text('Xem chi tiết đơn hàng', style: TextStyle(color: Colors.white)),
             ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền
-              ),
-              child: Text('Quay về trang chủ', style: TextStyle(color: Colors.white)),
-            ),
-             SizedBox(height: 80.0),
+            SizedBox(height: 200.0),
+          
           ],
           
         ),
