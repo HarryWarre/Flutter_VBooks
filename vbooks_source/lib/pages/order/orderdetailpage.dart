@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/conf/const.dart';
 
 class OrderDetailPage extends StatefulWidget {
   final String idDonHang;
   final String ngayDat;
   final String nguoiDat;
   final String tongTien;
-  String trangThai; 
+  String trangThai;
 
   OrderDetailPage({
     required this.idDonHang,
@@ -25,10 +26,15 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
           title: Text('Bạn muốn hủy đơn hàng này?'),
           actions: [
             TextButton(
-              child: Text('Có'),
+              child: const Text(
+                'Có',
+                style: TextStyle(color: primaryColor),
+              ),
               onPressed: () {
                 setState(() {
                   widget.trangThai = 'Bị hủy';
@@ -37,7 +43,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               },
             ),
             TextButton(
-              child: Text('Không'),
+              child: const Text('Không', style: TextStyle(color: primaryColor)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -52,13 +58,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Chi tiết đơn hàng',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -79,39 +85,41 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Text(
+              child: const Text(
                 'Thông tin người nhận',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ThongTinNguoiDat(
               nguoiDat: widget.nguoiDat,
               diaChi: '828 Sư Vạn Hạnh, Phường 13, Quận 10, TP.HCM',
               soDienThoai: '0909372940',
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Text(
+              child: const Text(
                 'Sản phẩm đã mua',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 10),
-            SanPhamDaMua(
+            const SizedBox(height: 10),
+            const SanPhamDaMua(
               tenSach: 'To Kill Mocking Bird',
               gia: '25.000đ',
               soLuong: 1,
               urlHinh: 'assets/mockingbird.jpg',
             ),
-            SanPhamDaMua(
+            const SanPhamDaMua(
               tenSach: 'Breathing room',
               gia: '25.000đ',
               soLuong: 1,
               urlHinh: 'assets/breathingroom.jpg',
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             if (widget.trangThai == 'Đang xử lý')
               Center(
                 child: SizedBox(
@@ -120,7 +128,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     onPressed: _cancelOrder,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                     ),
                     child: Text(
                       'Hủy đơn hàng',
@@ -275,8 +284,12 @@ class SanPhamDaMua extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 34,),
-                Text(tenSach, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 34,
+                ),
+                Text(tenSach,
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 SizedBox(height: 4),
                 Text(gia, style: TextStyle(fontSize: 16)),
                 SizedBox(height: 4),

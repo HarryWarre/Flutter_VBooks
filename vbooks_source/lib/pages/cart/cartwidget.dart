@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vbooks_source/conf/const.dart';
 import 'package:vbooks_source/pages/order/deliveryinformation.dart';
 
 void main() {
@@ -17,19 +18,22 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   List<CartItem> cartItems = [
     CartItem(
-      imageUrl: "https://bizweb.dktcdn.net/thumb/large/100/197/269/products/tam-ly-hoc-thanh-cong-304x472.jpg?v=1516592128997",
+      imageUrl:
+          "https://bizweb.dktcdn.net/thumb/large/100/197/269/products/tam-ly-hoc-thanh-cong-304x472.jpg?v=1516592128997",
       name: "Red Queen",
       price: 100000,
       quantity: 1,
     ),
     CartItem(
-      imageUrl: "https://static.oreka.vn/800-800_0fa33f3c-4354-4a55-ad59-868547814f67",
+      imageUrl:
+          "https://static.oreka.vn/800-800_0fa33f3c-4354-4a55-ad59-868547814f67",
       name: "To Kill A Mockingbird",
       price: 2000,
       quantity: 2,
     ),
     CartItem(
-      imageUrl: "https://www.elleman.vn/wp-content/uploads/2019/12/05/cho-sua-nham-cay-sach-tam-ly-elleman-1119-Vidoda.jpg",
+      imageUrl:
+          "https://www.elleman.vn/wp-content/uploads/2019/12/05/cho-sua-nham-cay-sach-tam-ly-elleman-1119-Vidoda.jpg",
       name: "How to Drink",
       price: 95000,
       quantity: 1,
@@ -52,7 +56,6 @@ class _CartWidgetState extends State<CartWidget> {
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
-    
       ),
       body: Column(
         children: [
@@ -69,12 +72,13 @@ class _CartWidgetState extends State<CartWidget> {
           ),
           Container(
             color: Colors.white,
-            constraints: BoxConstraints(minHeight: 10.0, maxHeight: double.infinity),
+            constraints:
+                BoxConstraints(minHeight: 10.0, maxHeight: double.infinity),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Total:                                            ${cartItems.fold<int>(0, (total, item) => total + item.price * item.quantity)} đ',
+                  'Tổng tiền:                                    ${cartItems.fold<int>(0, (total, item) => total + item.price * item.quantity)} đ',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
@@ -82,11 +86,13 @@ class _CartWidgetState extends State<CartWidget> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ShippingInfoWidget()),
+                      MaterialPageRoute(
+                          builder: (context) => const ShippingInfoWidget()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 135, vertical: 20),
                     backgroundColor: const Color.fromRGBO(21, 139, 125, 1),
                   ),
                   child: const Text(
@@ -170,32 +176,42 @@ class _CartItemWidgetState extends State<CartItemWidget> {
           fit: BoxFit.cover,
         ),
         title: Text(widget.cartItem.name),
-        subtitle: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.remove),
-              onPressed: _decrementQuantity,
-            ),
-            Text('$quantity', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: _incrementQuantity,
-            ),
-          ],
+        trailing: IconButton(
+          icon:
+              const Icon(Icons.delete, color: Color.fromRGBO(21, 139, 125, 1)),
+          onPressed: widget.onRemove,
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '${widget.cartItem.price * quantity} đ',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove),
+                  onPressed: _decrementQuantity,
+                ),
+                Text(
+                  '$quantity',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: _incrementQuantity,
+                ),
+              ],
             ),
-            IconButton(
-              icon: const Icon(Icons.delete, color:  Color.fromRGBO(21, 139, 125, 1)),
-              onPressed: widget.onRemove,
+            Row(
+              children: [
+                Text(
+                  '${widget.cartItem.price * quantity} đ',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
