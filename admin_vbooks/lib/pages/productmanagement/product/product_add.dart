@@ -118,99 +118,102 @@ class _ProductAddState extends State<ProductAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(titleText),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Nhập tên sách',
-                  focusColor: primary,
-                  fillColor: primary,
-                  prefixIconColor: primary,
-                  suffixIconColor: primary),
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _priceController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Nhập giá',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Nhập tên sách',
+                    focusColor: primary,
+                    fillColor: primary,
+                    prefixIconColor: primary,
+                    suffixIconColor: primary),
               ),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: _pickImage,
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _priceController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Nhập giá',
+                ),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: _pickImage,
+                    child: const Text(
+                      'Chọn ảnh',
+                      style: TextStyle(color: primary),
+                    ),
+                  ),
+                  const SizedBox(width: 16.0),
+                  _imageFile != null
+                      ? Image.file(
+                          _imageFile!,
+                          width: 100,
+                          height: 100,
+                        )
+                      : const Text('Không có ảnh được chọn'),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _descController,
+                maxLines: 7,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Thêm mô tả',
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              DropdownButtonFormField<CategoryModel>(
+                value: _selectedCategory,
+                items: _categories.map((CategoryModel category) {
+                  return DropdownMenuItem<CategoryModel>(
+                    value: category,
+                    child: Text(category.name),
+                  );
+                }).toList(),
+                onChanged: (CategoryModel? newValue) {
+                  setState(() {
+                    _selectedCategory = newValue;
+                  });
+                },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Chọn danh mục',
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              SizedBox(
+                height: 45.0,
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.isUpdate ? _onUpdate() : _onSave();
+                  },
                   child: const Text(
-                    'Chọn ảnh',
-                    style: TextStyle(color: primary),
+                    'Lưu',
+                    style: TextStyle(fontSize: 16.0, color: primary),
                   ),
                 ),
-                const SizedBox(width: 16.0),
-                _imageFile != null
-                    ? Image.file(
-                        _imageFile!,
-                        width: 100,
-                        height: 100,
-                      )
-                    : const Text('Không có ảnh được chọn'),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _descController,
-              maxLines: 7,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Thêm mô tả',
               ),
-            ),
-            const SizedBox(height: 16.0),
-            DropdownButtonFormField<CategoryModel>(
-              value: _selectedCategory,
-              items: _categories.map((CategoryModel category) {
-                return DropdownMenuItem<CategoryModel>(
-                  value: category,
-                  child: Text(category.name),
-                );
-              }).toList(),
-              onChanged: (CategoryModel? newValue) {
-                setState(() {
-                  _selectedCategory = newValue;
-                });
-              },
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Chọn danh mục',
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            SizedBox(
-              height: 45.0,
-              child: ElevatedButton(
-                onPressed: () {
-                  widget.isUpdate ? _onUpdate() : _onSave();
-                },
-                child: const Text(
-                  'Lưu',
-                  style: TextStyle(fontSize: 16.0, color: primary),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

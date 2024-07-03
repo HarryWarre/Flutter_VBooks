@@ -3,6 +3,7 @@ import 'package:admin_vbooks/config/const.dart';
 import 'package:flutter/material.dart';
 import '../../../components/confirmdeletedialog.dart';
 import '../../../data/helper/db_helper.dart';
+import '../productmanagement.dart';
 import 'product_add.dart';
 import 'product_data.dart';
 
@@ -37,9 +38,23 @@ class _ProductListState extends State<ProductList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text("Sản phẩm"),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Handle back button press here
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    ProductManagement(), // Navigate back to ProductBuilder
+              ),
+            );
+          },
+        ),
       ),
       body: Column(
         children: [

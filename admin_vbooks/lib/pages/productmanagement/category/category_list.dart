@@ -1,3 +1,4 @@
+import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 import 'package:flutter/material.dart';
 import '../../../components/confirmdeletedialog.dart';
 import '../../../components/uploadfile.dart';
@@ -51,6 +52,19 @@ class _CategoryListState extends State<CategoryList> {
       appBar: AppBar(
         title: const Text("Danh mục"),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Handle back button press here
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    ProductManagement(), // Navigate back to ProductBuilder
+              ),
+            );
+          },
+        ),
       ),
       body: Column(
         children: [
