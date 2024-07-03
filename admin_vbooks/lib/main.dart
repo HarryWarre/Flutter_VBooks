@@ -21,16 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: appName,
-<<<<<<< HEAD
 
-=======
-      // debugShowCheckedModeBanner: false,
->>>>>>> Hung
-      // theme: ThemeData(
-      //     useMaterial3: true,
-      //     primaryColor: primary,
-      //     primaryColorLight: primary,
-      //     cardColor: Colors.white),
       theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
