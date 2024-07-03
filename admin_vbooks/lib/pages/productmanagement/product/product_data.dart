@@ -17,40 +17,76 @@ class ProductBuilder extends StatefulWidget {
 class _ProductBuilderState extends State<ProductBuilder> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
   final List<int> _selectedProducts = [];
+  final TextEditingController _searchController = TextEditingController();
+  List<Product_Model> _products = [];
+  List<Product_Model> _filteredProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_filterProducts);
+    _loadProducts(); // Load products initially
+  }
+
+  Future<void> _loadProducts() async {
+    _products = await _getProducts();
+    _filteredProducts =
+        _products; // Ensure filtered list initially matches all products
+    setState(() {}); // Update UI with new data
+  }
 
   Future<List<Product_Model>> _getProducts() async {
-    // Thêm vào 1 dòng dữ liệu nếu getdata không có hoặc chưa có database
     return await _databaseHelper.products();
+  }
+
+  void _filterProducts() {
+    setState(() {
+      _filteredProducts = _products.where((product) {
+        return product.name!
+            .toLowerCase()
+            .contains(_searchController.text.toLowerCase());
+      }).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Product_Model>>(
-      future: _getProducts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: ListView.builder(
-            itemCount: snapshot.data!.length,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: _searchController,
+            decoration: const InputDecoration(
+              labelText: 'Tìm kiếm sản phẩm',
+              suffixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        Expanded(
+          child: _buildProductList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProductList() {
+    return _filteredProducts.isEmpty
+        ? const Center(child: Text('Không có sản phẩm nào'))
+        : ListView.builder(
+            itemCount: _filteredProducts.length,
             itemBuilder: (context, index) {
-              final itemCat = snapshot.data![index];
+              final itemCat = _filteredProducts[index];
               return _buildProduct(itemCat, context);
             },
-          ),
-        );
-      },
-    );
+          );
   }
 
   Widget _buildProduct(Product_Model product, BuildContext context) {
     return Card(
       child: ListTile(
-        // Check box for delete products
+        // Checkbox for selecting products
         leading: Checkbox(
           checkColor: Colors.white,
           activeColor: primary,
@@ -68,6 +104,7 @@ class _ProductBuilderState extends State<ProductBuilder> {
         ),
         title: Row(
           children: [
+            // Display product information
             if (product.img != null && product.img!.isNotEmpty)
               Container(
                 height: 60.0,
@@ -122,12 +159,19 @@ class _ProductBuilderState extends State<ProductBuilder> {
                         fullscreenDialog: true,
                       ),
                     )
-                    .then((_) => setState(() {}));
+                    .then(
+                        (_) => _loadProducts()); // Reload products after update
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }

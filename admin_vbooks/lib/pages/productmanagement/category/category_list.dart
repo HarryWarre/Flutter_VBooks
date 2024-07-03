@@ -36,6 +36,12 @@ class _CategoryListState extends State<CategoryList> {
         }
         _selectedCategories.clear();
       });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CategoryList(), // Navigate back to ProductBuilder
+        ),
+      );
     }
   }
 

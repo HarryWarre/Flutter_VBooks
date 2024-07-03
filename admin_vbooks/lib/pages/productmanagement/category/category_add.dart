@@ -1,3 +1,4 @@
+import 'package:admin_vbooks/pages/productmanagement/category/category_list.dart';
 import 'package:flutter/material.dart';
 import '/../data/model/category.dart';
 import '/../data/helper/db_helper.dart';
@@ -23,7 +24,12 @@ class _CategoryAddState extends State<CategoryAdd> {
     await _databaseService
         .insertCategory(CategoryModel(name: name, desc: description));
     setState(() {});
-    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CategoryList(), // Navigate back to ProductBuilder
+      ),
+    );
   }
 
   Future<void> _onUpdate() async {
@@ -33,7 +39,12 @@ class _CategoryAddState extends State<CategoryAdd> {
     await _databaseService.updateCategory(CategoryModel(
         name: name, desc: description, id: widget.categoryModel!.id));
 
-    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CategoryList(), // Navigate back to ProductBuilder
+      ),
+    );
   }
 
   @override

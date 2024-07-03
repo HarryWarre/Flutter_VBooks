@@ -16,34 +16,71 @@ class CategoryBuilder extends StatefulWidget {
 class _CategoryBuilderState extends State<CategoryBuilder> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
   final List<int> _selectedCategories = [];
+  final TextEditingController _searchController = TextEditingController();
+  List<CategoryModel> _categories = [];
+  List<CategoryModel> _filteredCategories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_filterCategories);
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    List<CategoryModel> categories = await _getCategories();
+    setState(() {
+      _categories = categories;
+      _filteredCategories = categories;
+    });
+  }
 
   Future<List<CategoryModel>> _getCategories() async {
-    // thêm vào 1 dòng dữ liệu nếu getdata không có hoặc chưa có database
     return await _databaseHelper.categories();
+  }
+
+  void _filterCategories() {
+    setState(() {
+      _filteredCategories = _categories.where((category) {
+        return category.name!
+            .toLowerCase()
+            .contains(_searchController.text.toLowerCase());
+      }).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<CategoryModel>>(
-      future: _getCategories(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: ListView.builder(
-            itemCount: snapshot.data!.length,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: _searchController,
+            decoration: const InputDecoration(
+              labelText: 'Tìm kiếm danh mục',
+              suffixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        Expanded(
+          child: _buildCategoryList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCategoryList() {
+    return _filteredCategories.isEmpty
+        ? const Center(child: Text('Không có danh mục nào'))
+        : ListView.builder(
+            itemCount: _filteredCategories.length,
             itemBuilder: (context, index) {
-              final itemCat = snapshot.data![index];
+              final itemCat = _filteredCategories[index];
               return _buildCategory(itemCat, context);
             },
-          ),
-        );
-      },
-    );
+          );
   }
 
   Widget _buildCategory(CategoryModel category, BuildContext context) {
@@ -101,12 +138,18 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                         fullscreenDialog: true,
                       ),
                     )
-                    .then((_) => setState(() {}));
+                    .then((_) => _loadCategories());
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }

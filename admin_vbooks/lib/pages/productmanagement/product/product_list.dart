@@ -25,6 +25,12 @@ class _ProductListState extends State<ProductList> {
         }
         _selectedProducts.clear();
       }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ProductList(), // Navigate back to ProductBuilder
+        ),
+      );
     });
   }
 
