@@ -53,17 +53,17 @@ class ProductManagement extends StatelessWidget {
             const SizedBox(
               height: 37,
             ),
-            CustomButton(
-              icon: Icons.window_sharp,
-              text: 'Đơn hàng',
-              onPressed: () {
-                // Action for button
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => OrderAdminPage()),
-                );
-              },
-            )
+            // CustomButton(
+            //   icon: Icons.window_sharp,
+            //   text: 'Đơn hàng',
+            //   onPressed: () {
+            //     // Action for button
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => OrderAdminPage()),
+            //     );
+            //   },
+            // )
           ],
         ),
       ),

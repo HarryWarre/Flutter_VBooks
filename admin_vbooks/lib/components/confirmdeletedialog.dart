@@ -15,7 +15,8 @@ class ConfirmDeleteDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: Colors.white,
       title: Text(
         title,
         style: const TextStyle(fontWeight: FontWeight.bold),

@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\flutter\flutter"
-export "FLUTTER_APPLICATION_PATH=D:\HocTap\HocKi3Nam3\Android\LT\DoAn\Flutter_VBooks\admin_vbooks"
+export "FLUTTER_ROOT=/Users/hoangviet/Documents/Flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/hoangviet/Documents/University/flutter_mobile/Flutter_VBooks/admin_vbooks"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=0.1.0"
