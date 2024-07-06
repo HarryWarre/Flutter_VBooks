@@ -1,4 +1,5 @@
 import 'package:admin_vbooks/components/custommainbutton.dart';
+import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
 import 'package:admin_vbooks/pages/ordermanagement/orderaminpage.dart';
 import 'package:admin_vbooks/pages/productmanagement/category/category_list.dart';
 
@@ -15,11 +16,19 @@ class ProductManagement extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            // Handle back button press here
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    MainScreenWidget(), // Navigate back to ProductBuilder
+              ),
+            );
           },
         ),
         title: const Text('Quản lý sản phẩm'),
         centerTitle: true,
+        
       ),
       body: Center(
         child: Column(

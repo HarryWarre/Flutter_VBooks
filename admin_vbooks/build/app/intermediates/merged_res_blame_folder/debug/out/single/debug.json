@@ -16,10 +16,6 @@
         "source": "com.example.admin_vbooks.app-main-16:/mipmap-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.admin_vbooks.app-merged_res-22:/drawable_launch_background.xml.flat",
-        "source": "com.example.admin_vbooks.app-main-16:/drawable/launch_background.xml"
-    },
-    {
         "merged": "com.example.admin_vbooks.app-merged_res-22:/mipmap-mdpi_ic_launcher.png.flat",
         "source": "com.example.admin_vbooks.app-main-16:/mipmap-mdpi/ic_launcher.png"
     },
