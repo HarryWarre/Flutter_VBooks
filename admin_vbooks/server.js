@@ -3,6 +3,7 @@ const app =  express()
 const dotenv = require('dotenv');
 const mongoose = require('mongoose')
 const categoryRoute = require('../admin_vbooks/routes/categories')
+const productRoute = require('../admin_vbooks/routes/products')
 // app configuration
 
 dotenv.config()
@@ -17,6 +18,8 @@ app.use(express.json())
 //api routes
 // quản lý thể loại
 app.use('/api/', categoryRoute)
+
+app.use('/api/', productRoute)
 
 app.get('/', (req,res) => res.send('Hello'))
 
