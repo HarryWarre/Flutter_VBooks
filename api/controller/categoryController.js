@@ -47,6 +47,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+    
     getCategory: async (req, res) => {
         await Category.find()
         .then(info => res.json(info))
