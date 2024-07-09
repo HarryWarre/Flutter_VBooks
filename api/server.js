@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const categoryRoute = require("./routes/categories");
 const productRoute = require("./routes/products");
+const publisherRoute = require("./routes/publisher");
 // app configuration
 
 dotenv.config();
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use("/category/", categoryRoute);
 
 app.use("/product/", productRoute);
+
+app.use("/publisher/", publisherRoute);
 
 app.get("/", (req, res) => res.send("Hello"));
 

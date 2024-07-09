@@ -7,4 +7,4 @@ const PaymentMethodSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("paymentmethod", PaymentMethodSchema);
+module.exports = mongoose.model("PaymentMethod", PaymentMethodSchema);
