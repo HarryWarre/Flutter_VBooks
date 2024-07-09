@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const categoryRoute = require("./routes/categories");
 const productRoute = require("./routes/products");
 const publisherRoute = require("./routes/publisher");
+const adminRoute = require('./routes/admins')
+const paymentRoute = require('./routes/payments')
+const accountRoute = require('./routes/accounts')
 // app configuration
 
 dotenv.config();
@@ -23,9 +26,20 @@ app.use(express.json());
 // quản lý thể loại
 app.use("/category/", categoryRoute);
 
+// quản lý sản phẩm
 app.use("/product/", productRoute);
 
+// quản lý ?
 app.use("/publisher/", publisherRoute);
+
+// quản lý admin
+app.use('/admin/', adminRoute)
+
+// quản lý phương thức thanh toán
+app.use('/payment/', paymentRoute)
+
+//quản lý tài khoản khách hàng
+app.use('/account/', accountRoute)
 
 app.get("/", (req, res) => res.send("Hello"));
 
