@@ -4,13 +4,13 @@ const Product = require('../models/product')
 
 module.exports = {
     createCategory: async (req, res) => {
-        const { name, desc } = req.body;
+        const { name } = req.body;
 
-        if (!name || !desc) {
-            return res.status(400).json({ success: false, msg: 'Tên và mô tả không được để trống' });
+        if (!name) {
+            return res.status(400).json({ success: false, msg: 'Tên không được để trống' });
         }
 
-        const newCategory = new Category({ name, desc });
+        const newCategory = new Category({ name });
 
         try {
             const savedCategory = await newCategory.save();
@@ -19,7 +19,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    updateProduct: async (req, res) => {
+    updateCategory: async (req, res) => {
         const { name, desc } = req.body;
         const categoryId = req.params._id;
 
@@ -49,9 +49,21 @@ module.exports = {
     },
     
     getCategory: async (req, res) => {
-        await Category.find()
-        .then(info => res.json(info))
-        .catch(err => res.json(err))
+        try {
+            const categories = await Category.aggregate([
+                {
+                    $lookup: {
+                        from: 'products', // Tên của collection chứa sản phẩm
+                        localField: '_id', // Khóa chính của bảng categories
+                        foreignField: 'catId', // Khóa ngoại của bảng products
+                        as: 'products' // Tên của mảng chứa sản phẩm kết hợp trong kết quả
+                    }
+                }
+            ]);
+            res.json(categories);
+        } catch (err) {
+            res.status(500).json(err);
+        }
     },
      
     deleteCategory: async (req, res) => {
@@ -81,6 +93,21 @@ module.exports = {
             console.log(err)
             res.status(500).json({ success: false, msg: 'Xoá thể loại thất bại' });
         }
-    }
+    },
 
+    searchCategory: async (req, res) => {
+        const { keyword } = req.query;
+        try {
+            const categories = await Category.find({
+                name: { $regex: keyword, $options: 'i' }, // Tìm kiếm theo tên danh mục (không phân biệt chữ hoa chữ thường)
+            });
+            if (categories.length > 0) {
+                res.json(categories);
+            } else {
+                res.json({ message: 'Không tìm thấy danh mục nào' });
+            }
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
 };
