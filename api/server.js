@@ -8,6 +8,9 @@ const publisherRoute = require("./routes/publisher");
 const adminRoute = require('./routes/admins')
 const paymentRoute = require('./routes/payments')
 const accountRoute = require('./routes/accounts')
+const favoriteRoute = require('./routes/favorite')
+const orderRoute = require('./routes/order')
+const orderdetailRoute = require('./routes/orderdetails')
 // app configuration
 
 dotenv.config();
@@ -40,6 +43,15 @@ app.use('/payment/', paymentRoute)
 
 //quản lý tài khoản khách hàng
 app.use('/account/', accountRoute)
+
+//quản lý danh sách yêu thích
+app.use('/favorite/', favoriteRoute)
+
+//quản lý đơn hàng
+app.use('/order/',orderRoute)
+
+//quản lý chi tiết đơn hàng
+app.use('/orderdetail/', orderdetailRoute)
 
 app.get("/", (req, res) => res.send("Hello"));
 

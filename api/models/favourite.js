@@ -4,12 +4,12 @@ const FavoriteSchema = new mongoose.Schema(
     {
         accountId: { 
             type: mongoose.Schema.Types.ObjectId, 
-            ref: "Account", 
+            ref: "account", 
             required: true 
         },
         productId: { 
             type: mongoose.Schema.Types.ObjectId, 
-            ref: "Product", 
+            ref: "product", 
             required: true 
         }
     }

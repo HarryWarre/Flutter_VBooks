@@ -26,7 +26,7 @@ module.exports = {
             console.log(name)
             if(!name){
                 this.getPayment(req, res)
-            }
+            }// if này bị lỗi
 
             const payments = await Payment.find({ name: { $regex: new RegExp(name, 'i') } });
     
