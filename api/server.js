@@ -11,6 +11,7 @@ const accountRoute = require('./routes/accounts')
 const favoriteRoute = require('./routes/favorite')
 const orderRoute = require('./routes/order')
 const orderdetailRoute = require('./routes/orderdetails')
+const cartRoute = require('./routes/carts')
 // app configuration
 
 dotenv.config();
@@ -52,6 +53,9 @@ app.use('/order/',orderRoute)
 
 //quản lý chi tiết đơn hàng
 app.use('/orderdetail/', orderdetailRoute)
+
+//quản lý giỏ hàng
+app.use('/cart/', cartRoute)
 
 app.get("/", (req, res) => res.send("Hello"));
 
