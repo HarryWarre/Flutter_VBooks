@@ -35,5 +35,25 @@ module.exports = {
         } catch (err) {
             res.status(500).json(err);
         }
+    },
+    getAllAcount: async (req, res) => {
+        await Account.find()
+                .then(info => res.json(info))
+                .catch(err => res.json(err))
+    },
+
+    deleteAccount: async (req, res) => {
+        const id  = req.params
+        console.log(id)
+        try{
+            const deletedAccount = await Account.findByIdAndDelete(id)
+            if(!deletedAccount){
+                return res.status(404).json({message: 'Không thể tìm thấy tài khoản này'})
+            }
+            res.json({success: true, message: 'Xóa thành công'})
+        }catch(err){
+                res.status(500).json(err)
+        }
+                
     }
 }
