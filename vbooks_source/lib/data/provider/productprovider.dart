@@ -9,7 +9,7 @@ class ReadData {
     return (dataJson["data"] as List).map((e) => Product.fromJson(e)).toList();
   }
 
-  Future<List<Product>> loadDatabyCat(int catId) async {
+  Future<List<Product>> loadDatabyCat(String catId) async {
     var data = await rootBundle.loadString("assets/json/productlist.json");
     var dataJson = jsonDecode(data);
     return (dataJson["data"] as List)
@@ -18,7 +18,7 @@ class ReadData {
         .toList();
   }
 
-  Future<Product> getProductById(int id) async {
+  Future<Product> getProductById(String id) async {
     var data = await rootBundle.loadString("assets/json/productlist.json");
     var dataJson = jsonDecode(data);
     return (dataJson["data"] as List)

@@ -5,13 +5,15 @@ const mongoose = require("mongoose");
 const categoryRoute = require("./routes/categories");
 const productRoute = require("./routes/products");
 const publisherRoute = require("./routes/publisher");
-const adminRoute = require('./routes/admins')
-const paymentRoute = require('./routes/payments')
-const accountRoute = require('./routes/accounts')
-const favoriteRoute = require('./routes/favorite')
-const orderRoute = require('./routes/order')
-const orderdetailRoute = require('./routes/orderdetails')
-const cartRoute = require('./routes/carts')
+const adminRoute = require("./routes/admins");
+const paymentRoute = require("./routes/payments");
+const accountRoute = require("./routes/accounts");
+const favoriteRoute = require("./routes/favorite");
+const orderRoute = require("./routes/order");
+const orderdetailRoute = require("./routes/orderdetails");
+const cartRoute = require("./routes/carts");
+const fearturedRoute = require("./routes/collection/feartured");
+const BestSellingRoute = require("./routes/collection/bestSelling");
 // app configuration
 
 dotenv.config();
@@ -37,25 +39,28 @@ app.use("/product/", productRoute);
 app.use("/publisher/", publisherRoute);
 
 // quản lý admin
-app.use('/admin/', adminRoute)
+app.use("/admin/", adminRoute);
 
 // quản lý phương thức thanh toán
-app.use('/payment/', paymentRoute)
+app.use("/payment/", paymentRoute);
 
 //quản lý tài khoản khách hàng
-app.use('/account/', accountRoute)
+app.use("/account/", accountRoute);
 
 //quản lý danh sách yêu thích
-app.use('/favorite/', favoriteRoute)
+app.use("/favorite/", favoriteRoute);
 
 //quản lý đơn hàng
-app.use('/order/',orderRoute)
+app.use("/order/", orderRoute);
 
 //quản lý chi tiết đơn hàng
-app.use('/orderdetail/', orderdetailRoute)
+app.use("/orderdetail/", orderdetailRoute);
 
 //quản lý giỏ hàng
-app.use('/cart/', cartRoute)
+app.use("/cart/", cartRoute);
+
+app.use("/feartured/", fearturedRoute);
+app.use("/bestselling/", BestSellingRoute);
 
 app.get("/", (req, res) => res.send("Hello"));
 

@@ -1,23 +1,23 @@
 {
   "data": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Comic"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Kinh tế"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Manga"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Trinh thám"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Luật"
     }
   ]

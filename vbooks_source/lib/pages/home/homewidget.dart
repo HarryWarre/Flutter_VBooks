@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:vbooks_source/pages/home/hotwidget.dart';
+import '../../services/apiservice.dart';
+import '../../services/productservice.dart';
 import '../components/search/searchform.dart';
 import '../components/typelistdart.dart';
 import 'fearturedwidget.dart';
 import '../../conf/const.dart';
 
 class HomeWidget extends StatelessWidget {
-  const HomeWidget({super.key});
+  HomeWidget({super.key});
+  final apiService = ApiService();
+  final productService = ProductService(ApiService());
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +61,12 @@ class HomeWidget extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             Container(
               height: 270,
               color: Colors.white,
               child: Center(
-                child: FeaturedListWidget(),
+                child: FeaturedListWidget(productService: productService),
               ),
             ),
 

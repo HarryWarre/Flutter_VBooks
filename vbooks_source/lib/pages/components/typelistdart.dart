@@ -29,7 +29,7 @@ class TypeList extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
-            List<int> productIds;
+            List<String> productIds;
 
             if (type == 'feartured') {
               productIds = snapshot.data!.feartured;
