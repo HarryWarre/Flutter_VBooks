@@ -1,10 +1,10 @@
 class Product {
-  int? id;
+  String? id;
   String? name;
   int? price;
   String? img;
   String? des;
-  int? catId;
+  String? catId;
 
   //constructor
   Product({this.id, this.name, this.price, this.img, this.des, this.catId});

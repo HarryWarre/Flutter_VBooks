@@ -30,7 +30,7 @@ class _HotProductListState extends State<HotProductList> {
 
     final readData = ReadData();
     List<Product> hotProducts = [];
-    for (int id in hotProductIds) {
+    for (String id in hotProductIds) {
       Product product = await readData.getProductById(id);
       hotProducts.add(product);
     }

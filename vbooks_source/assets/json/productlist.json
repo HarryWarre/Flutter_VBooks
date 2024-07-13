@@ -1,52 +1,52 @@
 {
   "data": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Doraemon tập 1",
       "price": 210000,
       "img": "doraemon.jpeg",
       "des": "Truyện tranh doraemon tập đầu tiên trong serries năm 1999, truyện được tái bản lần đầu vào năm 2003",
-      "catId": 1
+      "catId": "1"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Doraemon tập 2",
       "price": 210000,
       "img": "doraemon2.jpeg",
       "des": "Truyện tranh doraemon tập đầu tiên trong serries năm 1999, truyện được tái bản lần đầu vào năm 2003",
-      "catId": 1
+      "catId": "2"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Cha giàu cha nghèo tập 1",
       "price": 2100000,
       "img": "richdad.jpeg",
       "des": "Samsung",
-      "catId": 2
+      "catId": "2"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Phá án đêm trung thu",
       "price": 30000,
       "img": "phaan.jpeg",
       "des": "Sách trinh thám siêu cuốn hút người xem, từng lên xu hướng là một trong những cuốn sách thú vị nhất mùa đông năm 2024",
-      "catId": 4
+      "catId": "4"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Fairy Tail tập 4",
       "price": 20000,
       "img": "fairytail.jpeg",
       "des": "Truyện manga fairy tail, thế giới phép thuật đầy màu sắc mà những trận chiến nảy lửa",
-      "catId": 3
+      "catId": "3"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Luật pháp đại cương",
       "price": 50000,
       "img": "luatphapdaicuong.jpeg",
       "des": "Sách luật pháp đại cương phổ biến trong chương trình học đại học tại Việt Nam",
-      "catId": 5
+      "catId": "5"
     }
   ]
 }

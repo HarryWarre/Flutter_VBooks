@@ -6,4 +6,5 @@ router.put("/updateProduct/:_id", productController.updateProduct);
 router.delete("/deleteProduct/:_id", productController.deleteProduct);
 router.get("/getProduct", productController.getProduct);
 router.get("/search/", productController.searchProduct);
+router.get("/findByCatId/:catId", productController.getProductByIdCat);
 module.exports = router;
