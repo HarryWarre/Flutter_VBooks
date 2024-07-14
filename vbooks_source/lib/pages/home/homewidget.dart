@@ -18,6 +18,7 @@ class HomeWidget extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // Search form
             const Padding(
@@ -25,7 +26,7 @@ class HomeWidget extends StatelessWidget {
               child: SearchWidget(),
             ),
 
-            // Feartured List
+            // Featured List
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -42,12 +43,13 @@ class HomeWidget extends StatelessWidget {
                     onPressed: () {
                       // Use SeeMoreWidget to fetch and handle featured data
                       String title = 'Nổi bật';
-                      String json = 'feartured';
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              TypeList(title: title, type: json),
+                          builder: (context) => TypeList(
+                            productService: productService,
+                            title: 'Danh sách sản phẩm',
+                          ),
                         ),
                       );
                     },
@@ -62,13 +64,8 @@ class HomeWidget extends StatelessWidget {
               ),
             ),
 
-            Container(
-              height: 270,
-              color: Colors.white,
-              child: Center(
-                child: FeaturedListWidget(productService: productService),
-              ),
-            ),
+            // Use a ListView for featured products
+            FeaturedListWidget(productService: productService),
 
             // Hot
             Padding(
@@ -91,8 +88,10 @@ class HomeWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              TypeList(title: title, type: json),
+                          builder: (context) => TypeList(
+                            productService: productService,
+                            title: 'Danh sách sản phẩm',
+                          ),
                         ),
                       );
                     },
@@ -107,13 +106,8 @@ class HomeWidget extends StatelessWidget {
               ),
             ),
 
-            Container(
-              height: 270,
-              color: Colors.white,
-              child: const Center(
-                child: HotProductList(),
-              ),
-            ),
+            // Use a ListView for hot products
+            HotProductList(productService: productService),
           ],
         ),
       ),
