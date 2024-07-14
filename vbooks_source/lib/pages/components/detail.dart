@@ -60,7 +60,21 @@ class _DetailState extends State<Detail> {
                       height: 260,
                       alignment: Alignment.center,
                       child: Image.asset(
-                          'assets/images/product/${widget.book.img}'),
+                        'assets/images/product/${widget.book.img}',
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: double.infinity,
+                            height: 260,
+                            color: Colors.white,
+                            child: Icon(
+                              Icons.image_not_supported,
+                              color: Colors.grey,
+                              size: 50,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(
                       height: 16,
