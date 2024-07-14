@@ -24,22 +24,26 @@ class FeaturedListWidget extends StatelessWidget {
         } else if (snapshot.hasData) {
           final products = snapshot.data!;
 
-          return PageView.builder(
-            itemCount: (products.length / 2).ceil(),
-            itemBuilder: (context, pageIndex) {
-              final productPage = products.skip(pageIndex * 2).take(2).toList();
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: productPage.map((product) {
-                  return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ProductCard(product: product),
-                    ),
-                  );
-                }).toList(),
-              );
-            },
+          return SizedBox(
+            height: 270, // Đặt chiều cao cố định cho PageView
+            child: PageView.builder(
+              itemCount: (products.length / 2).ceil(),
+              itemBuilder: (context, pageIndex) {
+                final productPage =
+                    products.skip(pageIndex * 2).take(2).toList();
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: productPage.map((product) {
+                    return Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ProductCard(product: product),
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
           );
         } else {
           return const Center(child: Text('No data available'));
