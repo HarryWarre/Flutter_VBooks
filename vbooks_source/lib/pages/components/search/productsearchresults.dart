@@ -1,26 +1,23 @@
-// Trang kết quả tìm kiếm sản phẩm
 import 'package:flutter/material.dart';
-
 import '../../../data/model/productmodel.dart';
-import '../../../data/provider/productprovider.dart';
+import '../../../services/productservice.dart';
 import '../productcard.dart';
 
-/*
-  Trang trả về kết quả tìm kiếm, sử dụng provider getNameByKey để thực hiện trả về các sản phẩm theo keyword
- */
 class ProductSearchResults extends StatelessWidget {
   final String keyword;
+  final ProductService productService;
 
-  const ProductSearchResults({super.key, required this.keyword});
+  const ProductSearchResults(
+      {super.key, required this.keyword, required this.productService});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(keyword),
+        title: Text('Kết quả tìm kiếm: $keyword'),
       ),
       body: FutureBuilder<List<Product>>(
-        future: ReadData().getNameByKey(keyword),
+        future: productService.searchProducts(keyword),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

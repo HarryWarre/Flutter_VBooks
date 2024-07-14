@@ -4,6 +4,8 @@ import 'package:vbooks_source/pages/components/detail.dart';
 
 import '../../../data/model/productmodel.dart';
 import '../../../data/provider/productprovider.dart';
+import '../../../services/apiservice.dart';
+import '../../../services/productservice.dart';
 import 'productsearchresults.dart';
 
 /*
@@ -16,13 +18,18 @@ class SearchWidget extends StatefulWidget {
   const SearchWidget({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _SearchWidgetState createState() => _SearchWidgetState();
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
   final TextEditingController _controller = TextEditingController();
-  final ReadData _productProvider = ReadData();
+  late final ReadData _productProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _productProvider = ReadData(ProductService(ApiService()));
+  }
 
   @override
   void dispose() {
@@ -33,7 +40,7 @@ class _SearchWidgetState extends State<SearchWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity, // Chiều rộng tối đa
+      width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         color: const Color.fromRGBO(248, 249, 254, 1),
@@ -54,7 +61,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                 ),
                 onSubmitted: _handleSearch,
               ),
-              suggestionsCallback: _productProvider.searchProducts,
+              suggestionsCallback: (pattern) async {
+                if (pattern.isNotEmpty) {
+                  return _productProvider.searchProducts(pattern);
+                }
+                return [];
+              },
               itemBuilder: (context, Product suggestion) {
                 return ListTile(
                   title: Text(suggestion.name!),
@@ -78,39 +90,9 @@ class _SearchWidgetState extends State<SearchWidget> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProductSearchResults(keyword: keyword),
+          builder: (context) => ProductSearchResults(keyword: keyword, productService: ProductService(ApiService())),
         ),
       );
     }
-  }
-}
-
-class ProductDetail extends StatelessWidget {
-  final Product product;
-
-  const ProductDetail({super.key, required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name!),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Tên sản phẩm: ${product.name!}'),
-            const SizedBox(height: 8),
-            Text('Giá: ${product.price!} Đ'),
-            const SizedBox(height: 8),
-            Image.asset('assets/images/product/${product.img}'),
-            const SizedBox(height: 8),
-            Text('Mô tả: ${product.des!}'),
-          ],
-        ),
-      ),
-    );
   }
 }

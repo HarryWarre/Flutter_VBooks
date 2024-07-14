@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../services/apiservice.dart';
 import '../components/productcard.dart';
 import '../../data/model/typelistmodel.dart';
 import '../../data/provider/typeproductslist.dart';
@@ -8,7 +9,7 @@ import '../../services/productservice.dart';
 
 class FeaturedListWidget extends StatelessWidget {
   final TypeListProvider typeListProvider = TypeListProvider();
-  final ReadData productProvider = ReadData();
+  final ReadData productProvider = ReadData(ProductService(ApiService()));
   final ProductService productService;
   FeaturedListWidget({super.key, required this.productService});
 

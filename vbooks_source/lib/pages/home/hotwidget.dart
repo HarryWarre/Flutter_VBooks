@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../services/apiservice.dart';
 import '../../services/productservice.dart';
 import '../components/productcardhorizontal.dart';
 import '../../data/model/productmodel.dart';
@@ -10,7 +11,7 @@ import '../../data/provider/typeproductslist.dart';
 
 class HotProductList extends StatelessWidget {
   final TypeListProvider typeListProvider = TypeListProvider();
-  final ReadData productProvider = ReadData();
+  final ReadData productProvider = ReadData(ProductService(ApiService()));
   final ProductService productService;
   HotProductList({super.key, required this.productService});
 

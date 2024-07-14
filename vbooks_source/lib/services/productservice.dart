@@ -28,4 +28,14 @@ class ProductService {
       throw Exception('Failed to load products');
     }
   }
+
+  Future<List<Product>> searchProducts(String keyword) async {
+    final response = await apiService.get('product/search?keyword=$keyword');
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => Product.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to search products');
+    }
+  }
 }

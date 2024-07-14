@@ -1,8 +1,12 @@
+import '../../services/productservice.dart';
 import '../model/productmodel.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class ReadData {
+  late final ProductService _productService;
+  ReadData(this._productService);
+
   static Future<List<Product>> loadData() async {
     var data = await rootBundle.loadString("assets/json/productlist.json");
     var dataJson = jsonDecode(data);
