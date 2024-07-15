@@ -7,5 +7,10 @@ router.post('/login', AccountController.login)
 
 router.get('/', AccountController.getAllAcount)
 
-router.delete('/delete/:_id', AccountController.deleteAccount)
+router.delete('/delete/:id', AccountController.deleteAccount)
+
+router.put('/update/:id', AccountController.updateAccount)
+
+router.get('/:id', AccountController.getAccountInfoById)
+
 module.exports = router
