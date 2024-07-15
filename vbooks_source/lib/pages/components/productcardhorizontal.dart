@@ -42,6 +42,18 @@ class _HorizontalProductCardState extends State<HorizontalProductCard> {
                     width: 100,
                     height: 150,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 100,
+                        height: 150,
+                        color: Colors.white,
+                        child: Icon(
+                          Icons.image_not_supported,
+                          color: Colors.grey,
+                          size: 50,
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(width: 16.0),
