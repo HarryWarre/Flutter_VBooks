@@ -64,8 +64,8 @@ class HomeWidget extends StatelessWidget {
               ),
             ),
 
-            // Use a ListView for featured products
-            FeaturedListWidget(productService: productService),
+            // // Use a ListView for featured products
+            // FeaturedListWidget(productService: productService),
 
             // Hot
             Padding(
@@ -106,8 +106,8 @@ class HomeWidget extends StatelessWidget {
               ),
             ),
 
-            // Use a ListView for hot products
-            HotProductList(productService: productService),
+            // // Use a ListView for hot products
+            // HotProductList(productService: productService),
           ],
         ),
       ),

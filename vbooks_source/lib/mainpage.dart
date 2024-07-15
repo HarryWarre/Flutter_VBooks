@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:vbooks_source/pages/account/accountinfowidget.dart';
 import 'package:vbooks_source/pages/cart/cartwidget.dart';
 import 'package:vbooks_source/pages/order/ordermainpage.dart';
@@ -8,22 +9,30 @@ import 'pages/category/categorywidget.dart';
 import 'pages/home/homeWidget.dart';
 
 class Mainpage extends StatefulWidget {
-  const Mainpage({super.key});
+  final token;
+  const Mainpage({@required this.token, super.key});
 
   @override
   State<Mainpage> createState() => _MainpageState();
 }
 
+
 class _MainpageState extends State<Mainpage> {
   int _selectedIndex = 0;
-
   static const List<String> _titles = <String>[
     'Trang chủ',
     'Thể loại',
     'Giỏ hàng',
     'Tài khoản'
   ];
+  late dynamic infoAccount;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
+  }
+  
   static final List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     CategoryWidget(),

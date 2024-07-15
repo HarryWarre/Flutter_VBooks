@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vbooks_source/mainpage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/favoritebook.dart';
@@ -16,14 +17,50 @@ class AccountInfoWidget extends StatefulWidget {
 }
 
 class _AccountInfoWidgetState extends State<AccountInfoWidget> {
+  String token = '';
+  String email = '';
+  String fullName = '';
+  String address = '';
+  @override
+  void initState() {
+    super.initState();
+    _loadToken();
+  }
+
+  Future<void> _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedToken = prefs.getString('token');
+    if (storedToken != null && storedToken.isNotEmpty) {
+      if (JwtDecoder.isExpired(storedToken)) {
+        setState(() {
+          token = 'Invalid token';
+        });
+        
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => AuthScreen(),
+        ));
+      } else {
+        setState(() {
+          token = storedToken;
+          Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(token);
+          email = jwtDecodedToken['email'] ?? '...';
+          fullName = jwtDecodedToken['fullName'] ?? '...';
+          address = jwtDecodedToken['address'] ?? '...';
+        });
+      }
+    } else {
+      setState(() {
+        token = 'Invalid token';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Thông tin tài khoản',
-        ),
+        title: const Text('Thông tin tài khoản'),
       ),
       body: ListView(
         children: [
@@ -36,35 +73,20 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
                   builder: (context) => AccountPersonalWidget()));
             },
           ),
-
-          CustomDivider(
-            height: 2,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          AccountInfoRow(label: 'Họ và tên', value: 'Ngô Trung Đạt'),
-          AccountInfoRow(label: 'Email', value: 'ngotrungdat@gmail.com'),
-          AccountInfoRow(label: 'Địa chỉ', value: '828 Su Vạn Hạnh P12 Q10'),
-          SizedBox(
-            height: 20,
-          ),
-          CustomDivider(
-            height: 2,
-          ),
-          SizedBox(
-            height: 8,
-          ),
+           CustomDivider(height: 2),
+          const SizedBox(height: 20),
+          AccountInfoRow(label: 'Họ và tên', value: fullName),
+          AccountInfoRow(label: 'Email', value: email),
+          AccountInfoRow(label: 'Địa chỉ', value: address),
+          const SizedBox(height: 20),
+           CustomDivider(height: 2),
+          const SizedBox(height: 8),
           AccountShoppingRow(
-              label: 'Số đơn hàng đặt thành công', value: '1 dơn hàng'),
+              label: 'Số đơn hàng đặt thành công', value: '1 đơn hàng'),
           AccountShoppingRow(
               label: 'Số tiền đã thanh toán', value: '150.000.000.000 VNĐ'),
-          SizedBox(
-            height: 26,
-          ),
-          CustomDivider(
-            height: 6,
-          ),
+          const SizedBox(height: 26),
+           CustomDivider(height: 6),
           AccountSelectWidget(
             value: 'Sản phẩm yêu thích',
             iconLeft: Icons.favorite,
@@ -74,9 +96,7 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
                   MaterialPageRoute(builder: (context) => FavoriteScreen()));
             },
           ),
-          CustomDivider(
-            height: 2,
-          ),
+           CustomDivider(height: 2),
           AccountSelectWidget(
             value: 'Lịch sử mua hàng',
             iconLeft: Icons.history,
@@ -86,32 +106,29 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
                   MaterialPageRoute(builder: (context) => OrderMainPage()));
             },
           ),
-// CustomDivider(height: 2,),
-//               AccountSelectWidget(
-//               value: 'Voucher',
-//               iconLeft: CupertinoIcons.ticket_fill,
-//               iconRight: Icons.arrow_forward_ios,
-//               onTap: () {
-
-//               },
-//               ),
-          CustomDivider(
-            height: 2,
-          ),
+           CustomDivider(height: 2),
           AccountSelectWidget(
             value: 'Đăng xuất',
             iconLeft: Icons.logout,
             iconRight: Icons.arrow_forward_ios,
             onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => AuthScreen()));
+              logout(context);
             },
           ),
-          CustomDivider(
-            height: 2,
-          ),
+           CustomDivider(height: 2),
         ],
       ),
     );
   }
+}
+
+void logout(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.remove('token'); // Xóa token từ SharedPreferences
+
+  // Quay về màn hình đăng nhập và loại bỏ các route cũ
+  Navigator.of(context).pushAndRemoveUntil(
+    MaterialPageRoute(builder: (context) => AuthScreen()),
+    (Route<dynamic> route) => false, // Loại bỏ tất cả các route cũ khỏi stack
+  );
 }
