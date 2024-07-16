@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/services/apiservice.dart';
+import 'package:vbooks_source/viewmodel/cartviewmodel.dart';
 
 import 'mainpage.dart';
 import 'viewmodel/productviewmodel.dart';
@@ -20,6 +21,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductViewModel()),
         ChangeNotifierProvider(create: (_) => CategoryViewModel()),
+        ChangeNotifierProvider(create: (_) => CartViewModel()),
       ],
       child: MyApp(token: prefs.getString('token'),),
     ),

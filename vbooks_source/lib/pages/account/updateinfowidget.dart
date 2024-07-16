@@ -45,7 +45,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
 
   void updateAccount() async {
     if( _phoneNumber.text.isEmpty 
-           || _address.text.isEmpty || _fullName.text.isEmpty){
+           || _address.text.isEmpty || _fullName.text.isEmpty || takeTime == null || takeGender == null){
        ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
         content: Text('Vui lòng nhập đầy đủ thông tin'),
@@ -149,6 +149,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
                       labelText: 'Nhập họ tên',
+                       floatingLabelStyle: TextStyle(color: Colors.teal),
                       border: InputBorder.none,
                     ),
                   ),
@@ -174,8 +175,9 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                   ),
                   child:  TextField(
                     controller: _address,
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.left,    
                     decoration: InputDecoration(
+                       floatingLabelStyle: TextStyle(color: Colors.teal),
                       labelText: 'Nhập địa chỉ',
                       border: InputBorder.none,             
                     ),
@@ -207,6 +209,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
+                       floatingLabelStyle: TextStyle(color: Colors.teal),
                       border: InputBorder.none,
                       labelText: 'Nhập số điện thoại',
                     ),

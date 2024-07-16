@@ -46,6 +46,8 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
           email = jwtDecodedToken['email'] ?? '...';
           fullName = jwtDecodedToken['fullName'] ?? '...';
           address = jwtDecodedToken['address'] ?? '...';
+          print(fullName + address);
+          print(token);
         });
       }
     } else {

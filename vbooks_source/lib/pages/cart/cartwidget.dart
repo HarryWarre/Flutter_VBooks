@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/conf/const.dart';
+import 'package:vbooks_source/data/model/cartmodel.dart';
+import 'package:vbooks_source/data/model/productmodel.dart';
+import 'package:vbooks_source/pages/account/authwidget.dart';
+import 'package:vbooks_source/pages/cart/cartlist.dart';
+import 'package:vbooks_source/pages/components/productcard.dart';
 import 'package:vbooks_source/pages/order/deliveryinformation.dart';
+import 'package:vbooks_source/services/apiservice.dart';
+import 'package:vbooks_source/services/cartservice.dart';
+import 'package:vbooks_source/viewmodel/cartviewmodel.dart';
+import 'package:vbooks_source/viewmodel/productviewmodel.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -16,34 +28,54 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartWidgetState extends State<CartWidget> {
-  List<CartItem> cartItems = [
-    CartItem(
-      imageUrl:
-          "https://bizweb.dktcdn.net/thumb/large/100/197/269/products/tam-ly-hoc-thanh-cong-304x472.jpg?v=1516592128997",
-      name: "Red Queen",
-      price: 100000,
-      quantity: 1,
-    ),
-    CartItem(
-      imageUrl:
-          "https://static.oreka.vn/800-800_0fa33f3c-4354-4a55-ad59-868547814f67",
-      name: "To Kill A Mockingbird",
-      price: 2000,
-      quantity: 2,
-    ),
-    CartItem(
-      imageUrl:
-          "https://www.elleman.vn/wp-content/uploads/2019/12/05/cho-sua-nham-cay-sach-tam-ly-elleman-1119-Vidoda.jpg",
-      name: "How to Drink",
-      price: 95000,
-      quantity: 1,
-    ),
-  ];
+  String _accountId = '';
+  late SharedPreferences prefs;
+  late ApiService _apiService;
+  String _token = '';
 
-  void _removeCartItem(int index) {
-    setState(() {
-      cartItems.removeAt(index);
-    });
+  @override
+  void initState() {
+    super.initState();
+    _loadToken();
+    initSharedPref();
+    _apiService = ApiService();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  Future<void> _fetchCart() async {
+    final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+    await cartViewModel.fetchCartByIdAccount(_accountId);
+  }
+
+  Future<void> _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedToken = prefs.getString('token');
+    if (storedToken != null && storedToken.isNotEmpty) {
+      if (JwtDecoder.isExpired(storedToken)) {
+        setState(() {
+          _token = 'Invalid token';
+        });
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => AuthScreen(),
+        ));
+      } else {
+        setState(() {
+          _token = storedToken;
+          Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(_token);
+          _accountId = jwtDecodedToken['_id'];
+          _fetchCart();
+          print('Account ID: ' + _accountId);
+        });
+      }
+    } else {
+      setState(() {
+        _token = 'Invalid token';
+      });
+    }
   }
 
   @override
@@ -57,82 +89,40 @@ class _CartWidgetState extends State<CartWidget> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: cartItems.length,
+      body: Consumer<CartViewModel>(
+        builder: (context, cartViewModel, child) {
+          if (cartViewModel.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (cartViewModel.carts.isEmpty) {
+            return const Center(
+              child: Text('Không có sản phẩm trong giỏ hàng'),
+            );
+          } else {
+            final carts = cartViewModel.carts;
+            return ListView.builder(
+              padding: const EdgeInsets.all(8.0),
+              itemCount: carts.length,
               itemBuilder: (context, index) {
                 return CartItemWidget(
-                  cartItem: cartItems[index],
-                  onRemove: () => _removeCartItem(index),
+                  cart: carts[index],
+                  quantity: carts[index].quantity!,
                 );
               },
-            ),
-          ),
-          Container(
-            color: Colors.white,
-            constraints:
-                BoxConstraints(minHeight: 10.0, maxHeight: double.infinity),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Tổng tiền:                                    ${cartItems.fold<int>(0, (total, item) => total + item.price * item.quantity)} đ',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ShippingInfoWidget()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 135, vertical: 20),
-                    backgroundColor: const Color.fromRGBO(21, 139, 125, 1),
-                  ),
-                  child: const Text(
-                    'Thanh toán',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 25.0),
-        ],
+            );
+          }
+        },
       ),
     );
   }
 }
 
-class CartItem {
-  final String name;
-  final int price;
-  int quantity;
-  final String imageUrl;
-
-  CartItem({
-    required this.name,
-    required this.price,
-    required this.quantity,
-    required this.imageUrl,
-  });
-}
-
 class CartItemWidget extends StatefulWidget {
-  final CartItem cartItem;
-  final VoidCallback onRemove;
+  final Cart cart;
+  final int quantity;
 
-  const CartItemWidget({
-    super.key,
-    required this.cartItem,
-    required this.onRemove,
-  });
+  const CartItemWidget({super.key, required this.cart, required this.quantity});
 
   @override
   _CartItemWidgetState createState() => _CartItemWidgetState();
@@ -140,27 +130,18 @@ class CartItemWidget extends StatefulWidget {
 
 class _CartItemWidgetState extends State<CartItemWidget> {
   late int quantity;
+  late ProductViewModel _productViewModel;
 
   @override
   void initState() {
     super.initState();
-    quantity = widget.cartItem.quantity;
+    _productViewModel = Provider.of<ProductViewModel>(context, listen: false);
+    quantity = widget.quantity;  
+    _fetchProductById(widget.cart.productId!);  
   }
 
-  void _incrementQuantity() {
-    setState(() {
-      quantity++;
-      widget.cartItem.quantity = quantity;
-    });
-  }
-
-  void _decrementQuantity() {
-    if (quantity > 1) {
-      setState(() {
-        quantity--;
-        widget.cartItem.quantity = quantity;
-      });
-    }
+  Future<void> _fetchProductById(String productId) async {
+    await  _productViewModel.fetchProductsById(productId);
   }
 
   @override
@@ -168,53 +149,25 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     return Card(
       color: Colors.white,
       margin: const EdgeInsets.all(8.0),
-      child: ListTile(
-        leading: Image.network(
-          widget.cartItem.imageUrl,
-          width: 70,
-          height: 120,
-          fit: BoxFit.cover,
-        ),
-        title: Text(widget.cartItem.name),
-        trailing: IconButton(
-          icon:
-              const Icon(Icons.delete, color: Color.fromRGBO(21, 139, 125, 1)),
-          onPressed: widget.onRemove,
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.remove),
-                  onPressed: _decrementQuantity,
-                ),
-                Text(
-                  '$quantity',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: _incrementQuantity,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  '${widget.cartItem.price * quantity} đ',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+      child: Consumer<ProductViewModel>(
+        builder: (context, productViewModel, child) {
+          if (productViewModel.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (productViewModel.products.isEmpty) {
+            return const Center(child: Text('No products found'));
+          } else {
+            
+            return Column(
+              children: productViewModel.products.map((product) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: buildCartItem(product,'assets/images/product/doraemon.jpeg', quantity,() { }),
+                );
+              }).toList(),
+              
+            );
+          }
+        },
       ),
     );
   }
