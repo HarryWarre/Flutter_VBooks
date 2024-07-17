@@ -34,7 +34,15 @@ module.exports = {
             }
             console.log(isMatch)
 
-            let tokenData = { _id: account._id, email: account.email };
+            let tokenData = {
+                _id: account._id,
+                email: account.email,
+                fullName: account.fullName,
+                address: account.address,
+                phoneNumber: account.phoneNumber,
+                bod: account.bod,
+                sex: account.sex
+            };
             console.log(tokenData)
             const token = await AccountService.generateToken(tokenData, "secretKey", '1h');
             res.status(200).json({ success: true, token: token });

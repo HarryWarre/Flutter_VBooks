@@ -15,7 +15,6 @@ module.exports = {
 
     getCartByAccountId: async (req, res) => {
         const { accountId } = req.params;
-
         try {
             const carts = await Cart.find({ accountId: accountId });
 
@@ -69,5 +68,4 @@ module.exports = {
         }
     }
 
-    
 }

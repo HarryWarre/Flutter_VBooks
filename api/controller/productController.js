@@ -66,6 +66,18 @@ module.exports = {
     }
   },
 
+  getProductById: async (req, res) => {
+    const { _id } = req.params;
+
+    try {
+      const products = await Product.find({ _id });
+      res.json(products);
+      
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+
   deleteProduct: async (req, res) => {
     try {
       const deleteProduct = await Product.findByIdAndDelete(req.params._id);
