@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
@@ -156,9 +158,9 @@ class _CartItemWidgetState extends State<CartItemWidget> {
           } else if (productViewModel.products.isEmpty) {
             return const Center(child: Text('No products found'));
           } else {
-            
             return Column(
               children: productViewModel.products.map((product) {
+                print(product.catId);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: buildCartItem(product,'assets/images/product/doraemon.jpeg', quantity,() { }),

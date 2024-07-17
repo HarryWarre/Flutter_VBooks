@@ -29,7 +29,7 @@ class ProductViewModel extends ChangeNotifier {
 
   Future<void> fetchProductsById(String productId) async {
     isLoading = true;
-    // notifyListeners(); // Thông báo listener
+    notifyListeners(); // Thông báo listener
 
     try {
       // Hoãn một chút trước khi tải dữ liệu
