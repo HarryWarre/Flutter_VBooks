@@ -15,12 +15,13 @@ class CartViewModel extends ChangeNotifier {
     isLoading = true;
     // notifyListeners();
 
-    try{
+    try {
       await Future.delayed(Duration(milliseconds: 100));
       carts = await cartService.fetchCartsByAccountId(accountId);
+      print('API: + ${carts.length}');
     } catch (e) {
       print('Có lỗi đã xảy ra');
-    } finally{
+    } finally {
       isLoading = false;
       notifyListeners();
     }

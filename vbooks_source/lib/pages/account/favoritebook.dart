@@ -41,10 +41,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               itemBuilder: (context, index) {
                 final book = books[index];
                 return _buildBookItem(
-                    'assets/images/product/${book.img}',
-                    book.name!,
-                    book.price!,
-                    () => _navigateToDetailScreen(book));
+                  book.img ?? '', // Đảm bảo đây là URL hợp lệ
+                  book.name!,
+                  book.price!,
+                  () => _navigateToDetailScreen(book),
+                );
               },
             );
           } else {

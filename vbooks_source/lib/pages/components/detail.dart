@@ -59,8 +59,8 @@ class _DetailState extends State<Detail> {
                     Container(
                       height: 260,
                       alignment: Alignment.center,
-                      child: Image.asset(
-                        'assets/images/product/${widget.book.img}',
+                      child: Image.network(
+                        widget.book.img ?? '', // Đảm bảo rằng đây là URL hợp lệ
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
