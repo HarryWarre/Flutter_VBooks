@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:vbooks_source/pages/components/passwordfield.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -7,6 +9,16 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _otpController = TextEditingController();
+  String test = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -61,6 +73,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ),
               SizedBox(height: 16),
+              PasswordInputField(labelText: 'Mật khẩu cũ', hintText: 'Nhập mật khẩu cũ'),
+              SizedBox(height: 16),
+              PasswordInputField(labelText: 'Mật khẩu mới', hintText: 'Nhập mật khẩu mới'),
+              SizedBox(height: 16),
+              PasswordInputField(labelText: 'Xác nhận mật khẩu', hintText: 'Nhập mật khẩu cũ'),
+              SizedBox(height: 16),
               Center(child: Text('Nhập mã xác nhận được gửi tới Email của bạn',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14,),),),
               SizedBox(height: 16),
               Center(
@@ -70,16 +88,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   enabledBorderColor: Colors.grey,
                   showFieldAsBox: false,
                   margin: EdgeInsets.only(right: 16.0),
-                  focusedBorderColor: Colors.teal,
-                  onCodeChanged: (String code) {
-                    // Handle validation or checks here
-                  },
+                  focusedBorderColor: Colors.teal,  
                   onSubmit: (String verificationCode) {
-                    
-                  },
+                    setState(() {
+                      test =  verificationCode;
+                    });
+                  },             
                 ),
               ),
-               SizedBox(height: 16),
+               SizedBox(height: 32),
               Center(child: Text('Nếu có vấn để gì thì xin hãy gọi 1800 9090',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14,),),),
 
               SizedBox(height: 32),
@@ -89,7 +106,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Implement your logic for password change
+                      print(test);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
