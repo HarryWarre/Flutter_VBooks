@@ -5,6 +5,7 @@
     "express": "^4.19.2",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.4"
+    "mongoose": "^8.4.4",
+    "nodemailer": "^6.9.14"
   }
 }
