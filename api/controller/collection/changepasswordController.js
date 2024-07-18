@@ -29,7 +29,7 @@ exports.forgotPassword = async (req, res) => {
             subject: 'Đổi mật khẩu',
             text: `Bạn nhận được mail này là bởi vì bạn hoặc một ai đó đã đề nghị đổi mật khẩu 
             \nMã OTP của bạn là ${passwordReset.otp}. Mã này sẽ có hiệu lực trong 1 giờ. 
-            \nNếu bạn không gửi yêu cầu đổi mật khẩu, xin hãy đừng quan tâm đến mail này và mật khẩu sẽ không bị đổi`
+            \nNếu bạn không gửi yêu cầu đổi mật khẩu, xin đừng quan tâm đến mail này và mật khẩu sẽ không bị đổi`
         };
 
         transporter.sendMail(mailOptions, (err) => {
@@ -54,10 +54,10 @@ exports.resetPassword = async (req, res) => {
         if (!passwordReset) return res.status(400).send('Mã OTP đã hết hạn');
 
         const account = await Account.findOne({ email: passwordReset.email });
-        if (!account) return res.status(404).send('No account with that email found.');
+        if (!account) return res.status(404).send('Email này không tồn tại.');
 
         const isMatch = await bcrypt.compare(oldPassword, account.password);
-        if (!isMatch) return res.status(400).send('Old password is incorrect.');
+        if (!isMatch) return res.status(400).send('Mật khẩu cũ không đúng.');
 
         account.password = newPassword;
         await account.save();
