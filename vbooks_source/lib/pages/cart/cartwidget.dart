@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vbooks_source/data/model/cartmodel.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
-import 'package:vbooks_source/pages/cart/cartlist.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/viewmodel/cartviewmodel.dart';
-import 'package:vbooks_source/viewmodel/productviewmodel.dart';
+
+import 'cartItem.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -114,69 +113,6 @@ class _CartWidgetState extends State<CartWidget> {
             );
           }
         },
-      ),
-    );
-  }
-}
-
-class CartItemWidget extends StatefulWidget {
-  final Cart cart;
-  final int quantity;
-
-  const CartItemWidget({super.key, required this.cart, required this.quantity});
-
-  @override
-  _CartItemWidgetState createState() => _CartItemWidgetState();
-}
-
-class _CartItemWidgetState extends State<CartItemWidget> {
-  late int quantity;
-  late ProductViewModel _productViewModel;
-
-  @override
-  void initState() {
-    super.initState();
-    _productViewModel = ProductViewModel();
-    quantity = widget.quantity;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchProductById(widget.cart.productId!);
-    });
-  }
-
-  Future<void> _fetchProductById(String productId) async {
-    await _productViewModel.fetchProductsById(productId);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ProductViewModel>.value(
-      value: _productViewModel,
-      child: Card(
-        color: Colors.white,
-        margin: const EdgeInsets.all(8.0),
-        child: Consumer<ProductViewModel>(
-          builder: (context, productViewModel, child) {
-            if (productViewModel.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (productViewModel.products.isEmpty) {
-              return const Center(child: Text('No products found'));
-            } else {
-              return Column(
-                children: productViewModel.products.map((product) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: buildCartItem(
-                      product,
-                      product.img!,
-                      quantity,
-                      () {},
-                    ),
-                  );
-                }).toList(),
-              );
-            }
-          },
-        ),
       ),
     );
   }

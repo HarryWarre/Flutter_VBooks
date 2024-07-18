@@ -6,6 +6,7 @@ import 'package:vbooks_source/pages/components/button.dart';
 
 Widget buildCartItem(
     Product product, String imagePath, int quantity, VoidCallback onPressed) {
+  print('IMG: ${product.img}');
   return Material(
     color: Colors.transparent,
     child: InkWell(
@@ -21,7 +22,7 @@ Widget buildCartItem(
               width: 120,
               height: 120,
               child: Image.network(
-                imagePath,
+                "https://vnibooks.com/wp-content/uploads/2021/09/giao-di%CC%A3ch-forex.jpeg",
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
