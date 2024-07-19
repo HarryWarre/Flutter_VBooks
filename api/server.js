@@ -14,6 +14,7 @@ const orderdetailRoute = require("./routes/orderdetails");
 const cartRoute = require("./routes/carts");
 const fearturedRoute = require("./routes/collection/feartured");
 const BestSellingRoute = require("./routes/collection/bestSelling");
+const ChangePasswordRoute = require("./routes/collection/changepasswords")
 // app configuration
 
 dotenv.config();
@@ -61,6 +62,9 @@ app.use("/cart/", cartRoute);
 
 app.use("/feartured/", fearturedRoute);
 app.use("/bestselling/", BestSellingRoute);
+
+//quản lý đổi mật khẩu
+app.use("/changepassword/", ChangePasswordRoute)
 
 app.get("/", (req, res) => res.send("Hello"));
 
