@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:vbooks_source/conf/const.dart';
 import 'package:vbooks_source/data/model/productmodel.dart';
 import 'package:vbooks_source/pages/components/button.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 
+import '../../viewmodel/cartviewmodel.dart';
 import '../order/deliveryinformation.dart';
 import '../order/orderdetailpage.dart';
 import '../order/ordermainpage.dart';
@@ -20,7 +22,7 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   bool _isFavorite = false;
-
+  String accountId = '6693a8cb3db5cdc3a1e230ec';
   void _toggleFavorite() {
     setState(() {
       _isFavorite = !_isFavorite;
@@ -239,7 +241,14 @@ class _DetailState extends State<Detail> {
       floatingActionButton: FloatingActionButton(
         foregroundColor: primaryColor,
         backgroundColor: Colors.white,
-        onPressed: _showSnackbar,
+        onPressed: () async {
+          final cartViewModel =
+              Provider.of<CartViewModel>(context, listen: false);
+          await cartViewModel.addCartItem(accountId, widget.book.id!, 1);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Đã thêm sản phẩm vào giỏ hàng')),
+          );
+        },
         child: const Icon(CupertinoIcons.cart),
       ),
     );

@@ -4,13 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:vbooks_source/data/model/productmodel.dart';
 import 'package:vbooks_source/pages/components/button.dart';
 
-Widget buildCartItem(
-    Product product, String imagePath, int quantity, VoidCallback onPressed) {
+Widget buildCartItem(Product product, String imagePath, int quantity,
+    VoidCallback onIncrease, VoidCallback onDecrease, VoidCallback onRemove) {
   print('IMG: ${product.img}');
   return Material(
     color: Colors.transparent,
     child: InkWell(
-      onTap: onPressed,
+      onTap: onRemove,
       child: Container(
         height: 140,
         width: 335,
@@ -57,10 +57,23 @@ Widget buildCartItem(
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  Text(
-                    'Số lượng: ' + quantity.toString(),
-                    style: const TextStyle(color: Colors.teal, fontSize: 16),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(CupertinoIcons.minus),
+                        onPressed: onDecrease,
+                      ),
+                      Text(
+                        quantity.toString(),
+                        style:
+                            const TextStyle(color: Colors.teal, fontSize: 16),
+                      ),
+                      IconButton(
+                        icon: const Icon(CupertinoIcons.plus),
+                        onPressed: onIncrease,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -69,7 +82,7 @@ Widget buildCartItem(
               padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
               child: IconButton(
                 icon: const Icon(CupertinoIcons.delete),
-                onPressed: onPressed,
+                onPressed: onRemove,
               ),
             ),
           ],

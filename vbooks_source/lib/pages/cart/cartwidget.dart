@@ -78,6 +78,13 @@ class _CartWidgetState extends State<CartWidget> {
     }
   }
 
+  // Future<void> _checkout() async {
+  //   final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+  //   await cartViewModel.checkout();
+  //   // Handle navigation to the checkout page or show a success message
+  //   Navigator.pushNamed(context, '/checkout');
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,15 +108,28 @@ class _CartWidgetState extends State<CartWidget> {
             );
           } else {
             final carts = cartViewModel.carts;
-            return ListView.builder(
-              padding: const EdgeInsets.all(8.0),
-              itemCount: carts.length,
-              itemBuilder: (context, index) {
-                return CartItemWidget(
-                  cart: carts[index],
-                  quantity: carts[index].quantity!,
-                );
-              },
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(8.0),
+                    itemCount: carts.length,
+                    itemBuilder: (context, index) {
+                      return CartItemWidget(
+                        cart: carts[index],
+                        quantity: carts[index].quantity!,
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Thanh toán'),
+                  ),
+                ),
+              ],
             );
           }
         },

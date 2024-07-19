@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vbooks_source/pages/cart/cartlist.dart';
-
 import '../../data/model/cartmodel.dart';
+import '../../data/model/productmodel.dart';
+import '../../viewmodel/cartviewmodel.dart';
 import '../../viewmodel/productviewmodel.dart';
 
 class CartItemWidget extends StatefulWidget {
@@ -33,6 +34,27 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     await _productViewModel.fetchProductsById(productId);
   }
 
+  void _increaseQuantity() {
+    setState(() {
+      quantity++;
+    });
+    _updateCartItemQuantity();
+  }
+
+  void _decreaseQuantity() {
+    if (quantity > 1) {
+      setState(() {
+        quantity--;
+      });
+      _updateCartItemQuantity();
+    }
+  }
+
+  Future<void> _updateCartItemQuantity() async {
+    final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+    await cartViewModel.updateCartItemQuantity(widget.cart.id!, quantity);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProductViewModel>.value(
@@ -55,7 +77,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       product,
                       product.img!,
                       quantity,
-                      () {},
+                      _increaseQuantity,
+                      _decreaseQuantity,
+                      () async {
+                        final cartViewModel =
+                            Provider.of<CartViewModel>(context, listen: false);
+                        await cartViewModel.deleteCartItem(widget.cart.id!);
+                      },
                     ),
                   );
                 }).toList(),
