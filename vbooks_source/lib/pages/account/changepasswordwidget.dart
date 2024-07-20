@@ -10,9 +10,7 @@ class ChangePasswordWidget extends StatefulWidget {
 
 class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
 
-  // void enterEmail() async {
-  //   if(_)
-  // }
+  TextEditingController _demo = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +27,11 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PasswordInputField(labelText: 'Mật khẩu cũ',hintText: 'Nhập mật khẩu cũ',),
+                PasswordInputField(labelText: 'Mật khẩu cũ',hintText: 'Nhập mật khẩu cũ', content: _demo,),
                 const SizedBox(height: 16),
-                PasswordInputField(labelText: 'Mật khẩu mới',hintText: 'Nhập mật khẩu cũ',),
+                PasswordInputField(labelText: 'Mật khẩu mới',hintText: 'Nhập mật khẩu cũ', content: _demo,),
                 const SizedBox(height: 16),
-                PasswordInputField(labelText: 'Xác nhận mật khẩu mới',hintText: 'Nhập lại mật khẩu mới',),
+                PasswordInputField(labelText: 'Xác nhận mật khẩu mới',hintText: 'Nhập lại mật khẩu mới',content: _demo,),
                 const SizedBox(height: 32),
                 Column(
                   children: [

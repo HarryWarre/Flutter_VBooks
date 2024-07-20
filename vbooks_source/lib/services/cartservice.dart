@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:vbooks_source/data/model/cartmodel.dart';
 import 'apiservice.dart';
+import 'package:http/http.dart' as http;
 
 class CartService {
   final ApiService apiService;
@@ -18,5 +19,15 @@ class CartService {
     }
   }
   
+  Future<http.Response> addProductToCart(String productId, String accountId, int quantity) async{
+    var data = {
+      'productId': productId,
+      'accountId': accountId,
+      'quantity': quantity,
+    };
+
+    return await apiService.post('cart/add', data);
+    
+  }
 
 }

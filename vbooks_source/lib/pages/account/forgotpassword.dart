@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:vbooks_source/pages/components/passwordfield.dart';
+import 'package:vbooks_source/pages/components/scafformessenger.dart';
+import 'package:vbooks_source/services/apiservice.dart';
+import 'package:vbooks_source/services/resetpasswordservice.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -9,22 +12,107 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-
   TextEditingController _emailController = TextEditingController();
   TextEditingController _otpController = TextEditingController();
-  String test = '';
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmpassController = TextEditingController();
+  late ApiService _apiService;
+  late ResetPassService _resetPassService;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _apiService = ApiService();
+    _resetPassService = ResetPassService(_apiService);
+  }
+
+  void takeOTP() async {
+    if (_emailController.text.isEmpty) {
+      final messenger = ScaffoldMessenger.of(context);
+      final errorSnackBar = MessengerSnackBar(
+        message: 'Vui lòng nhập email',
+        messenger: messenger,
+      );
+      errorSnackBar.show();
+      return;
+    }
+
+    var response = await _resetPassService.forgotPass(_emailController.text);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      String message = jsonResponse['message'];
+      final messenger = ScaffoldMessenger.of(context);
+      final errorSnackBar = MessengerSnackBar(
+        message: message,
+        messenger: messenger,
+      );
+      errorSnackBar.show();
+    } else {
+      final messenger = ScaffoldMessenger.of(context);
+      final errorSnackBar = MessengerSnackBar(
+        message: 'Đã gửi tới email này vui lòng đợi',
+        messenger: messenger,
+      );
+      errorSnackBar.show();
+    }
+  }
+
+  void resetPassword() async {
+    if (_otpController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _confirmpassController.text.isEmpty) {
+      final messenger = ScaffoldMessenger.of(context);
+      final errorSnackBar = MessengerSnackBar(
+        message: 'Vui lòng nhập đầy đủ thông tin',
+        messenger: messenger,
+      );
+      errorSnackBar.show();
+      return;
+    }
+
+    if (_passwordController.text != _confirmpassController.text) {
+      final messenger = ScaffoldMessenger.of(context);
+      final errorSnackBar = MessengerSnackBar(
+        message: 'Mật khẩu không khớp',
+        messenger: messenger,
+      );
+      errorSnackBar.show();
+      return;
+    }
+
+    var response = await _resetPassService.resetPass(
+      _otpController.text,
+      _passwordController.text,
+    );
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      String message = jsonResponse['message'];
+      final messenger = ScaffoldMessenger.of(context);
+      final errorSnackBar = MessengerSnackBar(
+        message: message,
+        messenger: messenger,
+      );
+      errorSnackBar.show();
+    } else {
+      var jsonResponse = jsonDecode(response.body);
+      String message = jsonResponse['message'];
+      final messenger = ScaffoldMessenger.of(context);
+      final errorSnackBar = MessengerSnackBar(
+        message: message,
+        messenger: messenger,
+      );
+      errorSnackBar.show();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Text('Quên mật khẩu'),
@@ -50,6 +138,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: _emailController,
                         textAlign: TextAlign.left,
                         decoration: InputDecoration(
                           labelText: 'Nhập email',
@@ -62,7 +151,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
                     TextButton(
                       onPressed: () {
-                        // Implement your logic for OTP request
+                        takeOTP();
                       },
                       child: Text(
                         'Nhận mã OTP',
@@ -73,13 +162,27 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ),
               SizedBox(height: 16),
-              PasswordInputField(labelText: 'Mật khẩu cũ', hintText: 'Nhập mật khẩu cũ'),
+              PasswordInputField(
+                labelText: 'Mật khẩu mới',
+                hintText: 'Nhập mật khẩu mới',
+                content: _passwordController,
+              ),
               SizedBox(height: 16),
-              PasswordInputField(labelText: 'Mật khẩu mới', hintText: 'Nhập mật khẩu mới'),
-              SizedBox(height: 16),
-              PasswordInputField(labelText: 'Xác nhận mật khẩu', hintText: 'Nhập mật khẩu cũ'),
-              SizedBox(height: 16),
-              Center(child: Text('Nhập mã xác nhận được gửi tới Email của bạn',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14,),),),
+              PasswordInputField(
+                labelText: 'Xác nhận mật khẩu',
+                hintText: 'Nhập lại mật khẩu',
+                content: _confirmpassController,
+              ),
+              SizedBox(height: 32),
+              Center(
+                child: Text(
+                  'Nhập mã xác nhận được gửi tới Email của bạn',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
               SizedBox(height: 16),
               Center(
                 child: OtpTextField(
@@ -88,17 +191,24 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   enabledBorderColor: Colors.grey,
                   showFieldAsBox: false,
                   margin: EdgeInsets.only(right: 16.0),
-                  focusedBorderColor: Colors.teal,  
+                  focusedBorderColor: Colors.teal,
                   onSubmit: (String verificationCode) {
                     setState(() {
-                      test =  verificationCode;
+                      _otpController.text = verificationCode;
                     });
-                  },             
+                  },
                 ),
               ),
-               SizedBox(height: 32),
-              Center(child: Text('Nếu có vấn để gì thì xin hãy gọi 1800 9090',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14,),),),
-
+              SizedBox(height: 32),
+              Center(
+                child: Text(
+                  'Nếu có vấn để gì thì xin hãy gọi 1800 9090',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
               SizedBox(height: 32),
               Center(
                 child: SizedBox(
@@ -106,7 +216,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      print(test);
+                      resetPassword();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
