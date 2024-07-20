@@ -29,6 +29,7 @@ class _DetailState extends State<Detail> {
   String token = '';
   String _id = '';
   late ApiService _apiService;
+  late final CartViewModel cartViewModel;
   late CartService _cartService;
   int _quantity = 1; // Thay đổi đây
 
@@ -37,13 +38,14 @@ class _DetailState extends State<Detail> {
     super.initState();
     _apiService = ApiService();
     _cartService = CartService(_apiService);
+    cartViewModel = CartViewModel(); // Khởi tạo CartViewModel
     _loadToken();
   }
 
   Future<void> addItemToCart() async {
     if (token != '' && _id != '') {
       var response =
-          await _cartService.addCartItem(_id, widget.book.id!, _quantity);
+          await cartViewModel.addCartItem(_id, widget.book.id!, _quantity);
       if (true) {
         _showSnackbar();
       } else {
