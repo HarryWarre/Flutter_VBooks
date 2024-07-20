@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/conf/const.dart';
+import 'package:vbooks_source/pages/account/authwidget.dart';
+
+import '../../services/apiservice.dart';
+import '../../services/paymentservice.dart';
 
 class OrderDetailPage extends StatefulWidget {
   final String idDonHang;
@@ -21,6 +28,48 @@ class OrderDetailPage extends StatefulWidget {
 }
 
 class _OrderDetailPageState extends State<OrderDetailPage> {
+  String address = '';
+  String phoneNumber = '';
+  late PaymentService paymentService; // Đảm bảo paymentService được khởi tạo
+  bool isPaymentServiceInitialized = false; // Biến trạng thái khởi tạo
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+    _initializePaymentService();
+  }
+
+  Future<void> _loadUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedToken = prefs.getString('token');
+    if (storedToken != null && storedToken.isNotEmpty) {
+      if (!JwtDecoder.isExpired(storedToken)) {
+        Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(storedToken);
+        setState(() {
+          address = jwtDecodedToken['address'] ?? '...';
+          phoneNumber = jwtDecodedToken['phoneNumber'] ?? '...';
+        });
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => AuthScreen(),
+        ));
+      }
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => AuthScreen(),
+      ));
+    }
+  }
+
+  void _initializePaymentService() {
+    final apiService = ApiService(); // Khởi tạo ApiService của bạn
+    paymentService = PaymentService(apiService); // Khởi tạo PaymentService
+    setState(() {
+      isPaymentServiceInitialized = true; // Cập nhật trạng thái khởi tạo
+    });
+  }
+
   void _cancelOrder() {
     showDialog(
       context: context,
@@ -56,6 +105,27 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Đảm bảo paymentService đã được khởi tạo
+    if (!isPaymentServiceInitialized) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    Color statusColor;
+    switch (widget.trangThai) {
+      case 'Đang xử lý':
+        statusColor = Color(0xFFEFCC11);
+        break;
+      case 'Bị hủy':
+        statusColor = Color(0xFFFF0808);
+        break;
+      default:
+        statusColor = Color(0xFF158B7D);
+    }
+
+    // Convert the date to DD/MM/YYYY format
+    DateTime dateTime = DateTime.parse(widget.ngayDat);
+    String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -81,6 +151,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               nguoiDat: widget.nguoiDat,
               tongTien: widget.tongTien,
               trangThai: widget.trangThai,
+              paymentId: widget.idDonHang, // Sử dụng ID thanh toán đúng
+              paymentService: paymentService, // Truyền PaymentService vào
             ),
             SizedBox(height: 10),
             Container(
@@ -93,8 +165,8 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             const SizedBox(height: 10),
             ThongTinNguoiDat(
               nguoiDat: widget.nguoiDat,
-              diaChi: '828 Sư Vạn Hạnh, Phường 13, Quận 10, TP.HCM',
-              soDienThoai: '0909372940',
+              diaChi: address,
+              soDienThoai: phoneNumber,
             ),
             const SizedBox(height: 10),
             Container(
@@ -151,6 +223,8 @@ class ThongTinDonHang extends StatelessWidget {
   final String nguoiDat;
   final String tongTien;
   final String trangThai;
+  final String paymentId; // Thêm thuộc tính paymentId
+  final PaymentService paymentService; // Thêm thuộc tính paymentService
 
   const ThongTinDonHang({
     required this.idDonHang,
@@ -158,12 +232,13 @@ class ThongTinDonHang extends StatelessWidget {
     required this.nguoiDat,
     required this.tongTien,
     required this.trangThai,
+    required this.paymentId,
+    required this.paymentService, // Thêm vào constructor
   });
 
   @override
   Widget build(BuildContext context) {
     Color statusColor;
-
     switch (trangThai) {
       case 'Đang xử lý':
         statusColor = Color(0xFFEFCC11);
@@ -174,6 +249,10 @@ class ThongTinDonHang extends StatelessWidget {
       default:
         statusColor = Color(0xFF158B7D);
     }
+
+    // Convert the date to DD/MM/YYYY format
+    DateTime dateTime = DateTime.parse(ngayDat);
+    String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
 
     return Container(
       padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
@@ -204,14 +283,27 @@ class ThongTinDonHang extends StatelessWidget {
             ],
           ),
           SizedBox(height: 8),
-          Text('Ngày mua: $ngayDat', style: TextStyle(fontSize: 16)),
+          Text('Ngày mua: $formattedDate', style: TextStyle(fontSize: 16)),
           Text('Tổng tiền: $tongTien', style: TextStyle(fontSize: 16)),
-          Text('Ghi chú: Giao hàng trước 5h chiều',
-              style: TextStyle(fontSize: 16)),
-          Text('Phương thức vận chuyển: Giao hàng tiêu chuẩn',
-              style: TextStyle(fontSize: 16)),
-          Text('Phương thức thanh toán: Ví MoMo',
-              style: TextStyle(fontSize: 16)),
+          FutureBuilder<String>(
+            future: paymentService.fetchPaymentNameById(paymentId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Text('Lỗi: ${snapshot.error}',
+                    style: TextStyle(fontSize: 16));
+              } else if (snapshot.hasData) {
+                return Text(
+                  'Phương thức thanh toán: ${snapshot.data}',
+                  style: TextStyle(fontSize: 16),
+                );
+              } else {
+                return Text('Phương thức thanh toán không có',
+                    style: TextStyle(fontSize: 16));
+              }
+            },
+          ),
           SizedBox(height: 16),
         ],
       ),
