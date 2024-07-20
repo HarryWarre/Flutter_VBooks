@@ -34,7 +34,7 @@ exports.forgotPassword = async (req, res) => {
 
         transporter.sendMail(mailOptions, (err) => {
             if (err) return res.status(500).json('Error sending email');
-            res.status(200).json('An email has been sent to ' + account.email + ' with the OTP.');
+            res.status(200).json({message: 'Email đã chuyển tới ' + account.email + ' với mã OTP.', success: true});
         });
 
     } catch (e) {
@@ -44,28 +44,26 @@ exports.forgotPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
     try {
-        const { otp, oldPassword, newPassword } = req.body;
+        const { otp,  newPassword } = req.body;
 
         const passwordReset = await ChangePassword.findOne({
             otp,
             otpExpires: { $gt: Date.now() }
         });
 
-        if (!passwordReset) return res.status(400).send('Mã OTP đã hết hạn');
+        if (!passwordReset) return res.status(400).json({message: 'Mã OTP đã hết hạn', success: false});
 
         const account = await Account.findOne({ email: passwordReset.email });
-        if (!account) return res.status(404).send('Email này không tồn tại.');
+        if (!account) return res.status(404).json({message: 'Email này không tồn tại.' , success: false});
 
-        const isMatch = await bcrypt.compare(oldPassword, account.password);
-        if (!isMatch) return res.status(400).send('Mật khẩu cũ không đúng.');
 
         account.password = newPassword;
-        await account.save();
-
+        await account.save()
+        console.log(account)
         await ChangePassword.deleteOne({ otp });
-        res.status(200).json('Đổi mật khẩu thành công');
+        res.status(200).json({message: 'Đổi mật khẩu thành công'});
 
     } catch (e) {
-        res.status(500).json(e.message);
+        res.status(500).json({message: e.message});
     }
 }

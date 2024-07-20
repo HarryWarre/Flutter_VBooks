@@ -4,12 +4,14 @@ class PasswordInputField extends StatefulWidget {
   final String labelText;
   final String hintText;
   final bool initialObscureText;
+  final TextEditingController content;
 
   const PasswordInputField({
     super.key,
     required this.labelText,
     required this.hintText,
     this.initialObscureText = true,
+    required this.content,
   });
 
   @override
@@ -18,6 +20,7 @@ class PasswordInputField extends StatefulWidget {
 
 class _PasswordInputFieldState extends State<PasswordInputField> {
   late bool isObscured;
+
 
   @override
   void initState() {
@@ -49,6 +52,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: TextField(
+            controller: widget.content,
             textAlign: TextAlign.left,
             obscureText: isObscured,
             decoration: InputDecoration(

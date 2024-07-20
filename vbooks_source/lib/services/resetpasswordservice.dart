@@ -6,21 +6,20 @@ class ResetPassService{
 
   ResetPassService(this.apiService);
 
-  Future<http.Response> forgotPass(String email){
+  Future<http.Response> forgotPass(String email) async {
     var data = {
       'email': email
     };
 
-    return apiService.post('changepassword/forgot-password', data);
+    return await apiService.post('changepassword/forgot-password', data);
   } 
 
-  Future<http.Response> resetPass(String otp, String oldPassword, String newPassword){
+  Future<http.Response> resetPass(String otp,  String newPassword) async {
     var data = {
       'otp': otp,
-      'oldPassword': oldPassword,
       'newPassword': newPassword
     };
 
-    return apiService.post('changepassword/reset-password', data);
+    return await apiService.post('changepassword/reset-password', data);
   } 
 }
