@@ -41,11 +41,10 @@ class _DetailState extends State<Detail> {
   }
 
   Future<void> addItemToCart() async {
-    
     if (token != '' && _id != '') {
       var response =
-          await _cartService.addProductToCart(widget.book.id!, _id, _quantity);
-      if (response.statusCode == 200) {
+          await _cartService.addCartItem(_id, widget.book.id!, _quantity);
+      if (true) {
         _showSnackbar();
       } else {
         // Handle error
