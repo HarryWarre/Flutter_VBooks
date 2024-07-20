@@ -18,16 +18,39 @@ class CartService {
       throw Exception('Failed to load products');
     }
   }
-  
-  Future<http.Response> addProductToCart(String productId, String accountId, int quantity) async{
-    var data = {
-      'productId': productId,
-      'accountId': accountId,
-      'quantity': quantity,
-    };
 
-    return await apiService.post('cart/add', data);
-    
+  Future<void> updateCartItemQuantity(String cartItemId, int quantity) async {
+    final response = await apiService.patch(
+      'cart/edit/$cartItemId',
+      {'quantity': quantity},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update cart item quantity');
+    }
   }
 
+  Future<void> deleteCartItem(String cartItemId) async {
+    final response = await apiService.delete('cart/delete/$cartItemId');
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete cart item');
+    }
+  }
+
+  Future<void> addCartItem(
+      String accountId, String productId, int quantity) async {
+    final response = await apiService.post(
+      'cart/add',
+      {
+        'accountId': accountId,
+        'productId': productId,
+        'quantity': quantity,
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to add item to cart');
+    }
+  }
 }

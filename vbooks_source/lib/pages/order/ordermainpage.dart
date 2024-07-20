@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:vbooks_source/services/apiservice.dart';
+import 'package:vbooks_source/viewmodel/orderviewmodel.dart';
 import 'package:vbooks_source/pages/order/orderdetailpage.dart';
 
 class OrderMainPage extends StatefulWidget {
@@ -11,45 +15,17 @@ class OrderMainPage extends StatefulWidget {
 class _OrderMainPageState extends State<OrderMainPage>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
-  List<Map<String, String>> allOrders = [];
-  List<Map<String, String>> filteredOrders = [];
+  List<Map<String, dynamic>> allOrders = [];
+  List<Map<String, dynamic>> filteredOrders = [];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
     _tabController?.addListener(_filterOrders);
-    allOrders = [
-      {
-        'idDonHang': '000001',
-        'ngayDat': '06/04/2024',
-        'nguoiDat': 'Lưu Chí Hùng',
-        'tongTien': '50.000đ',
-        'trangThai': 'Hoàn tất',
-      },
-      {
-        'idDonHang': '000002',
-        'ngayDat': '07/04/2024',
-        'nguoiDat': 'Lưu Chí Hùng',
-        'tongTien': '70.000đ',
-        'trangThai': 'Đang xử lý',
-      },
-      {
-        'idDonHang': '000003',
-        'ngayDat': '08/04/2024',
-        'nguoiDat': 'Lưu Chí Hùng',
-        'tongTien': '30.000đ',
-        'trangThai': 'Bị hủy',
-      },
-      {
-        'idDonHang': '000004',
-        'ngayDat': '09/04/2024',
-        'nguoiDat': 'Lưu Chí Hùng',
-        'tongTien': '30.000đ',
-        'trangThai': 'Bị hủy',
-      },
-    ];
-    _filterOrders();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchOrders();
+    });
   }
 
   @override
@@ -63,13 +39,18 @@ class _OrderMainPageState extends State<OrderMainPage>
     setState(() {
       switch (_tabController?.index) {
         case 1:
-          filteredOrders = allOrders.where((order) => order['trangThai'] == 'Đang xử lý').toList();
+          filteredOrders = allOrders
+              .where((order) => order['status'] == 'Đang xử lý')
+              .toList();
           break;
         case 2:
-          filteredOrders = allOrders.where((order) => order['trangThai'] == 'Hoàn tất').toList();
+          filteredOrders = allOrders
+              .where((order) => order['status'] == 'Hoàn tất')
+              .toList();
           break;
         case 3:
-          filteredOrders = allOrders.where((order) => order['trangThai'] == 'Bị hủy').toList();
+          filteredOrders =
+              allOrders.where((order) => order['status'] == 'Bị hủy').toList();
           break;
         default:
           filteredOrders = allOrders;
@@ -77,51 +58,54 @@ class _OrderMainPageState extends State<OrderMainPage>
     });
   }
 
+  Future<void> _fetchOrders() async {
+    final orderViewModel = Provider.of<OrderViewModel>(context, listen: false);
+    await orderViewModel
+        .fetchOrders('6697f90c6d89802072662ad6'); // Replace with actual user ID
+    setState(() {
+      allOrders = orderViewModel.orders;
+      _filterOrders();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Đơn hàng',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          bottom: TabBar(
-            controller: _tabController,
-            labelStyle: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-            unselectedLabelStyle: TextStyle(fontSize: 14.0),
-            indicatorColor: Color(0xFF158B7D),
-            labelColor: Color(0xFF158B7D),
-            unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(text: 'Tất cả'),
-              Tab(text: 'Đang xử lý'),
-              Tab(text: 'Hoàn tất'),
-              Tab(text: 'Bị hủy'),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Đơn hàng',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        body: ListView.builder(
-          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-          itemCount: filteredOrders.length,
-          itemBuilder: (context, index) {
-            final order = filteredOrders[index];
-            return OrderContainer(
-              idDonHang: order['idDonHang']!,
-              ngayDat: order['ngayDat']!,
-              nguoiDat: order['nguoiDat']!,
-              tongTien: order['tongTien']!,
-              trangThai: order['trangThai']!,
-            );
-          },
+        centerTitle: true,
+        bottom: TabBar(
+          controller: _tabController,
+          labelStyle: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+          unselectedLabelStyle: TextStyle(fontSize: 14.0),
+          indicatorColor: Color(0xFF158B7D),
+          labelColor: Color(0xFF158B7D),
+          unselectedLabelColor: Colors.grey,
+          tabs: [
+            Tab(text: 'Tất cả'),
+            Tab(text: 'Đang xử lý'),
+            Tab(text: 'Hoàn tất'),
+            Tab(text: 'Bị hủy'),
+          ],
         ),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+        itemCount: filteredOrders.length,
+        itemBuilder: (context, index) {
+          final order = filteredOrders[index];
+          return OrderContainer(
+            idDonHang: order['_id']!,
+            ngayDat: order['orderDate']!,
+            nguoiDat: order[
+                'userId']!, // This might need adjustment based on actual data
+            tongTien: order['totalAmount'].toString(),
+            trangThai: order['status']!,
+          );
+        },
       ),
     );
   }
@@ -157,6 +141,10 @@ class OrderContainer extends StatelessWidget {
         statusColor = Color(0xFF158B7D);
     }
 
+    // Convert the date to DD/MM/YYYY format
+    DateTime dateTime = DateTime.parse(ngayDat);
+    String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -175,43 +163,49 @@ class OrderContainer extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16.0),
         padding: const EdgeInsets.all(16.0),
-        height: 180,
+        height: 200, // Đặt một chiều cao cố định nếu cần
         decoration: BoxDecoration(
           border:
               Border(bottom: BorderSide(color: Color(0xFFE5E5E5), width: 1)),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
+            Flexible(
               flex: 6,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    idDonHang,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
+                  // Hiện tại đã bị bỏ qua, có thể thêm lại nếu cần
+                  // Text(
+                  //   idDonHang,
+                  //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  // ),
                   SizedBox(height: 5),
                   Text(
-                    'Ngày mua: $ngayDat',
+                    'Ngày mua: $formattedDate',
                     style: TextStyle(fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 5),
                   Text(
                     'Người nhận: $nguoiDat',
                     style: TextStyle(fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 5),
                   Text(
                     'Tổng tiền: $tongTien',
                     style: TextStyle(fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 20),
                 ],
               ),
             ),
+            SizedBox(width: 8),
             Container(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              padding: EdgeInsets.symmetric(horizontal: 8),
               child: Center(
                 child: Container(
                   width: 90,
@@ -224,6 +218,7 @@ class OrderContainer extends StatelessWidget {
                     child: Text(
                       trangThai,
                       style: TextStyle(color: Colors.white, fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
