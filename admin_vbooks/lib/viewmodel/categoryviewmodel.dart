@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../data/model/category.dart';
-import '../services/categoryservice.dart';
+import '../data/model/categoryservice.dart';
 
 class CategoryViewModel extends ChangeNotifier {
   bool isLoading = false;

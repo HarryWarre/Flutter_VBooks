@@ -41,7 +41,7 @@ class _ProductAddState extends State<ProductAdd> {
       price: price,
       img: img,
       desc: description,
-      catId: cateId,
+      catId: cateId.toString(),
     ));
 
     Navigator.push(
@@ -66,7 +66,7 @@ class _ProductAddState extends State<ProductAdd> {
       price: price,
       img: img,
       desc: description,
-      catId: cateId,
+      catId: cateId.toString(),
     ));
 
     Navigator.push(

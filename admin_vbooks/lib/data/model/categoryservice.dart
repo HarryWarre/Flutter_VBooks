@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'package:admin_vbooks/connectApi/apiservice.dart';
 import 'package:admin_vbooks/data/model/category.dart';
 import 'package:flutter/foundation.dart';
-import 'apiservice.dart';
+
 
 class CategoryService {
   final ApiService apiService;
@@ -20,12 +21,15 @@ class CategoryService {
     }
   }
   Future<void> createCategory(CategoryModel category) async {
+
+    var data = {
+      'name': category.name,
+      'category': category.desc
+    };
+
     final response = await apiService.post(
       'category/createCategory',
-      body: jsonEncode({
-        'name': category.name,
-        'desc': category.desc,
-      }),
+      data
     );
     if (response.statusCode != 201) {
       throw Exception('Failed to create category');
@@ -33,12 +37,13 @@ class CategoryService {
   }
 
   Future<void> updateCategory(CategoryModel category) async {
+    var data = {
+      'name': category.name,
+      'category': category.desc
+    };
     final response = await apiService.put(
       'category/updateCategory/${category.id}',
-      body: jsonEncode({
-        'name': category.name,
-        'desc': category.desc,
-      }),
+      data
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to update category');

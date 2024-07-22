@@ -1,9 +1,8 @@
-import 'package:admin_vbooks/services/categoryviewmodel.dart';
+import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
 import 'package:flutter/material.dart';
 import '/../data/model/category.dart';
-import '/../services/categoryservice.dart'; // Thêm import cho CategoryService
 import 'package:provider/provider.dart';
-import 'package:admin_vbooks/services/categoryviewmodel.dart'; // Import CategoryViewModel
+
 
 class CategoryAdd extends StatefulWidget {
   final bool isUpdate;

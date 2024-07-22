@@ -5,7 +5,7 @@ import '/../data/helper/db_helper.dart';
 import 'category_add.dart';
 
 class CategoryBuilder extends StatefulWidget {
-  final Function(List<String>) onSelectionChanged;
+  final Function(List<int>) onSelectionChanged;
 
   const CategoryBuilder({required this.onSelectionChanged, super.key});
 
@@ -15,7 +15,7 @@ class CategoryBuilder extends StatefulWidget {
 
 class _CategoryBuilderState extends State<CategoryBuilder> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
-  final List<String> _selectedCategories = [];
+  final List<int> _selectedCategories = [];
   final TextEditingController _searchController = TextEditingController();
   List<CategoryModel> _categories = [];
   List<CategoryModel> _filteredCategories = [];
