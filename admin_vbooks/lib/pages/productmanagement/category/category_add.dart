@@ -1,7 +1,9 @@
-import 'package:admin_vbooks/pages/productmanagement/category/category_list.dart';
+import 'package:admin_vbooks/services/categoryviewmodel.dart';
 import 'package:flutter/material.dart';
 import '/../data/model/category.dart';
-import '/../data/helper/db_helper.dart';
+import '/../services/categoryservice.dart'; // Thêm import cho CategoryService
+import 'package:provider/provider.dart';
+import 'package:admin_vbooks/services/categoryviewmodel.dart'; // Import CategoryViewModel
 
 class CategoryAdd extends StatefulWidget {
   final bool isUpdate;
@@ -16,49 +18,54 @@ class _CategoryAddState extends State<CategoryAdd> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   String titleText = "";
-  final DatabaseHelper _databaseService = DatabaseHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.categoryModel != null && widget.isUpdate) {
+      _nameController.text = widget.categoryModel!.name;
+      _descController.text = widget.categoryModel!.desc;
+    }
+    titleText = widget.isUpdate ? "Cập nhật danh mục" : "Thêm danh mục";
+  }
+
   Future<void> _onSave() async {
     final name = _nameController.text;
     final description = _descController.text;
 
-    await _databaseService
-        .insertCategory(CategoryModel(name: name, desc: description));
-    setState(() {});
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => CategoryList(), // Navigate back to ProductBuilder
-      ),
-    );
+    try {
+      // Lấy instance của CategoryViewModel từ context
+      final categoryViewModel = context.read<CategoryViewModel>();
+      await categoryViewModel.createCategory(
+        CategoryModel(name: name, desc: description)
+      );
+      // Điều hướng trở lại danh sách danh mục
+      Navigator.pop(context);
+    } catch (error) {
+      // Hiển thị thông báo lỗi
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to create category: $error'))
+      );
+    }
   }
 
   Future<void> _onUpdate() async {
     final name = _nameController.text;
     final description = _descController.text;
 
-    await _databaseService.updateCategory(CategoryModel(
-        name: name, desc: description, id: widget.categoryModel!.id));
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => CategoryList(), // Navigate back to ProductBuilder
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.categoryModel != null && widget.isUpdate) {
-      _nameController.text = widget.categoryModel!.name;
-      _descController.text = widget.categoryModel!.desc;
-    }
-    if (widget.isUpdate) {
-      titleText = "Cập nhật danh mục";
-    } else {
-      titleText = "Thêm danh mục";
+    try {
+      // Lấy instance của CategoryViewModel từ context
+      final categoryViewModel = context.read<CategoryViewModel>();
+      await categoryViewModel.updateCategory(
+        CategoryModel(name: name, desc: description, id: widget.categoryModel!.id)
+      );
+      // Điều hướng trở lại danh sách danh mục
+      Navigator.pop(context);
+    } catch (error) {
+      // Hiển thị thông báo lỗi
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update category: $error'))
+      );
     }
   }
 

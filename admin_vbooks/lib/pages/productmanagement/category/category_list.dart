@@ -1,11 +1,11 @@
-import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../components/confirmdeletedialog.dart';
 import '../../../components/uploadfile.dart';
 import '../../../config/const.dart';
-import '../../../data/helper/db_helper.dart';
 import 'category_add.dart';
-import 'category_data.dart';
+import 'package:admin_vbooks/services/categoryviewmodel.dart';
+import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 
 class CategoryList extends StatefulWidget {
   const CategoryList({super.key});
@@ -16,7 +16,12 @@ class CategoryList extends StatefulWidget {
 
 class _CategoryListState extends State<CategoryList> {
   final List<int> _selectedCategories = [];
-  final DatabaseHelper _databaseHelper = DatabaseHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<CategoryViewModel>().fetchCategories());
+  }
 
   void _deleteSelectedCategories() async {
     final bool? confirm = await showDialog<bool>(
@@ -31,18 +36,17 @@ class _CategoryListState extends State<CategoryList> {
     );
 
     if (confirm == true) {
+      final categoryViewModel = context.read<CategoryViewModel>();
+      for (var id in _selectedCategories) {
+        await categoryViewModel
+            .deleteCategory(id.toString()); // Chuyển đổi id thành String
+      }
       setState(() {
-        for (var id in _selectedCategories) {
-          _databaseHelper.deleteCategory(id);
-        }
         _selectedCategories.clear();
       });
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => CategoryList(), // Navigate back to ProductBuilder
-        ),
-      );
+      context
+          .read<CategoryViewModel>()
+          .fetchCategories(); // Cập nhật danh sách danh mục
     }
   }
 
@@ -55,12 +59,11 @@ class _CategoryListState extends State<CategoryList> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Handle back button press here
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (_) =>
-                    ProductManagement(), // Navigate back to ProductBuilder
+                    const ProductManagement(), // Navigate back to ProductManagement
               ),
             );
           },
@@ -82,12 +85,14 @@ class _CategoryListState extends State<CategoryList> {
                             fullscreenDialog: true,
                           ),
                         )
-                        .then((_) => setState(() {}));
+                        .then((_) => context
+                            .read<CategoryViewModel>()
+                            .fetchCategories());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primary,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12), // Bo tròn 16px
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: const Row(
@@ -106,12 +111,9 @@ class _CategoryListState extends State<CategoryList> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
+                const SizedBox(width: 5),
                 ElevatedButton(
                   onPressed: () {
-                    // Thêm hành động cho nút 2
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -135,15 +137,13 @@ class _CategoryListState extends State<CategoryList> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
+                const SizedBox(width: 5),
                 ElevatedButton(
                   onPressed: _deleteSelectedCategories,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: danger,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12), // Bo tròn 16px
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: const Row(
@@ -166,15 +166,55 @@ class _CategoryListState extends State<CategoryList> {
             ),
           ),
           Expanded(
-            child: CategoryBuilder(
-              onSelectionChanged: (selectedProducts) {
-                setState(() {
-                  _selectedCategories.clear();
-                  _selectedCategories.addAll(selectedProducts);
-                });
+            child: Consumer<CategoryViewModel>(
+              builder: (context, categoryViewModel, child) {
+                if (categoryViewModel.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (categoryViewModel.categories.isEmpty) {
+                  return const Center(
+                      child: Text('Không thấy danh mục sản phẩm'));
+                } else {
+                  return ListView.builder(
+                    itemCount: categoryViewModel.categories.length,
+                    itemBuilder: (context, index) {
+                      final category = categoryViewModel.categories[index];
+                      return ListTile(
+                        title: Text(category.name),
+                        leading: Checkbox(
+                          value: category.id != null &&
+                              _selectedCategories.contains(category.id!),
+                          onChanged: (bool? selected) {
+                            setState(() {
+                              if (category.id != null) {
+                                debugPrint(
+                                    'Checkbox changed: ${category.id}, selected: $selected');
+                                if (selected == true) {
+                                  // Thêm vào danh sách nếu chưa có
+                                  if (!_selectedCategories
+                                      .contains(category.id!)) {
+                                    _selectedCategories.add(category.id!);
+                                  }
+                                } else {
+                                  // Xóa khỏi danh sách nếu có
+                                  if (_selectedCategories
+                                      .contains(category.id!)) {
+                                    _selectedCategories.remove(category.id!);
+                                  }
+                                }
+                                debugPrint(
+                                    'Selected categories: $_selectedCategories');
+                              }
+                            });
+                          },
+                         
+                        ),
+                      );
+                    },
+                  );
+                }
               },
             ),
-          ),
+          )
         ],
       ),
     );
