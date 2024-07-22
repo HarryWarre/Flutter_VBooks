@@ -39,13 +39,23 @@ class ProductService {
     }
   }
 
-  Future<List<Product>> fetchProductsById(String productId) async{
+  Future<List<Product>> fetchProductsById(String productId) async {
     final response = await apiService.get('product/findbyid/$productId');
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((e) => Product.fromJson(e)).toList();
     } else {
       throw Exception('Failed to get Cart');
+    }
+  }
+
+  Future<Product> fetchProductById(String productId) async {
+    final response = await apiService.get('product/findbyid/$productId');
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      return Product.fromJson(data);
+    } else {
+      throw Exception('Failed to get product');
     }
   }
 }

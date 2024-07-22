@@ -11,7 +11,9 @@ import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/services/cartservice.dart';
 
+import '../../data/model/orderItem.dart';
 import '../../viewmodel/cartviewmodel.dart';
+import '../order/Checkout.dart';
 import '../order/deliveryinformation.dart';
 import '../order/orderdetailpage.dart';
 import '../order/ordermainpage.dart';
@@ -52,6 +54,16 @@ class _DetailState extends State<Detail> {
         // Handle error
       }
     }
+  }
+
+  void _buyNow() {
+    // Create a list with one OrderItem
+    List<OrderItem> orderItems = [
+      OrderItem(
+        productId: widget.book.id!,
+        quantity: _quantity,
+      ),
+    ];
   }
 
   void _toggleFavorite() {
@@ -284,14 +296,7 @@ class _DetailState extends State<Detail> {
                             width: 200,
                             height: 40,
                             text: 'Mua Ngay',
-                            onPressed: () {
-                              addItemToCart();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ShippingInfoWidget()));
-                            },
+                            onPressed: _buyNow,
                           ),
                         ],
                       ),

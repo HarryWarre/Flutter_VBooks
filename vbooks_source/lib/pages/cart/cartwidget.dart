@@ -5,7 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/viewmodel/cartviewmodel.dart';
+import 'package:vbooks_source/data/model/orderItem.dart'; // Đảm bảo rằng đường dẫn này đúng
 
+import '../order/Checkout.dart';
+import '../order/deliveryinformation.dart';
 import 'cartItem.dart';
 
 void main() {
@@ -78,13 +81,6 @@ class _CartWidgetState extends State<CartWidget> {
     }
   }
 
-  // Future<void> _checkout() async {
-  //   final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
-  //   await cartViewModel.checkout();
-  //   // Handle navigation to the checkout page or show a success message
-  //   Navigator.pushNamed(context, '/checkout');
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,6 +104,11 @@ class _CartWidgetState extends State<CartWidget> {
             );
           } else {
             final carts = cartViewModel.carts;
+            final orderItems = carts
+                .map((cart) => OrderItem(
+                    productId: cart.productId!, quantity: cart.quantity!))
+                .toList();
+
             return Column(
               children: [
                 Expanded(
@@ -125,7 +126,15 @@ class _CartWidgetState extends State<CartWidget> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PaymentForm(orderItems: orderItems),
+                        ),
+                      );
+                    },
                     child: const Text('Thanh toán'),
                   ),
                 ),
