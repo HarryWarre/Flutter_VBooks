@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'pages/mainscreen/defaultscreen.dart';
-import 'viewmodel/productviewmodel.dart';
+import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
+import 'package:admin_vbooks/services/apiservice.dart';
+import 'package:admin_vbooks/services/categoryservice.dart';
+import 'package:admin_vbooks/services/categoryviewmodel.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => ProductViewModel(),
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -23,12 +20,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: appName,
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromRGBO(37, 195, 177, 1.000),
-        ),
-        dialogTheme: const DialogTheme(backgroundColor: Colors.white),
-      ),
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromRGBO(37, 195, 177, 1.000),
+          ),
+          dialogTheme: const DialogTheme(backgroundColor: Colors.white)),
       home: const MainScreenWidget(),
     );
   }

@@ -13,7 +13,9 @@ import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/services/cartservice.dart';
 
+import '../../data/model/orderItem.dart';
 import '../../viewmodel/cartviewmodel.dart';
+import '../order/Checkout.dart';
 import '../order/deliveryinformation.dart';
 import '../order/orderdetailpage.dart';
 import '../order/ordermainpage.dart';
@@ -30,20 +32,39 @@ class _DetailState extends State<Detail> {
   bool _isFavorite = false;
   String token = '';
   String _id = '';
-  late CartViewModel _cartViewModel;
+  late ApiService _apiService;
+  late final CartViewModel cartViewModel;
+  late CartService _cartService;
   int _quantity = 1; // Thay đổi đây
   @override
   void initState() {
     super.initState();
-    _cartViewModel = CartViewModel();
-     _loadToken();
-
+    _apiService = ApiService();
+    _cartService = CartService(_apiService);
+    cartViewModel = CartViewModel(); // Khởi tạo CartViewModel
+    _loadToken();
   }
 
-  Future<void> _addItemToCart() async { 
-     Provider.of<CartViewModel>(context, listen: false);
-    await _cartViewModel.addCartItem(_id, widget.book.id ?? '', _quantity);
-    
+  Future<void> addItemToCart() async {
+    if (token != '' && _id != '') {
+      var response =
+          await cartViewModel.addCartItem(_id, widget.book.id!, _quantity);
+      if (true) {
+        _showSnackbar();
+      } else {
+        // Handle error
+      }
+    }
+  }
+
+  void _buyNow() {
+    // Create a list with one OrderItem
+    List<OrderItem> orderItems = [
+      OrderItem(
+        productId: widget.book.id!,
+        quantity: _quantity,
+      ),
+    ];
   }
 
   void _toggleFavorite() {
@@ -276,14 +297,7 @@ class _DetailState extends State<Detail> {
                             width: 200,
                             height: 40,
                             text: 'Mua Ngay',
-                            onPressed: () {
-                              _addItemToCart();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ShippingInfoWidget()));
-                            },
+                            onPressed: _buyNow,
                           ),
                         ],
                       ),

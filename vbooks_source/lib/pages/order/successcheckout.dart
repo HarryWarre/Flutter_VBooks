@@ -68,8 +68,8 @@ class OrderSuccessPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                // Navigator.of(context)
-                //     .push(MaterialPageRoute(builder: (context) => Mainpage()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Mainpage()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền

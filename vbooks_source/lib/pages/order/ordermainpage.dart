@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/viewmodel/orderviewmodel.dart';
 import 'package:vbooks_source/pages/order/orderdetailpage.dart';
+
+import '../account/authwidget.dart';
 
 class OrderMainPage extends StatefulWidget {
   const OrderMainPage({super.key});
@@ -14,6 +18,12 @@ class OrderMainPage extends StatefulWidget {
 
 class _OrderMainPageState extends State<OrderMainPage>
     with SingleTickerProviderStateMixin {
+  String token = '';
+  String email = '';
+  String fullName = '';
+  String address = '';
+  String _accountId = '';
+
   TabController? _tabController;
   List<Map<String, dynamic>> allOrders = [];
   List<Map<String, dynamic>> filteredOrders = [];
@@ -21,9 +31,10 @@ class _OrderMainPageState extends State<OrderMainPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
-    _tabController?.addListener(_filterOrders);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    _loadToken().then((_) {
+      _tabController =
+          TabController(length: 4, vsync: this); // Khởi tạo TabController
+      _tabController?.addListener(_filterOrders);
       _fetchOrders();
     });
   }
@@ -33,6 +44,37 @@ class _OrderMainPageState extends State<OrderMainPage>
     _tabController?.removeListener(_filterOrders);
     _tabController?.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedToken = prefs.getString('token');
+    if (storedToken != null && storedToken.isNotEmpty) {
+      if (JwtDecoder.isExpired(storedToken)) {
+        setState(() {
+          token = 'Invalid token';
+        });
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => AuthScreen(),
+        ));
+      } else {
+        setState(() {
+          token = storedToken;
+          Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(token);
+          email = jwtDecodedToken['email'] ?? '...';
+          fullName = jwtDecodedToken['fullName'] ?? '...';
+          address = jwtDecodedToken['address'] ?? '...';
+          _accountId = jwtDecodedToken['_id'];
+          print(fullName + address + _accountId);
+          print(token);
+        });
+      }
+    } else {
+      setState(() {
+        token = 'Invalid token';
+      });
+    }
   }
 
   void _filterOrders() {
@@ -60,8 +102,7 @@ class _OrderMainPageState extends State<OrderMainPage>
 
   Future<void> _fetchOrders() async {
     final orderViewModel = Provider.of<OrderViewModel>(context, listen: false);
-    await orderViewModel
-        .fetchOrders('6697f90c6d89802072662ad6'); // Replace with actual user ID
+    await orderViewModel.fetchOrders(_accountId); // Replace with actual user ID
     setState(() {
       allOrders = orderViewModel.orders;
       _filterOrders();
@@ -70,42 +111,44 @@ class _OrderMainPageState extends State<OrderMainPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Đơn hàng',
-          style: TextStyle(fontWeight: FontWeight.bold),
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Đơn hàng',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          bottom: TabBar(
+            controller: _tabController,
+            labelStyle: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+            unselectedLabelStyle: TextStyle(fontSize: 14.0),
+            indicatorColor: Color(0xFF158B7D),
+            labelColor: Color(0xFF158B7D),
+            unselectedLabelColor: Colors.grey,
+            tabs: [
+              Tab(text: 'Tất cả'),
+              Tab(text: 'Đang xử lý'),
+              Tab(text: 'Hoàn tất'),
+              Tab(text: 'Bị hủy'),
+            ],
+          ),
         ),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: _tabController,
-          labelStyle: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: TextStyle(fontSize: 14.0),
-          indicatorColor: Color(0xFF158B7D),
-          labelColor: Color(0xFF158B7D),
-          unselectedLabelColor: Colors.grey,
-          tabs: [
-            Tab(text: 'Tất cả'),
-            Tab(text: 'Đang xử lý'),
-            Tab(text: 'Hoàn tất'),
-            Tab(text: 'Bị hủy'),
-          ],
+        body: ListView.builder(
+          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+          itemCount: filteredOrders.length,
+          itemBuilder: (context, index) {
+            final order = filteredOrders[index];
+            return OrderContainer(
+              idDonHang: order['_id']!,
+              ngayDat: order['orderDate']!,
+              nguoiDat: fullName, // Sử dụng fullName ở đây
+              tongTien: order['totalAmount'].toString(),
+              trangThai: order['status']!,
+            );
+          },
         ),
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-        itemCount: filteredOrders.length,
-        itemBuilder: (context, index) {
-          final order = filteredOrders[index];
-          return OrderContainer(
-            idDonHang: order['_id']!,
-            ngayDat: order['orderDate']!,
-            nguoiDat: order[
-                'userId']!, // This might need adjustment based on actual data
-            tongTien: order['totalAmount'].toString(),
-            trangThai: order['status']!,
-          );
-        },
       ),
     );
   }
