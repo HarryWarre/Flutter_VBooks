@@ -43,5 +43,4 @@ class ProductViewModel extends ChangeNotifier {
       notifyListeners(); // Thông báo listener sau khi hoàn thành
     }
   }
-
 }
