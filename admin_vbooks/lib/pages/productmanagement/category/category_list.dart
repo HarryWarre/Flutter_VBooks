@@ -15,7 +15,7 @@ class CategoryList extends StatefulWidget {
 }
 
 class _CategoryListState extends State<CategoryList> {
-  final List<int> _selectedCategories = [];
+  final List<String> _selectedCategories = [];
   final DatabaseHelper _databaseHelper = DatabaseHelper();
 
   void _deleteSelectedCategories() async {
@@ -32,8 +32,8 @@ class _CategoryListState extends State<CategoryList> {
 
     if (confirm == true) {
       setState(() {
-        for (var id in _selectedCategories) {
-          _databaseHelper.deleteCategory(id);
+        for (var category in _selectedCategories) {
+          _databaseHelper.deleteCategory(category);
         }
         _selectedCategories.clear();
       });

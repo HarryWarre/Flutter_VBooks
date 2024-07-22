@@ -6,4 +6,4 @@ const Color peace = Color.fromRGBO(17, 141, 255, 1);
 const Color warning = Color.fromRGBO(239, 204, 17, 1);
 
 
-const String serverUrl = 'http://192.168.1.12:5000';
+const String serverUrl = 'http://10.0.2.2:5000';

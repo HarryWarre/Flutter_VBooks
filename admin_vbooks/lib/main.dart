@@ -1,12 +1,15 @@
-import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-// Include the Google Fonts package to provide more text format options
-// https://pub.dev/packages/google_fonts
+import 'package:provider/provider.dart';
+import 'pages/mainscreen/defaultscreen.dart';
+import 'viewmodel/productviewmodel.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ProductViewModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,18 +22,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: appName,
-      // debugShowCheckedModeBanner: false,
-      // theme: ThemeData(
-      //     useMaterial3: true,
-      //     primaryColor: primary,
-      //     primaryColorLight: primary,
-      //     cardColor: Colors.white),
       theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromRGBO(37, 195, 177, 1.000),
-          ),
-          dialogTheme: const DialogTheme(backgroundColor: Colors.white)),
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromRGBO(37, 195, 177, 1.000),
+        ),
+        dialogTheme: const DialogTheme(backgroundColor: Colors.white),
+      ),
       home: const MainScreenWidget(),
     );
   }

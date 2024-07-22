@@ -16,7 +16,7 @@ module.exports = {
     try {
       const savedProduct = await newProduct.save();
       console.log(savedProduct);
-      res.status(201).json(savedProduct);
+      res.status(200).json(savedProduct);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -89,7 +89,7 @@ module.exports = {
         res.json({ success: false, msg: "Sản phẩm không tìm thấy" });
       }
     } catch (err) {
-      res.status(500).json({ success: false, msg: "Xoá sản phẩm thất bại" });
+      res.status(500).json({ success: false, msg: "Xoá sản phẩm thất bại", test: err });
     }
   },
 

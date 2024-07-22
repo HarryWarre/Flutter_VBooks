@@ -1,5 +1,6 @@
 import 'package:admin_vbooks/config/const.dart';
 import 'package:admin_vbooks/pages/productmanagement/product/product_list.dart';
+import 'package:admin_vbooks/pages/productmanagement/product/product_listtest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,7 +34,7 @@ class _ProductAddState extends State<ProductAdd> {
     final price = int.tryParse(_priceController.text) ?? 0;
     final img = _imageFile != null ? _imageFile!.path : '';
     final description = _descController.text;
-    final cateId = _selectedCategory?.id ?? 1;
+    final cateId = _selectedCategory?.id ?? '';
 
     await _databaseService.insertProduct(Product_Model(
       name: name,
@@ -57,7 +58,7 @@ class _ProductAddState extends State<ProductAdd> {
     final img =
         _imageFile != null ? _imageFile!.path : widget.productmodel!.img;
     final description = _descController.text;
-    final cateId = _selectedCategory?.id ?? 1;
+    final cateId = _selectedCategory?.id ?? '';
 
     await _databaseService.updateProduct(Product_Model(
       id: widget.productmodel!.id,

@@ -1,12 +1,15 @@
 import 'dart:io'; // Import this package to handle file images
 import 'package:admin_vbooks/config/const.dart';
+import 'package:admin_vbooks/connectApi/apiservice.dart';
+import 'package:admin_vbooks/connectApi/productservice.dart';
+import 'package:admin_vbooks/viewmodel/productviewmodel.dart';
 import 'package:flutter/material.dart';
 import '/../data/model/product.dart';
 import '/../data/helper/db_helper.dart';
 import 'product_add.dart';
 
 class ProductBuilder extends StatefulWidget {
-  final Function(List<int>) onSelectionChanged;
+  final Function(List<String>) onSelectionChanged;
 
   const ProductBuilder({required this.onSelectionChanged, super.key});
 
@@ -15,28 +18,37 @@ class ProductBuilder extends StatefulWidget {
 }
 
 class _ProductBuilderState extends State<ProductBuilder> {
-  final DatabaseHelper _databaseHelper = DatabaseHelper();
-  final List<int> _selectedProducts = [];
+  late ProductViewModel _productViewModel;
+  final List<String> _selectedProducts = [];
   final TextEditingController _searchController = TextEditingController();
   List<Product_Model> _products = [];
   List<Product_Model> _filteredProducts = [];
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
+    _productViewModel = ProductViewModel(); // Initialize ProductService here
     _searchController.addListener(_filterProducts);
     _loadProducts(); // Load products initially
   }
 
   Future<void> _loadProducts() async {
-    _products = await _getProducts();
-    _filteredProducts =
-        _products; // Ensure filtered list initially matches all products
-    setState(() {}); // Update UI with new data
+    try {
+      await _productViewModel.fetchProduct();
+      _products = _productViewModel.products; // Assuming products are stored in the view model
+      _filteredProducts = _products; // Ensure filtered list initially matches all products
+    } catch (e) {
+      _errorMessage = 'Error loading products: $e';
+    } finally {
+      _isLoading = false;
+      setState(() {}); // Update UI with new data
+    }
   }
 
-  Future<List<Product_Model>> _getProducts() async {
-    return await _databaseHelper.products();
+  Future<void> _getProducts() async {
+    return await _productViewModel.fetchProduct();
   }
 
   void _filterProducts() {
@@ -80,7 +92,7 @@ class _ProductBuilderState extends State<ProductBuilder> {
               final itemCat = _filteredProducts[index];
               return _buildProduct(itemCat, context);
             },
-          );
+          );   
   }
 
   Widget _buildProduct(Product_Model product, BuildContext context) {
