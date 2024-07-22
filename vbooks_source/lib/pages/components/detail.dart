@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/conf/const.dart';
 import 'package:vbooks_source/data/model/productmodel.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/components/button.dart';
+import 'package:vbooks_source/pages/components/scafformessenger.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/services/cartservice.dart';
@@ -28,29 +30,20 @@ class _DetailState extends State<Detail> {
   bool _isFavorite = false;
   String token = '';
   String _id = '';
-  late ApiService _apiService;
-  late CartService _cartService;
+  late CartViewModel _cartViewModel;
   int _quantity = 1; // Thay đổi đây
-
   @override
   void initState() {
     super.initState();
-    _apiService = ApiService();
-    _cartService = CartService(_apiService);
-    _loadToken();
+    _cartViewModel = CartViewModel();
+     _loadToken();
+
   }
 
-  Future<void> addItemToCart() async {
+  Future<void> _addItemToCart() async { 
+     Provider.of<CartViewModel>(context, listen: false);
+    await _cartViewModel.addCartItem(_id, widget.book.id ?? '', _quantity);
     
-    if (token != '' && _id != '') {
-      var response =
-          await _cartService.addProductToCart(widget.book.id!, _id, _quantity);
-      if (response.statusCode == 200) {
-        _showSnackbar();
-      } else {
-        // Handle error
-      }
-    }
   }
 
   void _toggleFavorite() {
@@ -284,7 +277,7 @@ class _DetailState extends State<Detail> {
                             height: 40,
                             text: 'Mua Ngay',
                             onPressed: () {
-                              addItemToCart();
+                              _addItemToCart();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -305,7 +298,12 @@ class _DetailState extends State<Detail> {
       floatingActionButton: FloatingActionButton(
         foregroundColor: primaryColor,
         backgroundColor: Colors.white,
-        onPressed: addItemToCart,
+        onPressed: (){
+          print(_id);
+          print(widget.book.id);
+          print(_quantity);
+          _addItemToCart();
+        },
         child: const Icon(CupertinoIcons.cart),
       ),
     );
