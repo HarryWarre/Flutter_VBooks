@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import '/../data/model/category.dart';
 import 'package:provider/provider.dart';
 
-
 class CategoryAdd extends StatefulWidget {
   final bool isUpdate;
   final CategoryModel? categoryModel;
-  const CategoryAdd({super.key, this.isUpdate = false, this.categoryModel});
+  final Future<void> Function() onSaveOrUpdate; // Callback function
+
+  const CategoryAdd({
+    Key? key,
+    this.isUpdate = false,
+    this.categoryModel,
+    required this.onSaveOrUpdate, // Ensure callback is required
+  }) : super(key: key);
 
   @override
   State<CategoryAdd> createState() => _CategoryAddState();
@@ -22,8 +28,8 @@ class _CategoryAddState extends State<CategoryAdd> {
   void initState() {
     super.initState();
     if (widget.categoryModel != null && widget.isUpdate) {
-      _nameController.text = widget.categoryModel!.name;
-      _descController.text = widget.categoryModel!.desc;
+      _nameController.text = widget.categoryModel!.name!;
+      _descController.text = widget.categoryModel!.desc!;
     }
     titleText = widget.isUpdate ? "Cập nhật danh mục" : "Thêm danh mục";
   }
@@ -33,15 +39,13 @@ class _CategoryAddState extends State<CategoryAdd> {
     final description = _descController.text;
 
     try {
-      // Lấy instance của CategoryViewModel từ context
       final categoryViewModel = context.read<CategoryViewModel>();
       await categoryViewModel.createCategory(
         CategoryModel(name: name, desc: description)
       );
-      // Điều hướng trở lại danh sách danh mục
+      await widget.onSaveOrUpdate(); // Call the callback after save
       Navigator.pop(context);
     } catch (error) {
-      // Hiển thị thông báo lỗi
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to create category: $error'))
       );
@@ -53,15 +57,13 @@ class _CategoryAddState extends State<CategoryAdd> {
     final description = _descController.text;
 
     try {
-      // Lấy instance của CategoryViewModel từ context
       final categoryViewModel = context.read<CategoryViewModel>();
       await categoryViewModel.updateCategory(
         CategoryModel(name: name, desc: description, id: widget.categoryModel!.id)
       );
-      // Điều hướng trở lại danh sách danh mục
+      await widget.onSaveOrUpdate(); // Call the callback after update
       Navigator.pop(context);
     } catch (error) {
-      // Hiển thị thông báo lỗi
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to update category: $error'))
       );
@@ -115,5 +117,12 @@ class _CategoryAddState extends State<CategoryAdd> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descController.dispose();
+    super.dispose();
   }
 }

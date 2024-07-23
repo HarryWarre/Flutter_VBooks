@@ -4,7 +4,7 @@
             "outputFile": "com.example.admin_vbooks.app-mergeDebugResources-20:/values-ko/values-ko.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\PC\\.gradle\\caches\\transforms-3\\0e4ac26212a127594e56c60103d111c7\\transformed\\core-1.10.1\\res\\values-ko\\values-ko.xml",
+                    "source": "C:\\Users\\Pham Loc\\.gradle\\caches\\transforms-3\\a3842a17fe7307c5bcdac869078c73a0\\transformed\\core-1.10.1\\res\\values-ko\\values-ko.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

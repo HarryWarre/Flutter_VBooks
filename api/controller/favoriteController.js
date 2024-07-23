@@ -40,22 +40,15 @@ module.exports = {
 
     deleteFavorite: async (req, res) => {
         const { accountId, productId } = req.params;
-        console.log('AccountId:', accountId);
-        console.log('ProductId:', productId);
-    
-        if (!accountId || !productId) {
-            return res.status(400).json({ success: false, message: 'Thiếu accountId hoặc productId' });
-        }
         try {
             const favorite = await Favorite.findOne({ accountId, productId });
             if (!favorite) {
                 return res.status(404).json({ success: false, message: 'Không tìm thấy mục yêu thích' });
             }
-            await Favorite.deleteOne({ accountId: accountId, productId: productId });
+            await Favorite.deleteOne({ accountId: accountId, productId });
             res.status(200).json({ success: true, message: 'Xóa thành công' });
         } catch (err) {
-            console.error('Error deleting favorite:', err); // Log error for debugging
-            res.status(500).json({ success: false, message: 'Lỗi server, không thể xóa mục yêu thích', error: err.message });
+            res.status(500).json(err);
         }
     },
 

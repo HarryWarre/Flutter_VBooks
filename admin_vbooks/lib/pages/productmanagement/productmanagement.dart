@@ -55,7 +55,7 @@ class ProductManagement extends StatelessWidget {
                 // Action for button
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProductList()),
+                  MaterialPageRoute(builder: (context) => CategoryList()),
                 );
               },
             ),
