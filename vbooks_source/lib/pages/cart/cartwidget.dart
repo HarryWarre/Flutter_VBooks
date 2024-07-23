@@ -135,7 +135,14 @@ class _CartWidgetState extends State<CartWidget> {
                         ),
                       );
                     },
-                    child: const Text('Thanh toán'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          const Color.fromRGBO(21, 139, 125, 1), // Màu nền
+                    ),
+                    child: const Text(
+                      'Thanh toán',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ],

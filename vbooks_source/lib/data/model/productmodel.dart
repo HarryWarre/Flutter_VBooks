@@ -13,7 +13,7 @@ class Product {
     name = json["name"];
     price = json["price"];
     img = json["img"];
-    des = json["des"];
+    des = json["desc"];
     catId = json["catId"];
   }
 
@@ -23,7 +23,7 @@ class Product {
     data["name"] = name;
     data["price"] = price;
     data["img"] = img;
-    data["des"] = des;
+    data["desc"] = des;
     data["catId"] = catId;
     return data;
   }

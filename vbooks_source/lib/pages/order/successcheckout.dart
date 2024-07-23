@@ -46,26 +46,26 @@ class OrderSuccessPage extends StatelessWidget {
               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OrderDetailPage(
-                            idDonHang: '',
-                            nguoiDat: '',
-                            tongTien: '',
-                            trangThai: '',
-                            ngayDat: '',
-                          )),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền
-              ),
-              child: Text('Xem chi tiết đơn hàng',
-                  style: TextStyle(color: Colors.white)),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => OrderDetailPage(
+            //                 idDonHang: '',
+            //                 nguoiDat: '',
+            //                 tongTien: '',
+            //                 trangThai: '',
+            //                 ngayDat: '',
+            //               )),
+            //     );
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: Color.fromRGBO(21, 139, 125, 1), // Màu nền
+            //   ),
+            //   child: Text('Xem chi tiết đơn hàng',
+            //       style: TextStyle(color: Colors.white)),
+            // ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context)
