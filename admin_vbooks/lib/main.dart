@@ -13,7 +13,6 @@ import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
 void main() {
   final _apiService = ApiService();
   final _categoryService = CategoryService(_apiService);
-  final _productService = ProductService(_apiService);
   final _publisherService = PublisherService(_apiService);
 
   runApp(

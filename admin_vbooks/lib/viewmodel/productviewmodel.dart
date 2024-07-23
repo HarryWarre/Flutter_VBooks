@@ -33,12 +33,13 @@ class ProductViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await productService.addProduct(
+        await productService.addProduct(
         name: name, price: price, 
         img: img, desc: desc, 
         catId: catId,
         publisherId: publisherId
         );
+
     } catch (error) {
       print('Error creating product: $error');
 

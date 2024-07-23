@@ -55,6 +55,7 @@ class PublisherViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+  
     Future<void> deletePublisher(String id) async {
     isLoading = true;
     notifyListeners();

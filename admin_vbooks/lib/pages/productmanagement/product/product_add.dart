@@ -2,7 +2,6 @@ import 'package:admin_vbooks/config/const.dart';
 import 'package:admin_vbooks/connectApi/apiservice.dart';
 import 'package:admin_vbooks/connectApi/categoryservice.dart';
 import 'package:admin_vbooks/data/model/publisher.dart';
-import 'package:admin_vbooks/pages/productmanagement/product/product_list.dart';
 import 'package:admin_vbooks/pages/productmanagement/product/product_listtest.dart';
 import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
 import 'package:admin_vbooks/viewmodel/productviewmodel.dart';
@@ -88,7 +87,6 @@ class _ProductAddState extends State<ProductAdd> {
 
     await _productViewModel.updateProduct(id!, name, price, img!, desc!, catId.toString(), publisherId.toString());
 
-    
   }
 
   Future<void> _loadCategories() async {
