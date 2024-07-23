@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vbooks_source/data/model/categorymodel.dart';
-import 'package:vbooks_source/data/model/productmodel.dart';
+import 'package:vbooks_source/pages/components/productcard.dart';
 import 'package:vbooks_source/viewmodel/categoryviewmodel.dart';
 import 'package:vbooks_source/viewmodel/productviewmodel.dart';
-import '../components/productcard.dart';
-import '../components/search/searchform.dart';
 import 'categorycard.dart';
 
 class CategoryWidget extends StatefulWidget {
@@ -21,7 +19,6 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   @override
   void initState() {
     super.initState();
-    // Fetch categories when the widget is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchInitialCategories();
     });
@@ -33,17 +30,17 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     await categoryViewModel.fetchCategories();
 
     if (categoryViewModel.categories.isNotEmpty) {
-      // Set the default selected category
       setState(() {
         selectedCategoryId = categoryViewModel.categories.first.id;
       });
-
-      // // Fetch products for the default selected category
-      // if (selectedCategoryId != null) {
-      //   await Provider.of<ProductViewModel>(context, listen: false)
-      //       .fetchProductsByCategory(selectedCategoryId!);
-      // }
+      await _fetchProductsForCategory(selectedCategoryId!);
     }
+  }
+
+  Future<void> _fetchProductsForCategory(String categoryId) async {
+    final productViewModel =
+        Provider.of<ProductViewModel>(context, listen: false);
+    await productViewModel.fetchProductsByCategory(categoryId);
   }
 
   @override
@@ -53,70 +50,68 @@ class _CategoryWidgetState extends State<CategoryWidget> {
         if (categoryViewModel.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (categoryViewModel.categories.isEmpty) {
-          return const Center(child: Text('No categories found'));
+          return const Center(child: Text('Không có danh mục nào'));
         } else {
           final categories = categoryViewModel.categories;
 
-          return Column(
-            children: [
-              SearchWidget(), // Thêm SearchWidget ở đầu
-              SafeArea(
-                top: true, // Chỉ đặt top safety là true
-                child: SingleChildScrollView(
+          return SafeArea(
+            top: true,
+            child: Column(
+              children: [
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: categories.map((category) {
                       return CategoryCard(
                         category: category,
                         isSelected: category.id == selectedCategoryId,
-                        onTap: () async {
+                        onTap: () {
                           if (category.id != selectedCategoryId) {
                             setState(() {
                               selectedCategoryId = category.id;
                             });
-
-                            // // Fetch products for the selected category
-                            // if (selectedCategoryId != null) {
-                            //   await Provider.of<ProductViewModel>(context,
-                            //           listen: false)
-                            //       .fetchProductsByCategory(selectedCategoryId!);
-                            // }
+                            _fetchProductsForCategory(category.id!);
                           }
                         },
                       );
                     }).toList(),
                   ),
                 ),
-              ),
-              Consumer<ProductViewModel>(
-                builder: (context, productViewModel, child) {
-                  if (productViewModel.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (productViewModel.products.isEmpty) {
-                    return const Center(child: Text('No products found'));
-                  } else {
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                            8.0), // Thêm padding xung quanh GridView
-                        child: GridView.count(
-                          crossAxisCount: 2,
-                          childAspectRatio:
-                              0.7, // Điều chỉnh tỷ lệ khung hình nếu cần thiết
-                          children: productViewModel.products.map((product) {
+                Expanded(
+                  child: Consumer<ProductViewModel>(
+                    builder: (context, productViewModel, child) {
+                      if (productViewModel.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (productViewModel.products.isEmpty) {
+                        return const Center(
+                            child: Text('Không có sản phẩm nào'));
+                      } else {
+                        return GridView.builder(
+                          padding: const EdgeInsets.all(8.0),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // Hai cột
+                            crossAxisSpacing: 8.0, // Khoảng cách giữa các cột
+                            mainAxisSpacing: 8.0, // Khoảng cách giữa các hàng
+                            childAspectRatio:
+                                0.7, // Tỷ lệ khung hình của thẻ sản phẩm, điều chỉnh để làm ngắn thẻ
+                          ),
+                          itemCount: productViewModel.products.length,
+                          itemBuilder: (context, index) {
+                            final product = productViewModel.products[index];
                             return Padding(
                               padding: const EdgeInsets.all(
-                                  8.0), // Thêm padding giữa các mục trong grid
+                                  4.0), // Điều chỉnh padding cho các phần tử
                               child: ProductCard(product: product),
                             );
-                          }).toList(),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ],
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           );
         }
       },
