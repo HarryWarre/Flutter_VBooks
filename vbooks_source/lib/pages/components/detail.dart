@@ -12,6 +12,7 @@ import 'package:vbooks_source/pages/components/scafformessenger.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/services/cartservice.dart';
+import 'package:vbooks_source/services/favoriteservice.dart'; // Import FavoriteService
 
 import '../../data/model/orderItem.dart';
 import '../../viewmodel/cartviewmodel.dart';
@@ -35,7 +36,8 @@ class _DetailState extends State<Detail> {
   late ApiService _apiService;
   late final CartViewModel cartViewModel;
   late CartService _cartService;
-  int _quantity = 1; // Thay đổi đây
+  int _quantity = 1;
+
   @override
   void initState() {
     super.initState();
@@ -47,8 +49,7 @@ class _DetailState extends State<Detail> {
 
   Future<void> addItemToCart() async {
     if (token != '' && _id != '') {
-      var response =
-          await cartViewModel.addCartItem(_id, widget.book.id!, _quantity);
+      var response = await cartViewModel.addCartItem(_id, widget.book.id!, _quantity);
       if (true) {
         _showSnackbar();
       } else {
@@ -67,12 +68,6 @@ class _DetailState extends State<Detail> {
     ];
   }
 
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorite = !_isFavorite;
-    });
-  }
-
   Future<void> _loadToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? storedToken = prefs.getString('token');
@@ -89,14 +84,38 @@ class _DetailState extends State<Detail> {
           token = storedToken;
           Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(token);
           _id = jwtDecodedToken['_id'] ?? '...';
-          print(_id);
-          print(token);
+          _checkIfFavorite(); // Gọi sau khi tải token
         });
       }
     } else {
       setState(() {
         token = 'Invalid token';
       });
+    }
+  }
+
+  Future<void> _checkIfFavorite() async {
+    if (widget.book.id != null) {
+      _isFavorite = await FavoriteService(ApiService()).isFavorite(_id, widget.book.id!);
+      setState(() {});
+    } else {
+      print('Product ID is null');
+    }
+  }
+
+  Future<void> _toggleFavorite() async {
+    if (widget.book.id != null) {
+      if (_isFavorite) {
+        print(widget.book.id!);
+        await FavoriteService(ApiService()).deleteFavorite(_id, widget.book.id!);
+      } else {
+        await FavoriteService(ApiService()).addFavorite(_id, widget.book.id!);
+      }
+      setState(() {
+        _isFavorite = !_isFavorite;
+      });
+    } else {
+      print('Product ID is null');
     }
   }
 
@@ -174,9 +193,8 @@ class _DetailState extends State<Detail> {
                               IconButton(
                                 onPressed: _toggleFavorite,
                                 icon: Icon(
-                                  _isFavorite ? Icons.favorite : Icons.favorite,
-                                  color:
-                                      _isFavorite ? Colors.teal : Colors.grey,
+                                  _isFavorite ? Icons.favorite : Icons.favorite_border,
+                                  color: _isFavorite ? Colors.teal : Colors.grey,
                                   size: 40,
                                 ),
                               ),
@@ -326,12 +344,12 @@ class _DetailState extends State<Detail> {
 
 class CartItemWidget extends StatefulWidget {
   final int initialQuantity;
-  final ValueChanged<int> onQuantityChanged; // Thay đổi đây
+  final ValueChanged<int> onQuantityChanged;
 
   const CartItemWidget({
     super.key,
     required this.initialQuantity,
-    required this.onQuantityChanged, // Thay đổi đây
+    required this.onQuantityChanged,
   });
 
   @override
@@ -350,8 +368,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
   void _incrementQuantity() {
     setState(() {
       quantity++;
-      widget
-          .onQuantityChanged(quantity); // Gửi số lượng cập nhật lên widget cha
+      widget.onQuantityChanged(quantity);
     });
   }
 
@@ -359,8 +376,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     if (quantity > 1) {
       setState(() {
         quantity--;
-        widget.onQuantityChanged(
-            quantity); // Gửi số lượng cập nhật lên widget cha
+        widget.onQuantityChanged(quantity);
       });
     }
   }

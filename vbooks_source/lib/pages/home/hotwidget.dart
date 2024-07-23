@@ -26,7 +26,6 @@ class HotProductList extends StatelessWidget {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
           final products = snapshot.data!;
-
           return Column(
             children: products.map((product) {
               return Padding(

@@ -84,7 +84,6 @@ class HomeWidget extends StatelessWidget {
                     onPressed: () {
                       // Use SeeMoreWidget to fetch and handle featured data
                       String title = 'Bán chạy';
-                      String json = 'hot';
                       Navigator.push(
                         context,
                         MaterialPageRoute(
