@@ -28,6 +28,49 @@ class ProductViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> addProduct(String name, int price, String img, String desc, String catId, String publisherId) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+        await productService.addProduct(
+        name: name, price: price, 
+        img: img, desc: desc, 
+        catId: catId,
+        publisherId: publisherId
+        );
+
+    } catch (error) {
+      print('Error creating product: $error');
+
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateProduct(String id,String name, int price, String img, String desc, String catId, String publisherId) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      await productService.updateProduct(
+        id: id,
+        name: name, price: price, 
+        img: img, desc: desc, 
+        catId: catId, 
+        publisherId: publisherId
+        );
+        
+    } catch (error) {
+      print('Error creating product: $error');
+
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> deleteProduct(String id) async {
     notifyListeners();
     try{

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../../data/model/productmodel.dart';
 import 'detail.dart'; // Thêm import đến trang chi tiết
 
@@ -26,30 +25,32 @@ class ProductCard extends StatelessWidget {
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min, // Adjust to minimize the size
+          mainAxisSize:
+              MainAxisSize.min, // Giảm kích thước tối thiểu của widget
           children: [
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                minHeight: 170,
-                maxHeight: 170,
+            Container(
+              constraints: BoxConstraints(
+                maxHeight: 170, // Giới hạn chiều cao của ảnh
               ),
               child: ClipRRect(
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(8.0)),
                 child: Image.network(
-                  product.img!, // Đảm bảo product.img chứa URL ảnh
+                  product.img!,
                   width: double.infinity,
-                  height: 170,
-                  fit: BoxFit.cover,
+                  height: 170, // Chiều cao cố định cho ảnh
+                  fit: BoxFit
+                      .contain, // Thay đổi từ BoxFit.cover sang BoxFit.contain
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       width: double.infinity,
-                      height: 170,
                       color: Colors.white,
-                      child: Icon(
-                        Icons.image_not_supported,
-                        color: Colors.grey,
-                        size: 50,
+                      child: Center(
+                        child: Icon(
+                          Icons.image_not_supported,
+                          color: Colors.grey,
+                          size: 50,
+                        ),
                       ),
                     );
                   },
@@ -57,7 +58,8 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(
+                  8.0), // Điều chỉnh padding cho các phần tử
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -71,7 +73,7 @@ class ProductCard extends StatelessWidget {
                       color: Colors.black87,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 4), // Giảm khoảng cách giữa tên và giá
                   Text(
                     '${NumberFormat('###,###,###').format(product.price!)} Đ',
                     style: const TextStyle(

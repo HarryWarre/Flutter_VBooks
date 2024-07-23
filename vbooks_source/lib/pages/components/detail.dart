@@ -312,11 +312,11 @@ class _DetailState extends State<Detail> {
       floatingActionButton: FloatingActionButton(
         foregroundColor: primaryColor,
         backgroundColor: Colors.white,
-        onPressed: (){
+        onPressed: () {
           print(_id);
           print(widget.book.id);
           print(_quantity);
-          _addItemToCart();
+          addItemToCart();
         },
         child: const Icon(CupertinoIcons.cart),
       ),

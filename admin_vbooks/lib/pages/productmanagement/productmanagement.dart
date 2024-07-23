@@ -2,8 +2,8 @@ import 'package:admin_vbooks/components/custommainbutton.dart';
 import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
 import 'package:admin_vbooks/pages/ordermanagement/orderaminpage.dart';
 import 'package:admin_vbooks/pages/productmanagement/category/category_list.dart';
-import 'package:admin_vbooks/pages/productmanagement/product/product_list.dart';
 import 'package:admin_vbooks/pages/productmanagement/product/product_listtest.dart';
+import 'package:admin_vbooks/pages/productmanagement/publisher/publisher_list.dart';
 import 'package:flutter/material.dart';
 
 class ProductManagement extends StatelessWidget {
@@ -62,17 +62,17 @@ class ProductManagement extends StatelessWidget {
             const SizedBox(
               height: 37,
             ),
-            // CustomButton(
-            //   icon: Icons.window_sharp,
-            //   text: 'Đơn hàng',
-            //   onPressed: () {
-            //     // Action for button
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => OrderAdminPage()),
-            //     );
-            //   },
-            // )
+            CustomButton(
+              icon: Icons.book,
+              text: 'Nhà xuất bản',
+              onPressed: () {
+                // Action for button
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PublisherList()),
+                );
+              },
+            )
           ],
         ),
       ),

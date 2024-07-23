@@ -23,7 +23,6 @@ class CategoryCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: SizedBox(
-          width: 100, // Adjust width as needed
           height: 50, // Adjust height as needed
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

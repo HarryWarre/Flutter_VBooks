@@ -1,11 +1,13 @@
+import 'package:admin_vbooks/data/model/category.dart';
+import 'package:admin_vbooks/pages/productmanagement/category/category_data.dart';
 import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/confirmdeletedialog.dart';
 import '../../../components/uploadfile.dart';
 import '../../../config/const.dart';
-import 'category_add.dart';
 import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
+import 'category_add.dart';
 
 class CategoryList extends StatefulWidget {
   const CategoryList({super.key});
@@ -15,41 +17,47 @@ class CategoryList extends StatefulWidget {
 }
 
 class _CategoryListState extends State<CategoryList> {
-  final List<int> _selectedCategories = [];
+  final List<String> _selectedCategories = [];
+  List<CategoryModel> allProduct = [];
+  late CategoryViewModel _categoryViewModel;
+
+  void _handleSelectionChanged(List<String> selectedCategories) {
+    setState(() {
+      _selectedCategories.clear();
+      _selectedCategories.addAll(selectedCategories);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<CategoryViewModel>().fetchCategories());
+    _categoryViewModel = context.read<CategoryViewModel>();
+    _refreshCategories();
   }
 
-  void _deleteSelectedCategories() async {
-    final bool? confirm = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return ConfirmDeleteDialog(
-          title: 'Chú ý',
-          content: 'Bạn đang xóa dữ liệu. Cân nhắc trước khi xóa!',
-          onConfirm: () {},
-        );
-      },
-    );
+  Future<void> _refreshCategories() async {
+    await _categoryViewModel.fetchCategories();
+    setState(() {
+      allProduct = _categoryViewModel.categories;
+    });
+  }
 
-    if (confirm == true) {
-      final categoryViewModel = context.read<CategoryViewModel>();
-      for (var id in _selectedCategories) {
-        await categoryViewModel
-            .deleteCategory(id.toString()); // Chuyển đổi id thành String
-      }
-      setState(() {
+  void _deleteSelectedCategories() {
+    setState(() {
+      if (_selectedCategories.isNotEmpty) {
+        for (var category in _selectedCategories) {
+          _categoryViewModel.deleteCategory(category.toString());
+        }
         _selectedCategories.clear();
-      });
-      context
-          .read<CategoryViewModel>()
-          .fetchCategories(); // Cập nhật danh sách danh mục
-    }
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CategoryList(), // Navigate back to ProductBuilder
+        ),
+      );
+    });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,8 +70,7 @@ class _CategoryListState extends State<CategoryList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) =>
-                    const ProductManagement(), // Navigate back to ProductManagement
+                builder: (_) => const ProductManagement(),
               ),
             );
           },
@@ -81,13 +88,14 @@ class _CategoryListState extends State<CategoryList> {
                     Navigator.of(context)
                         .push(
                           MaterialPageRoute(
-                            builder: (_) => const CategoryAdd(),
+                            builder: (_) => CategoryAdd(
+                              isUpdate: false,
+                              onSaveOrUpdate: _refreshCategories,
+                            ),
                             fullscreenDialog: true,
                           ),
                         )
-                        .then((_) => context
-                            .read<CategoryViewModel>()
-                            .fetchCategories());
+                        .then((_) => _refreshCategories()); // Refresh the list after adding
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primary,
@@ -117,7 +125,8 @@ class _CategoryListState extends State<CategoryList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const UploadPage()),
+                        builder: (context) => const UploadPage(),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -139,82 +148,57 @@ class _CategoryListState extends State<CategoryList> {
                 ),
                 const SizedBox(width: 5),
                 ElevatedButton(
-                  onPressed: _deleteSelectedCategories,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: danger,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(
-                        Icons.delete,
-                        color: Colors.white,
+                    onPressed: () async {
+                      final bool confirmDelete = await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          // Customize title and content based on context
+                          const String deleteTitle = 'Chú ý'; // Example
+                          const String deleteContent =
+                              'Bạn đang xóa dữ liệu. Cân nhắc trước khi xóa!'; // Example
+                          return ConfirmDeleteDialog(
+                            title: deleteTitle,
+                            content: deleteContent,
+                            onConfirm: () =>
+                                _deleteSelectedCategories(), // Call your delete function directly
+                          );
+                        },
+                      );
+      
+                      if (confirmDelete) {
+                        _deleteSelectedCategories();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: danger,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12), // Bo tròn 16px
                       ),
-                      SizedBox(width: 5),
-                      Text(
-                        'Xóa',
-                        style: TextStyle(
+                    ),
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.delete,
                           color: Colors.white,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 5),
+                        Text(
+                          'Xóa',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),
           Expanded(
-            child: Consumer<CategoryViewModel>(
-              builder: (context, categoryViewModel, child) {
-                if (categoryViewModel.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (categoryViewModel.categories.isEmpty) {
-                  return const Center(
-                      child: Text('Không thấy danh mục sản phẩm'));
-                } else {
-                  return ListView.builder(
-                    itemCount: categoryViewModel.categories.length,
-                    itemBuilder: (context, index) {
-                      final category = categoryViewModel.categories[index];
-                      return ListTile(
-                        title: Text(category.name),
-                        leading: Checkbox(
-                          value: category.id != null &&
-                              _selectedCategories.contains(category.id!),
-                          onChanged: (bool? selected) {
-                            setState(() {
-                              if (category.id != null) {
-                                debugPrint(
-                                    'Checkbox changed: ${category.id}, selected: $selected');
-                                if (selected == true) {
-                                  // Thêm vào danh sách nếu chưa có
-                                  if (!_selectedCategories
-                                      .contains(category.id!)) {
-                                    _selectedCategories.add(category.id!);
-                                  }
-                                } else {
-                                  // Xóa khỏi danh sách nếu có
-                                  if (_selectedCategories
-                                      .contains(category.id!)) {
-                                    _selectedCategories.remove(category.id!);
-                                  }
-                                }
-                                debugPrint(
-                                    'Selected categories: $_selectedCategories');
-                              }
-                            });
-                          },
-                         
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
+            child: CategoryBuilder(
+              onSelectionChanged: _handleSelectionChanged,
             ),
-          )
+          ),
         ],
       ),
     );
