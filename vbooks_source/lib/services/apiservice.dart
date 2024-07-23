@@ -78,4 +78,21 @@ class ApiService {
     print('Response body: ${response.body}'); // In ra nội dung của phản hồi
     return response;
   }
+
+  Future<http.Response> deleteWithBody(
+    String endpoint, {
+    Map<String, String>? headers,
+    required String body,
+  }) async {
+    final url = Uri.parse('$baseUrl/$endpoint');
+    print('DELETE request to: $url');
+    final response = await http.delete(
+      url,
+      headers: headers ?? {'Content-Type': 'application/json'},
+      body: body,
+    );
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    return response;
+  }
 }
