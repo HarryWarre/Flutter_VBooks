@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class CategoryModel {
-  final int? id;
+  final String? id;
   final String name;
   final String desc;
 
@@ -23,7 +23,7 @@ class CategoryModel {
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
-      id: map['id'] != null ? (map['id'] as int) : null,
+      id: map['_id'] != null ? (map['_id'] as String) : null,
       name: map['name'] ?? '',  // Cung cấp giá trị mặc định nếu 'name' là null
       desc: map['desc'] ?? '',  // Cung cấp giá trị mặc định nếu 'desc' là null
     );
@@ -33,7 +33,7 @@ class CategoryModel {
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
-      id: json['id'] != null ? (json['id'] as int) : null,
+      id: json['_id'] != null ? (json['_id'] as String) : null,
       name: json['name'] ?? '',  // Cung cấp giá trị mặc định nếu 'name' là null
       desc: json['desc'] ?? '',  // Cung cấp giá trị mặc định nếu 'desc' là null
     );

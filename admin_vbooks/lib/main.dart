@@ -1,21 +1,27 @@
 import 'package:admin_vbooks/connectApi/apiservice.dart';
-import 'package:admin_vbooks/data/model/categoryservice.dart';
+import 'package:admin_vbooks/connectApi/categoryservice.dart';
+import 'package:admin_vbooks/connectApi/productservice.dart';
+import 'package:admin_vbooks/connectApi/publisherservice.dart';
 import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
+import 'package:admin_vbooks/viewmodel/productviewmodel.dart';
+import 'package:admin_vbooks/viewmodel/publisherviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
 
 
 void main() {
-  final apiService = ApiService();
-  final categoryService = CategoryService(apiService);
+  final _apiService = ApiService();
+  final _categoryService = CategoryService(_apiService);
+  final _productService = ProductService(_apiService);
+  final _publisherService = PublisherService(_apiService);
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => CategoryViewModel(categoryService),
-        ),
+        ChangeNotifierProvider(create: (_) => CategoryViewModel(_categoryService)),
+        ChangeNotifierProvider(create: (_) => PublisherViewModel(_publisherService)),
+        ChangeNotifierProvider(create: (_) => ProductViewModel()),
         // Thêm các provider khác ở đây nếu cần
       ],
       child: MyApp(),

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../data/model/category.dart';
-import '../data/model/categoryservice.dart';
+import '../connectApi/categoryservice.dart';
 
 class CategoryViewModel extends ChangeNotifier {
   bool isLoading = false;
@@ -12,7 +12,7 @@ class CategoryViewModel extends ChangeNotifier {
 
   Future<void> fetchCategories() async {
     isLoading = true;
-    notifyListeners();
+    
 
     try {
       categories = await categoryService.fetchCategories();

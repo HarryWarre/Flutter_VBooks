@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-#Mon Jul 22 19:31:47 ICT 2024
+#Tue Jul 23 15:33:03 ICT 2024
 path.4=3/classes.dex
 path.3=1/classes.dex
 path.2=0/classes.dex
@@ -14,21 +13,4 @@ renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-=======
-#Mon Jul 22 16:36:58 ICT 2024
-base.0=C\:\\Users\\Pham Loc\\Desktop\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\Pham Loc\\Desktop\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
-base.2=C\:\\Users\\Pham Loc\\Desktop\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.3=C\:\\Users\\Pham Loc\\Desktop\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
-base.4=C\:\\Users\\Pham Loc\\Desktop\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
-path.0=classes.dex
-path.1=0/classes.dex
-path.2=0/classes.dex
-path.3=1/classes.dex
-path.4=3/classes.dex
-renamed.0=classes.dex
-renamed.1=classes2.dex
-renamed.2=classes3.dex
-renamed.3=classes4.dex
->>>>>>> c87888cca2e9b1cc45892369d9fb9a44efd8d947
 renamed.4=classes5.dex

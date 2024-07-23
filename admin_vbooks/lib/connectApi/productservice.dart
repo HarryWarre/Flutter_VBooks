@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:admin_vbooks/data/model/product.dart';
+import 'package:flutter/material.dart';
 import './apiservice.dart';
 
 
@@ -40,19 +41,36 @@ class ProductService {
     }
   }
 
-  Future<void> addProduct({required String name,required dynamic price,required String img,required String desc,required String catId}) async { 
+  Future<void> addProduct({required String name,required dynamic price,required String img,required String desc,required String catId, required String publisherId}) async { 
     var data = {
       'name': name,
       'price': price,
       'img': img,
       'desc': desc,
       'catId': catId,
+      'publisherId': publisherId
     };
 
     final response = await apiService.post('product/createProduct', data);
     if(response.statusCode != 200){
       throw Exception('Lỗi khi tạo sản phẩm');
     }
+  }
+
+  Future<void> updateProduct({required String id,required String name,required dynamic price,required String img,required String desc,required String catId, required String publisherId}) async {
+    var data = {
+      'name': name,
+      'price': price,
+      'img': img,
+      'desc': desc,
+      'catId': catId,
+      'publisherId': publisherId,
+    };
+
+    final response = await apiService.put('product/updateProduct/$id', data);
+   if(response.statusCode != 200){
+      throw Exception(Text('Lỗi khi cập nhật sản phẩm'));
+   }
   }
 
   Future<void> deleteProduct({required String id}) async {
