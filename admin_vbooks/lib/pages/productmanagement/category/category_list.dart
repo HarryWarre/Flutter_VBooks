@@ -1,10 +1,10 @@
+import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/confirmdeletedialog.dart';
 import '../../../components/uploadfile.dart';
 import '../../../config/const.dart';
 import 'category_add.dart';
-import 'package:admin_vbooks/services/categoryviewmodel.dart';
 import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 
 class CategoryList extends StatefulWidget {

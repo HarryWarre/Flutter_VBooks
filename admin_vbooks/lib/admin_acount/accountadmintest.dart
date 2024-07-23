@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import 'package:admin_vbooks/admin_acount/detailacount.dart';
-import 'package:admin_vbooks/config/const.dart';
 import 'package:admin_vbooks/connectApi/accountapi.dart';
-import 'package:admin_vbooks/data/model/account.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MaterialApp(
@@ -14,8 +9,6 @@ void main() {
 }
 
 class AccountTest extends StatelessWidget {
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,18 +70,16 @@ class AccountTest extends StatelessWidget {
                           onTap: () {
                             // Chuyển đến trang chi tiết tài khoản
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UpdateInfoScreen(  
-                                      email: item.email,
-                                      dob: item.dob,
-                                      fullName: item.fullName,
-                                      sex: item.sex,
-                                      phoneNumber: item.phoneNumber,
-                                      id: item.id,
-                                  ),
-                            )
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => DetailScreen(
+                                          email: item.email,
+                                          dob: item.dob,
+                                          fullName: item.fullName,
+                                          sex: item.sex,
+                                          phoneNumber: item.phoneNumber,
+                                          id: item.id,
+                                        )));
                           },
                         );
                       },
@@ -98,7 +89,9 @@ class AccountTest extends StatelessWidget {
                       child: Text(snapshot.error.toString()),
                     );
                   } else {
-                    return CircularProgressIndicator();
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }
                 },
               ),

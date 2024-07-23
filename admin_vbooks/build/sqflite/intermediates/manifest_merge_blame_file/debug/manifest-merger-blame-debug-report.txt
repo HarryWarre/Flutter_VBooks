@@ -4,8 +4,14 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="16"
+<<<<<<< HEAD
+6-->C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
+7        android:targetSdkVersion="16" />
+7-->C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
+=======
 6-->C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
 7        android:targetSdkVersion="16" />
 7-->C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
+>>>>>>> c87888cca2e9b1cc45892369d9fb9a44efd8d947
 8
 9</manifest>

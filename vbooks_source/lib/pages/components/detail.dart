@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/conf/const.dart';
 import 'package:vbooks_source/data/model/productmodel.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/components/button.dart';
+import 'package:vbooks_source/pages/components/scafformessenger.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/services/cartservice.dart';
@@ -34,7 +36,6 @@ class _DetailState extends State<Detail> {
   late final CartViewModel cartViewModel;
   late CartService _cartService;
   int _quantity = 1; // Thay đổi đây
-
   @override
   void initState() {
     super.initState();
@@ -311,7 +312,12 @@ class _DetailState extends State<Detail> {
       floatingActionButton: FloatingActionButton(
         foregroundColor: primaryColor,
         backgroundColor: Colors.white,
-        onPressed: addItemToCart,
+        onPressed: (){
+          print(_id);
+          print(widget.book.id);
+          print(_quantity);
+          _addItemToCart();
+        },
         child: const Icon(CupertinoIcons.cart),
       ),
     );

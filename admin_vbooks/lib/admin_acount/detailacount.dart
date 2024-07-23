@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-class UpdateInfoScreen extends StatefulWidget {
+class DetailScreen extends StatefulWidget {
   final String id;
   final String email;
   final String dob;
@@ -13,14 +13,14 @@ class UpdateInfoScreen extends StatefulWidget {
   final String phoneNumber;
   final int sex;
 
-  UpdateInfoScreen({required this.email, required this.dob, required this.fullName, 
+  DetailScreen({required this.email, required this.dob, required this.fullName, 
   required this.phoneNumber, required this.sex, required this.id});
 
   @override
-  _UpdateInfoScreenState createState() => _UpdateInfoScreenState();
+  _DetailScreenState createState() => _DetailScreenState();
 }
 
-class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
+class _DetailScreenState extends State<DetailScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneController;

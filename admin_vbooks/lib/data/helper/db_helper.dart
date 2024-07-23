@@ -84,7 +84,7 @@ class DatabaseHelper {
     );
   }
 
-  Future<void> deleteCategory(int id) async {
+  Future<void> deleteCategory(String id) async {
     final db = await _databaseService.database;
     await db.delete(
       'category',

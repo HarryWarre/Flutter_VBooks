@@ -4,7 +4,11 @@
             "outputFile": "com.example.admin_vbooks.app-mergeDebugResources-20:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
+<<<<<<< HEAD
+                    "source": "C:\\flutter_project\\Flutter_VBooks\\admin_vbooks\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+=======
                     "source": "C:\\Users\\Pham Loc\\Desktop\\Flutter_VBooks\\admin_vbooks\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+>>>>>>> c87888cca2e9b1cc45892369d9fb9a44efd8d947
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
