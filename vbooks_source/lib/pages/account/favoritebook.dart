@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/data/model/productmodel.dart';
 import 'package:vbooks_source/pages/components/button.dart';
 import 'package:vbooks_source/pages/components/detail.dart';
-
-import '../../data/provider/productprovider.dart';
+import 'package:vbooks_source/services/favoriteservice.dart';
+import 'package:vbooks_source/services/apiservice.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -15,17 +17,52 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
+  late FavoriteService favoriteService;
+  late Future<List<Product>> favoriteProducts;
+  String _accountId = '';
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    favoriteService = FavoriteService(ApiService());
+    favoriteProducts =
+        Future.value([]); // Khởi tạo với Future trống hoặc giá trị mặc định
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+    String? storedToken = prefs.getString('token');
+    if (storedToken != null && storedToken.isNotEmpty) {
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(storedToken);
+      setState(() {
+        _accountId = jwtDecodedToken['_id'];
+        favoriteProducts = favoriteService.fetchFavorites(_accountId);
+      });
+    }
+  }
+
+  Future<void> _removeFavorite(String productId) async {
+    try {
+      await favoriteService.deleteFavorite(_accountId, productId);
+      setState(() {
+        favoriteProducts = favoriteService.fetchFavorites(_accountId);
+      });
+    } catch (e) {
+      print('Error removing favorite: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Trang Yêu thích',
-        ),
+        title: Text('Trang Yêu thích'),
       ),
       body: FutureBuilder<List<Product>>(
-        future: ReadData.loadData(),
+        future: favoriteProducts,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -33,6 +70,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final books = snapshot.data!;
+
+            // Log danh sách sản phẩm
+            print('Books: $books');
+
             return ListView.builder(
               padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
               scrollDirection: Axis.vertical,
@@ -41,6 +82,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               itemBuilder: (context, index) {
                 final book = books[index];
                 return _buildBookItem(
+                  book.id ?? '',
                   book.img ?? '', // Đảm bảo đây là URL hợp lệ
                   book.name!,
                   book.price!,
@@ -58,8 +100,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     );
   }
 
-  Widget _buildBookItem(
-      String imagePath, String title, int price, VoidCallback onPressed) {
+  Widget _buildBookItem(String id, String imagePath, String title, int price,
+      VoidCallback onPressed) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -77,6 +119,20 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   imagePath,
                   width: 120,
                   height: 120,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: 120,
+                      height: 120,
+                      color: Colors.grey, // Màu nền cho trường hợp lỗi
+                      child: Center(
+                        child: Icon(
+                          Icons.image_not_supported,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 16),
@@ -95,22 +151,16 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       '${NumberFormat('###,###,###').format(price)} Đ',
                       style: const TextStyle(color: Colors.teal),
                     ),
-                    const SizedBox(height: 30),
-                    Button(
-                      width: 120,
-                      height: 30,
-                      text: 'Mua ngay',
-                      onPressed: onPressed,
-                    ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
                 child: IconButton(
-                  icon: const Icon(CupertinoIcons.delete),
-                  onPressed: () {},
-                ),
+                    icon: const Icon(CupertinoIcons.delete),
+                    onPressed: () {
+                      _removeFavorite(id);
+                    }),
               ),
             ],
           ),
