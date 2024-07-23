@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 com.example.admin_vbooks.app-jetified-core-ktx-1.10.1-0 C:\Users\PC\.gradle\caches\transforms-3\03fb3b24083ec77d35adf4aef63aa0bd\transformed\jetified-core-ktx-1.10.1\res
 com.example.admin_vbooks.app-jetified-savedstate-1.2.1-1 C:\Users\PC\.gradle\caches\transforms-3\073bbc496dc937caab7777ff7b382427\transformed\jetified-savedstate-1.2.1\res
 com.example.admin_vbooks.app-jetified-lifecycle-viewmodel-savedstate-2.6.1-2 C:\Users\PC\.gradle\caches\transforms-3\0bb1484863a8234b8e651275f9cc2378\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.1\res
@@ -26,32 +25,3 @@ com.example.admin_vbooks.app-packaged_res-23 C:\flutter_project\Flutter_VBooks\a
 com.example.admin_vbooks.app-packaged_res-24 C:\flutter_project\Flutter_VBooks\admin_vbooks\build\flutter_plugin_android_lifecycle\intermediates\packaged_res\debug
 com.example.admin_vbooks.app-packaged_res-25 C:\flutter_project\Flutter_VBooks\admin_vbooks\build\image_picker_android\intermediates\packaged_res\debug
 com.example.admin_vbooks.app-packaged_res-26 C:\flutter_project\Flutter_VBooks\admin_vbooks\build\sqflite\intermediates\packaged_res\debug
-=======
-com.example.admin_vbooks.app-lifecycle-viewmodel-2.6.1-0 C:\Users\Pham Loc\.gradle\caches\transforms-3\0a23c1256ae2aa380732b88797836382\transformed\lifecycle-viewmodel-2.6.1\res
-com.example.admin_vbooks.app-core-runtime-2.2.0-1 C:\Users\Pham Loc\.gradle\caches\transforms-3\0f877a570394a12cc35ff27489f11c26\transformed\core-runtime-2.2.0\res
-com.example.admin_vbooks.app-jetified-window-java-1.0.0-beta04-2 C:\Users\Pham Loc\.gradle\caches\transforms-3\2a215381204751055df81b6269e717b7\transformed\jetified-window-java-1.0.0-beta04\res
-com.example.admin_vbooks.app-lifecycle-runtime-2.6.1-3 C:\Users\Pham Loc\.gradle\caches\transforms-3\4ac9c1c617b4046bb54acd067955b671\transformed\lifecycle-runtime-2.6.1\res
-com.example.admin_vbooks.app-jetified-lifecycle-viewmodel-savedstate-2.6.1-4 C:\Users\Pham Loc\.gradle\caches\transforms-3\551d88e26c320a090b52f7ae46c67101\transformed\jetified-lifecycle-viewmodel-savedstate-2.6.1\res
-com.example.admin_vbooks.app-jetified-startup-runtime-1.1.1-5 C:\Users\Pham Loc\.gradle\caches\transforms-3\69635902d600ff315c2d2b7f75af662f\transformed\jetified-startup-runtime-1.1.1\res
-com.example.admin_vbooks.app-jetified-profileinstaller-1.3.0-6 C:\Users\Pham Loc\.gradle\caches\transforms-3\77b04ab641bc809f6845dd10c6b5dd1f\transformed\jetified-profileinstaller-1.3.0\res
-com.example.admin_vbooks.app-jetified-savedstate-1.2.1-7 C:\Users\Pham Loc\.gradle\caches\transforms-3\93b9d15e098df96a93b7a4fb1262fd3b\transformed\jetified-savedstate-1.2.1\res
-com.example.admin_vbooks.app-core-1.10.1-8 C:\Users\Pham Loc\.gradle\caches\transforms-3\a3842a17fe7307c5bcdac869078c73a0\transformed\core-1.10.1\res
-com.example.admin_vbooks.app-lifecycle-livedata-2.6.1-9 C:\Users\Pham Loc\.gradle\caches\transforms-3\bc19d218657e5b543821940ae3a71a69\transformed\lifecycle-livedata-2.6.1\res
-com.example.admin_vbooks.app-jetified-activity-1.7.2-10 C:\Users\Pham Loc\.gradle\caches\transforms-3\bde7e7dd978a4f14628e733b41fcdd9f\transformed\jetified-activity-1.7.2\res
-com.example.admin_vbooks.app-jetified-core-ktx-1.10.1-11 C:\Users\Pham Loc\.gradle\caches\transforms-3\c1e3cec58f97b65c118bb2f68fab94a8\transformed\jetified-core-ktx-1.10.1\res
-com.example.admin_vbooks.app-jetified-annotation-experimental-1.3.0-12 C:\Users\Pham Loc\.gradle\caches\transforms-3\cf1dbdbeca5961b0be70c71293909f9a\transformed\jetified-annotation-experimental-1.3.0\res
-com.example.admin_vbooks.app-lifecycle-livedata-core-2.6.1-13 C:\Users\Pham Loc\.gradle\caches\transforms-3\d8b1ccc58cf5891937477b0f4baf5086\transformed\lifecycle-livedata-core-2.6.1\res
-com.example.admin_vbooks.app-jetified-window-1.0.0-beta04-14 C:\Users\Pham Loc\.gradle\caches\transforms-3\f302e75fb7efd781bcf1a29281c188da\transformed\jetified-window-1.0.0-beta04\res
-com.example.admin_vbooks.app-debug-15 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\android\app\src\debug\res
-com.example.admin_vbooks.app-main-16 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\android\app\src\main\res
-com.example.admin_vbooks.app-pngs-17 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\app\generated\res\pngs\debug
-com.example.admin_vbooks.app-resValues-18 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\app\generated\res\resValues\debug
-com.example.admin_vbooks.app-rs-19 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\app\generated\res\rs\debug
-com.example.admin_vbooks.app-mergeDebugResources-20 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\app\intermediates\incremental\debug\mergeDebugResources\merged.dir
-com.example.admin_vbooks.app-mergeDebugResources-21 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\app\intermediates\incremental\debug\mergeDebugResources\stripped.dir
-com.example.admin_vbooks.app-merged_res-22 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\app\intermediates\merged_res\debug
-com.example.admin_vbooks.app-packaged_res-23 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\file_picker\intermediates\packaged_res\debug
-com.example.admin_vbooks.app-packaged_res-24 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\flutter_plugin_android_lifecycle\intermediates\packaged_res\debug
-com.example.admin_vbooks.app-packaged_res-25 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\image_picker_android\intermediates\packaged_res\debug
-com.example.admin_vbooks.app-packaged_res-26 C:\Users\Pham Loc\Desktop\Flutter_VBooks\admin_vbooks\build\sqflite\intermediates\packaged_res\debug
->>>>>>> c87888cca2e9b1cc45892369d9fb9a44efd8d947

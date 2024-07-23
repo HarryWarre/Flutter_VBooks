@@ -5,9 +5,10 @@ class Product_Model {
   String? img;
   String? desc;
   String? catId;
+  String? publisherId;
   //constructor
   Product_Model(
-      {this.id, this.name, this.price, this.img, this.desc, this.catId});
+      {this.id, this.name, this.price, this.img, this.desc, this.catId, this.publisherId});
   Product_Model.fromJson(Map<String, dynamic> json) {
     id = json["_id"];
     name = json["name"];
@@ -15,6 +16,7 @@ class Product_Model {
     img = json["img"];
     desc = json["desc"];
     catId = json["catId"];
+    publisherId = json["publisherId"];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -24,6 +26,7 @@ class Product_Model {
     data["img"] = img;
     data["desc"] = desc;
     data["catId"] = catId;
+    data["publisherId"] = publisherId;
     return data;
   }
 
@@ -35,6 +38,7 @@ class Product_Model {
       desc: map['desc'] ?? '',
       img: map['img'] ?? '',
       catId: map['catId'] ?? '',
+      publisherId: map['publisherId'] ?? '',
     );
   }
 }

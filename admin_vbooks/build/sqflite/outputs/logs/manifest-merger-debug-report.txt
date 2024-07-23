@@ -1,6 +1,5 @@
 -- Merging decision tree log ---
 manifest
-<<<<<<< HEAD
 ADDED from C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml:1:1-3:12
 INJECTED from C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml:1:1-3:12
 INJECTED from C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml:1:1-3:12
@@ -24,28 +23,3 @@ INJECTED from C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1
 		INJECTED from C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
 		ADDED from C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\PC\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-=======
-ADDED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml:1:1-3:12
-INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml:1:1-3:12
-INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml:1:1-3:12
-	package
-		ADDED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml:2:5-35
-		INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-	xmlns:android
-		ADDED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml:1:11-69
-uses-sdk
-INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-	android:targetSdkVersion
-		INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-	android:minSdkVersion
-		INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Pham Loc\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.3.3+1\android\src\main\AndroidManifest.xml
->>>>>>> c87888cca2e9b1cc45892369d9fb9a44efd8d947
