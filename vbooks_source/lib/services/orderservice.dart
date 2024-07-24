@@ -41,4 +41,18 @@ class OrderService {
       throw Exception('Failed to load orders');
     }
   }
+
+  Future<void> updateOrderStatus({
+    required String orderId,
+    required String status,
+  }) async {
+    final response = await apiService.put(
+      'order/update/$orderId',
+      {'status': status},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update order status');
+    }
+  }
 }

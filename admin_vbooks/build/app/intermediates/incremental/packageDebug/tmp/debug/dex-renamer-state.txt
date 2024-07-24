@@ -1,4 +1,4 @@
-#Wed Jul 24 12:24:52 ICT 2024
-base.0=/Users/hoangviet/Documents/University/flutter_mobile/Flutter_VBooks/admin_vbooks/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+#Wed Jul 24 15:28:48 ICT 2024
+base.0=D\:\\HocTap\\HocKi3Nam3\\Android\\LT9\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

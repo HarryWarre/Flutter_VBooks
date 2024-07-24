@@ -5,6 +5,8 @@ import 'package:admin_vbooks/connectApi/publisherservice.dart';
 import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
 import 'package:admin_vbooks/viewmodel/productviewmodel.dart';
 import 'package:admin_vbooks/viewmodel/publisherviewmodel.dart';
+import 'package:admin_vbooks/viewmodel/orderviewmodel.dart';
+import 'package:admin_vbooks/viewmodel/orderdetailviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
@@ -21,6 +23,8 @@ void main() {
         ChangeNotifierProvider(create: (_) => CategoryViewModel(_categoryService)),
         ChangeNotifierProvider(create: (_) => PublisherViewModel(_publisherService)),
         ChangeNotifierProvider(create: (_) => ProductViewModel()),
+        ChangeNotifierProvider(create: (_) => OrderViewModel()),
+        ChangeNotifierProvider(create: (_) => OrderDetailViewModel()),
         // Thêm các provider khác ở đây nếu cần
       ],
       child: MyApp(),

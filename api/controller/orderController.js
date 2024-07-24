@@ -17,11 +17,24 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  getAllOrders: async (req, res) => {
+    try {
+      const orders = await Order.find({})
+        .populate('userId', 'fullName address phoneNumber')
+        .populate('paymentMethodId', 'name');
+      res.status(200).json({ success: true, orders });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
   getOrderById: async (req, res) => {
     const { userId } = req.params;
     console.log(userId);
     try {
-      const orders = await Order.find({ userId: userId });
+      const orders = await Order.find({ userId: userId })
+      .populate('paymentMethodId', 'name');
 
       console.log(orders);
       res.status(200).json({ success: true, orders: orders });
@@ -50,4 +63,25 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  updateOrderStatus: async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    try {
+      const updatedOrder = await Order.findByIdAndUpdate(
+        orderId,
+        { status },
+        { new: true }
+      );
+      if (!updatedOrder) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+      res.json({ message: 'Order status updated successfully', updatedOrder });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  
+  
 };

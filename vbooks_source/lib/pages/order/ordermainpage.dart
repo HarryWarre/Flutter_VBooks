@@ -188,6 +188,10 @@ class OrderContainer extends StatelessWidget {
     DateTime dateTime = DateTime.parse(ngayDat);
     String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
 
+    // Format the total amount to Vietnamese currency format
+    final numberFormat = NumberFormat.currency(locale: 'vi_VN', symbol: '₫');
+    String formattedTotalAmount = numberFormat.format(double.parse(tongTien.replaceAll(',', '')));
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -197,7 +201,7 @@ class OrderContainer extends StatelessWidget {
               idDonHang: idDonHang,
               ngayDat: ngayDat,
               nguoiDat: nguoiDat,
-              tongTien: tongTien,
+              tongTien: formattedTotalAmount,
               trangThai: trangThai,
             ),
           ),
@@ -206,10 +210,9 @@ class OrderContainer extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16.0),
         padding: const EdgeInsets.all(16.0),
-        height: 200, // Đặt một chiều cao cố định nếu cần
+        height: 180,
         decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(color: Color(0xFFE5E5E5), width: 1)),
+          border: Border(bottom: BorderSide(color: Color(0xFFE5E5E5), width: 1)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,28 +220,28 @@ class OrderContainer extends StatelessWidget {
             Flexible(
               flex: 6,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Hiện tại đã bị bỏ qua, có thể thêm lại nếu cần
-                  // Text(
-                  //   idDonHang,
-                  //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  // ),
-                  SizedBox(height: 5),
+                  Text(
+                    idDonHang,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 4),
                   Text(
                     'Ngày mua: $formattedDate',
                     style: TextStyle(fontSize: 18),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 4),
                   Text(
                     'Người nhận: $nguoiDat',
                     style: TextStyle(fontSize: 18),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 4),
                   Text(
-                    'Tổng tiền: $tongTien',
+                    'Tổng tiền: $formattedTotalAmount',
                     style: TextStyle(fontSize: 18),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -273,3 +276,5 @@ class OrderContainer extends StatelessWidget {
     );
   }
 }
+
+
