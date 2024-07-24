@@ -11,10 +11,12 @@ class ProductListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(
-        product.img!,
+      leading: Image.asset(
+        'assets/images/product/${product.img}',
         fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+        errorBuilder: (context, error, stackTrace) {
+          return Icon(Icons.error);
+        },
         width: 50,
         height: 50,
       ),
