@@ -27,6 +27,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     super.initState();
     favoriteService = FavoriteService(ApiService());
     _loadToken();
+    // Khởi tạo favoriteProducts với một Future rỗng để tránh lỗi LateInitializationError
+    favoriteProducts = Future.value([]);
   }
 
   void _loadToken() async {
