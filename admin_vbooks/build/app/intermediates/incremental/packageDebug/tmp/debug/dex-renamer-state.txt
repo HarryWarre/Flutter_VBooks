@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-#Wed Jul 24 16:31:16 ICT 2024
+#Wed Jul 24 17:32:07 ICT 2024
 path.4=3/classes.dex
 path.3=1/classes.dex
 path.2=0/classes.dex
 path.1=0/classes.dex
-=======
-#Wed Jul 24 15:28:48 ICT 2024
-base.0=D\:\\HocTap\\HocKi3Nam3\\Android\\LT9\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
->>>>>>> 950aa4f74fa42326f683956cbde06c2113b948d0
 path.0=classes.dex
 base.4=C\:\\flutter_project\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
 base.3=C\:\\flutter_project\\Flutter_VBooks\\admin_vbooks\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
