@@ -38,7 +38,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(storedToken);
       setState(() {
         _accountId = jwtDecodedToken['_id'];
-        favoriteProducts = favoriteService.fetchFavorites(_accountId);
+        // favoriteProducts = favoriteService.fetchVaroriteById(_accountId);
       });
     }
   }
@@ -47,7 +47,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     try {
       await favoriteService.deleteFavorite(_accountId, productId);
       setState(() {
-        favoriteProducts = favoriteService.fetchFavorites(_accountId);
+        // favoriteProducts = favoriteService.fetchFavorites(_accountId);
       });
     } catch (e) {
       print('Error removing favorite: $e');
