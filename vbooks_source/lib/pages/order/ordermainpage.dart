@@ -201,7 +201,7 @@ class OrderContainer extends StatelessWidget {
               idDonHang: idDonHang,
               ngayDat: ngayDat,
               nguoiDat: nguoiDat,
-              tongTien: formattedTotalAmount,
+              tongTien: tongTien,
               trangThai: trangThai,
             ),
           ),
