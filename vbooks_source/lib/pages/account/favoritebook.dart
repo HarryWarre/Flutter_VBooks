@@ -90,7 +90,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             );
           } else {
             return const Center(
-              child: Text('No Data'),
+              child: Text('Không có sản phẩm yêu thích'),
             );
           }
         },
