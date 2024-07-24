@@ -271,15 +271,15 @@ class _DetailState extends State<Detail> {
                           style: const TextStyle(fontSize: 16),
                           width: 150,
                         ),
-                        AccountInfoRow(
-                          label: 'Nhà cung cấp:',
-                          value: 'Công ty xxx',
-                          style: const TextStyle(fontSize: 16),
-                          width: 150,
-                        ),
+                        // AccountInfoRow(
+                        //   label: 'Nhà cung cấp:',
+                        //   value: 'Công ty xxx',
+                        //   style: const TextStyle(fontSize: 16),
+                        //   width: 150,
+                        // ),
                         AccountInfoRow(
                           label: 'Nhà xuất bản:',
-                          value: 'Kim Đồng',
+                          value: '${widget.book.name}',
                           style: const TextStyle(fontSize: 16),
                           width: 150,
                         ),
