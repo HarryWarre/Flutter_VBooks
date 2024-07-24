@@ -24,7 +24,7 @@ class OrderDetailViewModel extends ChangeNotifier {
     _orderDetails = orderDetails.map((orderDetail) {
       return {
         'productName': orderDetail['productId']['name'] ?? 'N/A',
-        'productImage': orderDetail['productId']['image'] ?? 'N/A',
+        'productImage': orderDetail['productId']['img'] ?? 'N/A',
         'price': orderDetail['productId']['price'] ?? 0,
         'quantity': orderDetail['quantity'] ?? 0,
       };

@@ -453,9 +453,9 @@ class SanPhamDaMua extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
-              'assets/images/product/$urlHinh',
-              width: 50,
-              height: 100,
+              'assets/images/product/${urlHinh}',
+              width: 100,
+              height: 150,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
