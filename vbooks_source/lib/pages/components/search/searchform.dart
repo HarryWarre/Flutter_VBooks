@@ -3,7 +3,6 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:vbooks_source/pages/components/detail.dart';
 
 import '../../../data/model/productmodel.dart';
-import '../../../data/provider/productprovider.dart';
 import '../../../services/apiservice.dart';
 import '../../../services/productservice.dart';
 import 'productsearchresults.dart';
@@ -23,12 +22,13 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
   final TextEditingController _controller = TextEditingController();
-  late final ReadData _productProvider;
+  late ProductService _productService;
 
   @override
   void initState() {
     super.initState();
-    _productProvider = ReadData(ProductService(ApiService()));
+    _productService =
+        ProductService(ApiService()); // Ensure this line is executed
   }
 
   @override
@@ -63,7 +63,13 @@ class _SearchWidgetState extends State<SearchWidget> {
               ),
               suggestionsCallback: (pattern) async {
                 if (pattern.isNotEmpty) {
-                  return _productProvider.searchProducts(pattern);
+                  try {
+                    // Make sure _productService is properly initialized
+                    return await _productService.searchProducts(pattern);
+                  } catch (e) {
+                    // Handle error (e.g., show a message)
+                    return [];
+                  }
                 }
                 return [];
               },
@@ -90,7 +96,8 @@ class _SearchWidgetState extends State<SearchWidget> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProductSearchResults(keyword: keyword, productService: ProductService(ApiService())),
+          builder: (context) => ProductSearchResults(
+              keyword: keyword, productService: _productService),
         ),
       );
     }
