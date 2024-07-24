@@ -72,7 +72,7 @@ class ProductManagement extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => PublisherList()),
                 );
               },
-            )
+            ),          
           ],
         ),
       ),

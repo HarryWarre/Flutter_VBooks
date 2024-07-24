@@ -80,23 +80,12 @@ class _ProductAddState extends State<ProductAdd> {
     final id = widget.productmodel?.id;
     final name = _nameController.text;
     final price = int.tryParse(_priceController.text);
-    final img = widget.productmodel?.img;
+    final img = _imagePath.text;
     final desc = _descController.text;
     final catId = _selectedCategory?.id ?? '';
     final publisherId = _selectedPublisher?.id.toString() ?? '';
 
-    if (name.isEmpty || price! <= 0 || img!.isEmpty || desc.isEmpty || catId.isEmpty || publisherId.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Vui lòng nhập đầy đủ thông tin'),
-          backgroundColor: Colors.red,
-        ),
-      );
-        return;
-    }
-
-
-    await _productViewModel.updateProduct(id!, name, price, img, desc, catId.toString(), publisherId.toString());
+    await _productViewModel.updateProduct(id!, name, price!, img, desc, catId.toString(), publisherId.toString());
      Navigator.push(
       context,
       MaterialPageRoute(

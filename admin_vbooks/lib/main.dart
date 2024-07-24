@@ -2,6 +2,7 @@ import 'package:admin_vbooks/connectApi/apiservice.dart';
 import 'package:admin_vbooks/connectApi/categoryservice.dart';
 import 'package:admin_vbooks/connectApi/productservice.dart';
 import 'package:admin_vbooks/connectApi/publisherservice.dart';
+import 'package:admin_vbooks/pages/auth/login.dart';
 import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
 import 'package:admin_vbooks/viewmodel/productviewmodel.dart';
 import 'package:admin_vbooks/viewmodel/publisherviewmodel.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         ),
         dialogTheme: const DialogTheme(backgroundColor: Colors.white),
       ),
-      home: const MainScreenWidget(), // Đảm bảo rằng MainScreenWidget được định nghĩa và hoạt động tốt
+      home: AuthScreen(), // Đảm bảo rằng MainScreenWidget được định nghĩa và hoạt động tốt
     );
   }
 }

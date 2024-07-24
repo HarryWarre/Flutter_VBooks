@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:admin_vbooks/connectApi/adminservice.dart';
+import 'package:admin_vbooks/connectApi/apiservice.dart';
+import 'package:admin_vbooks/data/model/admin.dart';
 import 'package:admin_vbooks/pages/mainscreen/defaultscreen.dart';
 import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -9,6 +15,68 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   bool _isCheck = true;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  late AdminService adminService;
+  late ApiService _apiService;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _apiService = ApiService();
+    adminService = AdminService(_apiService);
+  }
+
+  Future<void> _login() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    // Kiểm tra nếu email hoặc password để trống
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Vui lòng nhập đầy đủ thông tin')),
+      );
+      return;
+    }
+
+    try {
+      final response = await adminService.login(email, password);
+
+      // Kiểm tra mã trạng thái HTTP
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+
+        // Kiểm tra nếu thông tin đăng nhập thành công
+        if (responseData['success']) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('admin', json.encode(responseData['admin']));
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => MainScreenWidget()),
+          );
+        } else {
+          // Hiển thị thông báo lỗi từ JSON
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(responseData['message'] ?? 'Đăng nhập thất bại')),
+          );
+        }
+      } else {
+        // Xử lý lỗi khi mã trạng thái không phải 200
+        final responseData = jsonDecode(response.body);
+        final errorMessage = responseData['message'] ?? 'Đăng nhập thất bại';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    } catch (e) {
+      // Xử lý lỗi mạng hoặc lỗi khác
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Đã xảy ra lỗi: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +123,8 @@ class _AuthScreenState extends State<AuthScreen> {
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const TextField(
+                  child: TextField(
+                    controller: _emailController,
                     textAlign: TextAlign.left, // Align text to the left
                     decoration: InputDecoration(
                       labelText: "Nhập Email / Số điện thoại",
@@ -85,6 +154,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
+                    controller: _passwordController,
                     textAlign: TextAlign.left,
                     obscureText: _isCheck,
                     decoration: InputDecoration(
@@ -111,7 +181,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainScreenWidget()));
+                      _login();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
