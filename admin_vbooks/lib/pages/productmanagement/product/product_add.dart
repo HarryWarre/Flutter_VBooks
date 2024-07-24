@@ -79,14 +79,30 @@ class _ProductAddState extends State<ProductAdd> {
   Future<void> _onUpdate() async {
     final id = widget.productmodel?.id;
     final name = _nameController.text;
-    final price = int.tryParse(_priceController.text) ?? 0;
-    final img = widget.productmodel!.img;
+    final price = int.tryParse(_priceController.text);
+    final img = widget.productmodel?.img;
     final desc = _descController.text;
     final catId = _selectedCategory?.id ?? '';
     final publisherId = _selectedPublisher?.id.toString() ?? '';
 
-    await _productViewModel.updateProduct(id!, name, price, img!, desc!, catId.toString(), publisherId.toString());
+    if (name.isEmpty || price! <= 0 || img!.isEmpty || desc.isEmpty || catId.isEmpty || publisherId.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Vui lòng nhập đầy đủ thông tin'),
+          backgroundColor: Colors.red,
+        ),
+      );
+        return;
+    }
 
+
+    await _productViewModel.updateProduct(id!, name, price, img, desc, catId.toString(), publisherId.toString());
+     Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ProductList(), // Navigate back to ProductList
+      ),
+    );
   }
 
   Future<void> _loadCategories() async {

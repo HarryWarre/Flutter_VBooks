@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/viewmodel/cartviewmodel.dart';
+import 'package:vbooks_source/viewmodel/favoriteviewmodel.dart';
 import 'package:vbooks_source/viewmodel/orderviewmodel.dart';
 
 import 'mainpage.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => CategoryViewModel()),
         ChangeNotifierProvider(create: (_) => CartViewModel()),
         ChangeNotifierProvider(create: (_) => OrderViewModel()),
+        // ChangeNotifierProvider(create: (_) => FavoriteViewModel()),
       ],
       child: MyApp(token: token), // Truyền giá trị token vào MyApp
     ),

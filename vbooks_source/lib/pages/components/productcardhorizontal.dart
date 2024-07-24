@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vbooks_source/conf/const.dart';
+import 'package:vbooks_source/pages/account/authwidget.dart';
+import 'package:vbooks_source/services/apiservice.dart';
+import 'package:vbooks_source/services/favoriteservice.dart';
 import '../../data/model/productmodel.dart'; // Adjust the import path as needed
 import 'detail.dart'; // Thêm import đến trang chi tiết
 
 class HorizontalProductCard extends StatefulWidget {
   final Product product;
-  const HorizontalProductCard({Key? key, required this.product})
-      : super(key: key);
+  const HorizontalProductCard({Key? key, required this.product}) : super(key: key);
 
   @override
   _HorizontalProductCardState createState() => _HorizontalProductCardState();
@@ -15,6 +19,65 @@ class HorizontalProductCard extends StatefulWidget {
 
 class _HorizontalProductCardState extends State<HorizontalProductCard> {
   bool _isFavorite = false;
+  String token = '';
+  String accountId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadToken();
+  }
+
+  Future<void> _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedToken = prefs.getString('token');
+    if (storedToken != null && storedToken.isNotEmpty) {
+      if (JwtDecoder.isExpired(storedToken)) {
+        setState(() {
+          token = 'Invalid token';
+        });
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => AuthScreen(),
+        ));
+      } else {
+        setState(() {
+          token = storedToken;
+          Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(token);
+          accountId = jwtDecodedToken['_id'] ?? '...';
+          _checkIfFavorite(); // Gọi sau khi tải token
+        });
+      }
+    } else {
+      setState(() {
+        token = 'Invalid token';
+      });
+    }
+  }
+
+  Future<void> _checkIfFavorite() async {
+    if (widget.product.id != null) {
+      _isFavorite = await FavoriteService(ApiService()).isFavorite(accountId, widget.product.id!);
+      setState(() {});
+    } else {
+      print('Product ID is null');
+    }
+  }
+
+  Future<void> _toggleFavorite() async {
+    if (widget.product.id != null) {
+      if (_isFavorite) {
+        await FavoriteService(ApiService()).deleteFavorite(accountId, widget.product.id!);
+      } else {
+        await FavoriteService(ApiService()).addFavorite(accountId, widget.product.id!);
+      }
+      setState(() {
+        _isFavorite = !_isFavorite;
+      });
+    } else {
+      print('Product ID is null');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +158,7 @@ class _HorizontalProductCardState extends State<HorizontalProductCard> {
                   Icons.favorite,
                   color: _isFavorite ? primaryColor : Colors.grey[400],
                 ),
-                onPressed: () {
-                  setState(() {
-                    _isFavorite = !_isFavorite;
-                  });
-                },
+                onPressed: _toggleFavorite,
               ),
             ),
           ],
