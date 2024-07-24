@@ -26,7 +26,7 @@ module.exports = {
     const { orderId } = req.params;
     try {
       const orderDetails = await OrderDetail.find({ orderId: orderId })
-        .populate('productId', 'name price image');
+        .populate('productId', 'name price img');
       res.status(200).json({ success: true, orderDetails });
     } catch (err) {
       res.status(500).json(err);
