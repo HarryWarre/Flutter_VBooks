@@ -49,7 +49,8 @@ class _DetailState extends State<Detail> {
 
   Future<void> addItemToCart() async {
     if (token != '' && _id != '') {
-      var response = await cartViewModel.addCartItem(_id, widget.book.id!, _quantity);
+      var response =
+          await cartViewModel.addCartItem(_id, widget.book.id!, _quantity);
       if (true) {
         _showSnackbar();
       } else {
@@ -66,6 +67,14 @@ class _DetailState extends State<Detail> {
         quantity: _quantity,
       ),
     ];
+
+    // Navigate to the PaymentForm
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymentForm(orderItems: orderItems),
+      ),
+    );
   }
 
   Future<void> _loadToken() async {
@@ -96,7 +105,8 @@ class _DetailState extends State<Detail> {
 
   Future<void> _checkIfFavorite() async {
     if (widget.book.id != null) {
-      _isFavorite = await FavoriteService(ApiService()).isFavorite(_id, widget.book.id!);
+      _isFavorite =
+          await FavoriteService(ApiService()).isFavorite(_id, widget.book.id!);
       setState(() {});
     } else {
       print('Product ID is null');
@@ -107,7 +117,8 @@ class _DetailState extends State<Detail> {
     if (widget.book.id != null) {
       if (_isFavorite) {
         print(widget.book.id!);
-        await FavoriteService(ApiService()).deleteFavorite(_id, widget.book.id!);
+        await FavoriteService(ApiService())
+            .deleteFavorite(_id, widget.book.id!);
       } else {
         await FavoriteService(ApiService()).addFavorite(_id, widget.book.id!);
       }
@@ -152,7 +163,8 @@ class _DetailState extends State<Detail> {
                       height: 260,
                       alignment: Alignment.center,
                       child: Image.asset(
-                        'assets/images/product/${widget.book.img}' ?? '', // Đảm bảo rằng đây là URL hợp lệ
+                        'assets/images/product/${widget.book.img}' ??
+                            '', // Đảm bảo rằng đây là URL hợp lệ
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
@@ -193,8 +205,11 @@ class _DetailState extends State<Detail> {
                               IconButton(
                                 onPressed: _toggleFavorite,
                                 icon: Icon(
-                                  _isFavorite ? Icons.favorite : Icons.favorite_border,
-                                  color: _isFavorite ? Colors.teal : Colors.grey,
+                                  _isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color:
+                                      _isFavorite ? Colors.teal : Colors.grey,
                                   size: 40,
                                 ),
                               ),
