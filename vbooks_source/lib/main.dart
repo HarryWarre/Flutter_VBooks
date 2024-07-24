@@ -8,6 +8,7 @@ import 'package:vbooks_source/services/apiservice.dart';
 import 'package:vbooks_source/viewmodel/cartviewmodel.dart';
 import 'package:vbooks_source/viewmodel/favoriteviewmodel.dart';
 import 'package:vbooks_source/viewmodel/orderviewmodel.dart';
+import 'package:vbooks_source/viewmodel/orderdetailviewmodel.dart';
 
 import 'mainpage.dart';
 import 'viewmodel/productviewmodel.dart';
@@ -27,6 +28,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => CategoryViewModel()),
         ChangeNotifierProvider(create: (_) => CartViewModel()),
         ChangeNotifierProvider(create: (_) => OrderViewModel()),
+        ChangeNotifierProvider(create: (_) => OrderDetailViewModel()),
         // ChangeNotifierProvider(create: (_) => FavoriteViewModel()),
       ],
       child: MyApp(token: token), // Truyền giá trị token vào MyApp

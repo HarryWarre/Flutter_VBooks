@@ -1,5 +1,8 @@
 import 'package:admin_vbooks/pages/ordermanagement/orderdetailaminpage.dart';
+import 'package:admin_vbooks/viewmodel/orderviewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class OrderAdminPage extends StatefulWidget {
   const OrderAdminPage({super.key});
@@ -13,59 +16,23 @@ class _OrderAdminPageState extends State<OrderAdminPage> {
   int pageSize = 5;
   String searchQuery = '';
   String selectedFilter = 'Tất cả';
-  List<Map<String, String>> allOrders = [
-    {
-      'idDonHang': '000001',
-      'ngayDat': '06/04/2024',
-      'nguoiDat': 'Lưu Chí Hùng',
-      'tongTien': '50.000đ',
-      'trangThai': 'Hoàn tất',
-    },
-    {
-      'idDonHang': '000002',
-      'ngayDat': '07/04/2024',
-      'nguoiDat': 'Lưu Chí Hùng',
-      'tongTien': '70.000đ',
-      'trangThai': 'Đang xử lý',
-    },
-    {
-      'idDonHang': '000003',
-      'ngayDat': '08/04/2024',
-      'nguoiDat': 'Lưu Chí Hùng',
-      'tongTien': '30.000đ',
-      'trangThai': 'Bị hủy',
-    },
-    {
-      'idDonHang': '000004',
-      'ngayDat': '09/04/2024',
-      'nguoiDat': 'Lưu Chí Hùng',
-      'tongTien': '30.000đ',
-      'trangThai': 'Bị hủy',
-    },
-    {
-      'idDonHang': '000005',
-      'ngayDat': '10/04/2024',
-      'nguoiDat': 'Phạm Minh Đức',
-      'tongTien': '50.000đ',
-      'trangThai': 'Đang xử lý',
-    },
-    {
-      'idDonHang': '000006',
-      'ngayDat': '12/04/2024',
-      'nguoiDat': 'Ngô Trung Đạt',
-      'tongTien': '30.000đ',
-      'trangThai': 'Hoàn tất',
-    },
-    {
-      'idDonHang': '000007',
-      'ngayDat': '13/04/2024',
-      'nguoiDat': 'Phan Hoàng Việt',
-      'tongTien': '55.000đ',
-      'trangThai': 'Đang xử lý',
-    },
-  ];
+  List<Map<String, dynamic>> allOrders = [];
 
-  List<Map<String, String>> get filteredOrders {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, _fetchAllOrders);
+  }
+
+  Future<void> _fetchAllOrders() async {
+    final orderViewModel = Provider.of<OrderViewModel>(context, listen: false);
+    await orderViewModel.fetchAllOrders();
+    setState(() {
+      allOrders = orderViewModel.orders;
+    });
+  }
+
+  List<Map<String, dynamic>> get filteredOrders {
     var orders = allOrders;
 
     if (searchQuery.isNotEmpty) {
@@ -84,7 +51,7 @@ class _OrderAdminPageState extends State<OrderAdminPage> {
     return orders;
   }
 
-  List<Map<String, String>> get paginatedOrders {
+  List<Map<String, dynamic>> get paginatedOrders {
     int start = (currentPage - 1) * pageSize;
     int end = start + pageSize;
     return filteredOrders.sublist(
@@ -138,29 +105,29 @@ class _OrderAdminPageState extends State<OrderAdminPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 2),
-                  Expanded(
-                    flex: 1,
-                    child: DropdownButtonFormField<String>(
-                      value: selectedFilter,
-                      items: ['Tất cả', 'Hoàn tất', 'Đang xử lý', 'Bị hủy']
-                          .map((status) => DropdownMenuItem(
-                                child: Text(status),
-                                value: status,
-                              ))
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedFilter = value!;
-                          currentPage = 1;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(width: 2),
+                  // Expanded(
+                  //   flex: 1,
+                  //   child: DropdownButtonFormField<String>(
+                  //     value: selectedFilter,
+                  //     items: ['Tất cả', 'Hoàn tất', 'Đang xử lý', 'Bị hủy']
+                  //         .map((status) => DropdownMenuItem(
+                  //               child: Text(status),
+                  //               value: status,
+                  //             ))
+                  //         .toList(),
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         selectedFilter = value!;
+                  //         currentPage = 1;
+                  //       });
+                  //     },
+                  //     decoration: InputDecoration(
+                  //       border: OutlineInputBorder(),
+                  //       contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -171,11 +138,14 @@ class _OrderAdminPageState extends State<OrderAdminPage> {
                 itemBuilder: (context, index) {
                   final order = paginatedOrders[index];
                   return OrderContainer(
-                    idDonHang: order['idDonHang']!,
-                    ngayDat: order['ngayDat']!,
-                    nguoiDat: order['nguoiDat']!,
-                    tongTien: order['tongTien']!,
-                    trangThai: order['trangThai']!,
+                    idDonHang: order['idDonHang'] ?? 'N/A',
+                    ngayDat: order['orderDate'] ?? 'N/A',
+                    nguoiDat: order['nguoiDat'] ?? 'N/A',
+                    tongTien: order['totalAmount'] ?? '0',
+                    trangThai: order['status'] ?? 'N/A',
+                    diaChi: order['address'] ?? 'N/A',
+                    soDienThoai: order['phoneNumber'] ?? 'N/A',
+                    phuongThucThanhToan: order['paymentMethodId'] ?? 'N/A',
                   );
                 },
               ),
@@ -220,6 +190,9 @@ class OrderContainer extends StatelessWidget {
   final String nguoiDat;
   final String tongTien;
   final String trangThai;
+  final String diaChi;
+  final String soDienThoai;
+  final String phuongThucThanhToan;
 
   const OrderContainer({
     required this.idDonHang,
@@ -227,7 +200,16 @@ class OrderContainer extends StatelessWidget {
     required this.nguoiDat,
     required this.tongTien,
     required this.trangThai,
+    required this.diaChi,
+    required this.soDienThoai,
+    required this.phuongThucThanhToan,
   });
+
+  String formatCurrency(String amount) {
+    final formatter = NumberFormat.currency(locale: 'vi_VN', symbol: '₫');
+    double value = double.tryParse(amount) ?? 0;
+    return formatter.format(value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -244,6 +226,9 @@ class OrderContainer extends StatelessWidget {
         statusColor = Color(0xFF158B7D);
     }
 
+    DateTime dateTime = DateTime.parse(ngayDat);
+    String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -255,6 +240,9 @@ class OrderContainer extends StatelessWidget {
               nguoiDat: nguoiDat,
               tongTien: tongTien,
               trangThai: trangThai,
+              diaChi: diaChi,
+              soDienThoai: soDienThoai,
+              phuongThucThanhToan: phuongThucThanhToan,
             ),
           ),
         );
@@ -262,38 +250,40 @@ class OrderContainer extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16.0),
         padding: const EdgeInsets.all(16.0),
-        height: 180,
+        height: 200,
         decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(color: Color(0xFFE5E5E5), width: 1)),
+          border: Border(bottom: BorderSide(color: Color(0xFFE5E5E5), width: 1)),
         ),
         child: Row(
           children: [
             Expanded(
               flex: 6,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center, // Centering vertically
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     idDonHang,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 4),
                   Text(
-                    'Ngày mua: $ngayDat',
+                    'Ngày mua: $formattedDate',
                     style: TextStyle(fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 4),
                   Text(
                     'Người nhận: $nguoiDat',
                     style: TextStyle(fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 4),
                   Text(
-                    'Tổng tiền: $tongTien',
+                    'Tổng tiền: ${formatCurrency(tongTien)}',
                     style: TextStyle(fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 20),
                 ],
               ),
             ),
@@ -322,3 +312,4 @@ class OrderContainer extends StatelessWidget {
     );
   }
 }
+

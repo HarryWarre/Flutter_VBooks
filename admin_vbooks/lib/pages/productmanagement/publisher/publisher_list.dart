@@ -27,7 +27,8 @@ class _PublisherListState extends State<PublisherList> {
 
   void _loadPublishers() async {
     final publisherViewModel = context.read<PublisherViewModel>();
-    await publisherViewModel.fetchPublisher(); // Tải dữ liệu ngay khi trang được tạo
+    await publisherViewModel
+        .fetchPublisher(); // Tải dữ liệu ngay khi trang được tạo
   }
 
   void _deleteSelectedPublishers() async {
@@ -45,12 +46,15 @@ class _PublisherListState extends State<PublisherList> {
     if (confirm == true) {
       final publisherViewModel = context.read<PublisherViewModel>();
       for (var id in _selectedPublisher) {
-        await publisherViewModel.deletePublisher(id.toString()); // Chuyển đổi id thành String
+        await publisherViewModel
+            .deletePublisher(id.toString()); // Chuyển đổi id thành String
       }
       setState(() {
         _selectedPublisher.clear();
       });
-      context.read<PublisherViewModel>().fetchPublisher(); // Cập nhật danh sách danh mục
+      context
+          .read<PublisherViewModel>()
+          .fetchPublisher(); // Cập nhật danh sách danh mục
     }
   }
 
@@ -66,7 +70,8 @@ class _PublisherListState extends State<PublisherList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const ProductManagement(), // Navigate back to ProductManagement
+                builder: (_) =>
+                    const ProductManagement(), // Navigate back to ProductManagement
               ),
             );
           },
@@ -84,7 +89,9 @@ class _PublisherListState extends State<PublisherList> {
                     Navigator.of(context)
                         .push(
                           MaterialPageRoute(
-                            builder: (_) => const PublisherAdd(isUpdate: false,), // để tạm,
+                            builder: (_) => const PublisherAdd(
+                              isUpdate: false,
+                            ), // để tạm,
                             fullscreenDialog: true,
                           ),
                         )
@@ -106,7 +113,7 @@ class _PublisherListState extends State<PublisherList> {
                       ),
                       SizedBox(width: 5),
                       Text(
-                        'Thêm Nhà xuất bản',
+                        'Thêm NXB',
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -174,8 +181,7 @@ class _PublisherListState extends State<PublisherList> {
                 if (publisherViewModel.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (publisherViewModel.publishers.isEmpty) {
-                  return const Center(
-                      child: Text('Không thấy nhà xuất bản'));
+                  return const Center(child: Text('Không thấy nhà xuất bản'));
                 } else {
                   return ListView.builder(
                     itemCount: publisherViewModel.publishers.length,
@@ -188,7 +194,7 @@ class _PublisherListState extends State<PublisherList> {
                               _selectedPublisher.contains(publisher.id),
                           onChanged: (bool? selected) {
                             setState(() {
-                              if (publisher.id != null) {                             
+                              if (publisher.id != null) {
                                 if (selected == true) {
                                   // Thêm vào danh sách nếu chưa có
                                   if (!_selectedPublisher
@@ -201,26 +207,25 @@ class _PublisherListState extends State<PublisherList> {
                                       .contains(publisher.id!)) {
                                     _selectedPublisher.remove(publisher.id);
                                   }
-                                }                       
+                                }
                               }
                             });
                           },
                         ),
                         onTap: () {
                           Navigator.of(context)
-                          .push(
-                            MaterialPageRoute(
-                              builder: (_) => PublisherAdd(
-                                isUpdate: true,
-                                publisherModel: publisher,
-                              ),
-                              fullscreenDialog: true,
-                            ),
-                          )
-                          .then(
-                              (_) => _loadPublishers()); 
-                              },
-                            );
+                              .push(
+                                MaterialPageRoute(
+                                  builder: (_) => PublisherAdd(
+                                    isUpdate: true,
+                                    publisherModel: publisher,
+                                  ),
+                                  fullscreenDialog: true,
+                                ),
+                              )
+                              .then((_) => _loadPublishers());
+                        },
+                      );
                     },
                   );
                 }

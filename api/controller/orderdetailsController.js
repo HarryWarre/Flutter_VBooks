@@ -23,19 +23,12 @@ module.exports = {
   },
 
   getOrderDetailsByOrderId: async (req, res) => {
-    const orderId = req.params.orderId;
-    console.log(`Fetching order details for orderId: ${orderId}`);
+    const { orderId } = req.params;
     try {
-      const orderDetails = await OrderDetail.find({ orderId: orderId }).exec();
-      console.log("Order Details:", orderDetails);
-      if (!orderDetails || orderDetails.length === 0) {
-        return res
-          .status(404)
-          .json({ message: "Không tìm thấy chi tiết đơn hàng" });
-      }
-      res.status(200).json({ success: true, orderDetails: orderDetails });
+      const orderDetails = await OrderDetail.find({ orderId: orderId })
+        .populate('productId', 'name price image');
+      res.status(200).json({ success: true, orderDetails });
     } catch (err) {
-      console.error("Error fetching order details:", err);
       res.status(500).json(err);
     }
   },
