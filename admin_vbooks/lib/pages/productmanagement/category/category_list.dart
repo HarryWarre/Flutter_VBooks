@@ -1,13 +1,13 @@
 import 'package:admin_vbooks/data/model/category.dart';
 import 'package:admin_vbooks/pages/productmanagement/category/category_data.dart';
-import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:admin_vbooks/viewmodel/categoryviewmodel.dart';
+import 'category_add.dart';
+import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
 import '../../../components/confirmdeletedialog.dart';
 import '../../../components/uploadfile.dart';
 import '../../../config/const.dart';
-import 'package:admin_vbooks/pages/productmanagement/productmanagement.dart';
-import 'category_add.dart';
 
 class CategoryList extends StatefulWidget {
   const CategoryList({super.key});
@@ -18,8 +18,8 @@ class CategoryList extends StatefulWidget {
 
 class _CategoryListState extends State<CategoryList> {
   final List<String> _selectedCategories = [];
-  List<CategoryModel> allProduct = [];
   late CategoryViewModel _categoryViewModel;
+  List<CategoryModel> allCategory = [];
 
   void _handleSelectionChanged(List<String> selectedCategories) {
     setState(() {
@@ -38,26 +38,26 @@ class _CategoryListState extends State<CategoryList> {
   Future<void> _refreshCategories() async {
     await _categoryViewModel.fetchCategories();
     setState(() {
-      allProduct = _categoryViewModel.categories;
+      allCategory = _categoryViewModel.categories;
     });
   }
 
-  void _deleteSelectedCategories() {
-    setState(() {
-      if (_selectedCategories.isNotEmpty) {
-        for (var category in _selectedCategories) {
-          _categoryViewModel.deleteCategory(category.toString());
-        }
-        _selectedCategories.clear();
+  Future<void> _deleteSelectedCategories() async {
+    if (_selectedCategories.isNotEmpty) {
+      for (var category in _selectedCategories) {
+        await _categoryViewModel.deleteCategory(category);
       }
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => CategoryList(), // Navigate back to ProductBuilder
-        ),
-      );
-    });
+      _selectedCategories.clear();
+      await _refreshCategories(); // Refresh categories after deletion
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CategoryList(), // Navigate back to ProductBuilder
+      ),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,18 +84,27 @@ class _CategoryListState extends State<CategoryList> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(
-                          MaterialPageRoute(
-                            builder: (_) => CategoryAdd(
-                              isUpdate: false,
-                              onSaveOrUpdate: _refreshCategories,
-                            ),
-                            fullscreenDialog: true,
-                          ),
-                        )
-                        .then((_) => _refreshCategories()); // Refresh the list after adding
+                  onPressed: () async {
+                    final result = await Navigator.of(context).push<bool>(
+                      MaterialPageRoute(
+                        builder: (_) => CategoryAdd(
+                          isUpdate: false,
+                          onSaveOrUpdate:
+                              _refreshCategories, // Pass the callback
+                        ),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            CategoryList(), // Navigate back to ProductBuilder
+                      ),
+                    );
+                    if (result == true) {
+                      await _refreshCategories(); // Refresh the list after adding
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primary,
@@ -148,49 +157,48 @@ class _CategoryListState extends State<CategoryList> {
                 ),
                 const SizedBox(width: 5),
                 ElevatedButton(
-                    onPressed: () async {
-                      final bool confirmDelete = await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          // Customize title and content based on context
-                          const String deleteTitle = 'Chú ý'; // Example
-                          const String deleteContent =
-                              'Bạn đang xóa dữ liệu. Cân nhắc trước khi xóa!'; // Example
-                          return ConfirmDeleteDialog(
-                            title: deleteTitle,
-                            content: deleteContent,
-                            onConfirm: () =>
-                                _deleteSelectedCategories(), // Call your delete function directly
-                          );
-                        },
-                      );
-      
-                      if (confirmDelete) {
-                        _deleteSelectedCategories();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: danger,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12), // Bo tròn 16px
-                      ),
-                    ),
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 5),
-                        Text(
-                          'Xóa',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                  onPressed: () async {
+                    final bool confirmDelete = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ConfirmDeleteDialog(
+                          title: 'Chú ý',
+                          content:
+                              'Bạn đang xóa dữ liệu. Cân nhắc trước khi xóa!',
+                          onConfirm: () async {
+                            await _deleteSelectedCategories();
+                            Navigator.of(context).pop(true);
+                          },
+                        );
+                      },
+                    );
+
+                    if (confirmDelete) {
+                      await _deleteSelectedCategories(); // Refresh after deletion
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: danger,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
+                  child: const Row(
+                    children: [
+                      Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        'Xóa',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
