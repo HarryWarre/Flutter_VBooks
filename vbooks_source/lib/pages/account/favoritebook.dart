@@ -26,19 +26,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   void initState() {
     super.initState();
     favoriteService = FavoriteService(ApiService());
-    favoriteProducts =
-        Future.value([]); // Khởi tạo với Future trống hoặc giá trị mặc định
-    initSharedPref();
+    _loadToken();
   }
 
-  void initSharedPref() async {
+  void _loadToken() async {
     prefs = await SharedPreferences.getInstance();
     String? storedToken = prefs.getString('token');
     if (storedToken != null && storedToken.isNotEmpty) {
       Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(storedToken);
       setState(() {
         _accountId = jwtDecodedToken['_id'];
-        // favoriteProducts = favoriteService.fetchVaroriteById(_accountId);
+        favoriteProducts = favoriteService.fetchFavorites(_accountId);
       });
     }
   }
@@ -47,7 +45,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     try {
       await favoriteService.deleteFavorite(_accountId, productId);
       setState(() {
-        // favoriteProducts = favoriteService.fetchFavorites(_accountId);
+        favoriteProducts = favoriteService.fetchFavorites(_accountId);
       });
     } catch (e) {
       print('Error removing favorite: $e');
@@ -116,7 +114,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               FittedBox(
                 fit: BoxFit.cover,
                 child: Image.asset(
-                  imagePath,
+                  'assets/images/product/${imagePath}',
                   width: 120,
                   height: 120,
                   errorBuilder: (context, error, stackTrace) {

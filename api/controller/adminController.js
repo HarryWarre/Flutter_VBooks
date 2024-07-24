@@ -71,5 +71,27 @@ module.exports = {
         }catch(err){
             res.status(500).json(err)
         }
+    },
+    loginAdmin: async (req, res) => {
+        const { email, password } = req.body;
+        console.log(email)
+        try {
+            const admin = await Admin.findOne({ email });
+            if (!admin) {
+                return res.status(404).json({ success: false, message: 'Tài khoản không tồn tại' });
+            }
+            if (admin.password !== password) {
+                return res.status(401).json({ success: false, message: 'Mật khẩu không đúng' });
+            }
+            res.status(200).json({ success: true, admin });
+        } catch (err) {
+            res.status(500).json({ success: false, message: 'Có lỗi xảy ra khi đăng nhập', error: err.message });
+        }
+    },
+
+    logoutAdmin: (req, res) => {
+        // Đối với phiên bản này, logout không cần thực hiện bất kỳ hành động nào trên server
+        // Thực tế, hành động logout thường chỉ liên quan đến xóa token hoặc quản lý phiên trên client
+        res.status(200).json({ success: true, message: 'Đăng xuất thành công' });
     }
 }

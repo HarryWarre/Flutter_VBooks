@@ -37,7 +37,17 @@ flutter:
   assets:
     - assets/json/
     - assets/images/
-    - assets/images/product/
+    - assets/images/product/chinhtri/
+    - assets/images/product/kinangsong/
+    - assets/images/product/kinhdi/
+    - assets/images/product/kinhte/
+    - assets/images/product/nuoidaycon/
+    - assets/images/product/sachgiaokhoa/
+    - assets/images/product/sachthieunhi/
+    - assets/images/product/tamly/
+    - assets/images/product/trinhtham/
+    - assets/images/product/truyentranh/
+    - assets/images/product/vanhoc/
     - assets/images/spy.png
     - assets/breathingroom.jpg
     - assets/mockingbird.jpg

@@ -71,6 +71,7 @@ class _AuthScreenState extends State<AuthScreen>
       );
       
       // Chuyển sang tab đăng nhập (nếu `_tabController` đã khởi tạo và không bị null)
+      _passwordController.clear();
       _tabController.animateTo(0);
 
     } else {
@@ -103,7 +104,7 @@ class _AuthScreenState extends State<AuthScreen>
   if (_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
     var response = await _accountService.login(_emailController.text, _passwordController.text);
     var jsonResponse = jsonDecode(response.body);
-
+    _passwordController.clear();
     if (response.statusCode == 200) {
       var myToken = jsonResponse['token'];
       prefer.setString('token', myToken);

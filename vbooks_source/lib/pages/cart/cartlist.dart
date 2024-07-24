@@ -10,7 +10,7 @@ Widget buildCartItem(Product product, String imagePath, int quantity,
   return Material(
     color: Colors.transparent,
     child: InkWell(
-      onTap: onRemove,
+      onTap: (){ },
       child: Container(
         height: 140,
         width: 335,
@@ -21,20 +21,35 @@ Widget buildCartItem(Product product, String imagePath, int quantity,
             SizedBox(
               width: 120,
               height: 120,
-              child: Image.network(
-                "https://vnibooks.com/wp-content/uploads/2021/09/giao-di%CC%A3ch-forex.jpeg",
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.white,
-                    child: Icon(
-                      Icons.image_not_supported,
-                      color: Colors.grey,
-                      size: 50,
+              child: imagePath != ''
+                  ? Image.asset(
+                      'assets/images/product/${product.img}',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.white,
+                          child: Icon(
+                            Icons.image_not_supported,
+                            color: Colors.grey,
+                            size: 50,
+                          ),
+                        );
+                      },
+                    )
+                  : Image.network(
+                      "https://vnibooks.com/wp-content/uploads/2021/09/giao-di%CC%A3ch-forex.jpeg",
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.white,
+                          child: Icon(
+                            Icons.image_not_supported,
+                            color: Colors.grey,
+                            size: 50,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
             const SizedBox(width: 16),
             Expanded(

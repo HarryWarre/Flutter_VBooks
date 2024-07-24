@@ -19,9 +19,9 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+
     login: async (req, res) => {
         const { email, password } = req.body;
-
         try {
             const account = await Account.findOne({ email: email });
             if (!account) {

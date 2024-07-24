@@ -100,9 +100,8 @@ class _HorizontalProductCardState extends State<HorizontalProductCard> {
                 // Product Image
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    widget.product.img ??
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHBG4wkUg3Je8cRpQtDiiOhytiqLh29ydVmQ&s', // Sử dụng URL từ sản phẩm
+                  child: Image.asset(
+                    'assets/images/product/${widget.product.img}',
                     width: 100,
                     height: 150,
                     fit: BoxFit.cover,

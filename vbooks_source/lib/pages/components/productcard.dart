@@ -35,8 +35,8 @@ class ProductCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(8.0)),
-                child: Image.network(
-                  product.img!,
+                child: Image.asset(
+                  'assets/images/product/${product.img}',
                   width: double.infinity,
                   height: 170, // Chiều cao cố định cho ảnh
                   fit: BoxFit

@@ -13,4 +13,6 @@ router.put('/update/:id', AccountController.updateAccount)
 
 router.get('/:id', AccountController.getAccountInfoById)
 
+
+
 module.exports = router
