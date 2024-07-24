@@ -19,7 +19,7 @@ class MainScreenWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'ADMIN MANAGEMENT',
+              'QUẢN LÝ WEBSITE',
               style: TextStyle(
                 color: Colors.teal,
                 fontSize: 35,
@@ -60,9 +60,9 @@ class MainScreenWidget extends StatelessWidget {
               text: 'Quản lý tài khoản',
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AccountTest()),
-                  );
+                  context,
+                  MaterialPageRoute(builder: (context) => AccountTest()),
+                );
               },
             )
           ],
