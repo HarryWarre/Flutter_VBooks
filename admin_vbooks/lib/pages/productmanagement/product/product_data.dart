@@ -1,12 +1,9 @@
 import 'dart:io'; // Import this package to handle file images
-import 'package:admin_vbooks/config/const.dart';
-import 'package:admin_vbooks/connectApi/apiservice.dart';
-import 'package:admin_vbooks/connectApi/productservice.dart';
-import 'package:admin_vbooks/viewmodel/productviewmodel.dart';
+import 'package:admin_vbooks/pages/productmanagement/product/product_add.dart';
 import 'package:flutter/material.dart';
+import 'package:admin_vbooks/config/const.dart';
+import 'package:admin_vbooks/viewmodel/productviewmodel.dart';
 import '/../data/model/product.dart';
-import '/../data/helper/db_helper.dart';
-import 'product_add.dart';
 
 class ProductBuilder extends StatefulWidget {
   final Function(List<String>) onSelectionChanged;
@@ -29,7 +26,7 @@ class _ProductBuilderState extends State<ProductBuilder> {
   @override
   void initState() {
     super.initState();
-    _productViewModel = ProductViewModel(); // Initialize ProductService here
+    _productViewModel = ProductViewModel(); // Initialize ProductViewModel here
     _searchController.addListener(_filterProducts);
     _loadProducts(); // Load products initially
   }
@@ -116,19 +113,28 @@ class _ProductBuilderState extends State<ProductBuilder> {
         ),
         title: Row(
           children: [
-            // Display product information
-            if (product.img != null && product.img!.isNotEmpty)
-              Container(
-                height: 60.0,
-                width: 60.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                    image: FileImage(File(product.img!)),
+            // Display product image or default image
+            ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.asset(
+                    'assets/images/product/${product.img}',
+                    width: 60,
+                    height: 60,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 60,
+                        height: 60,
+                        color: Colors.white,
+                        child: Icon(
+                          Icons.image_not_supported,
+                          color: Colors.grey,
+                          size: 60,
+                        ),
+                      );
+                    },
                   ),
                 ),
-              ),
             const SizedBox(width: 10.0),
             Expanded(
               child: Column(
