@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -6,7 +8,9 @@ import 'package:vbooks_source/pages/account/accountpersonalwidget.dart';
 import 'package:vbooks_source/pages/account/authwidget.dart';
 import 'package:vbooks_source/pages/account/favoritebook.dart';
 import 'package:vbooks_source/pages/components/widgetforscreen.dart';
+import 'package:vbooks_source/services/accountservice.dart';
 
+import '../../services/apiservice.dart';
 import '../order/ordermainpage.dart';
 
 class AccountInfoWidget extends StatefulWidget {
@@ -21,10 +25,15 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
   String email = '';
   String fullName = '';
   String address = '';
+  String id = '';
+  late ApiService _apiService;
+  late AccountService accountService;
   @override
   void initState() {
     super.initState();
+    _apiService = ApiService();
     _loadToken();
+    accountService = AccountService(_apiService);
   }
 
   Future<void> _loadToken() async {
@@ -35,7 +44,7 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
         setState(() {
           token = 'Invalid token';
         });
-        
+
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => AuthScreen(),
         ));
@@ -46,7 +55,8 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
           email = jwtDecodedToken['email'] ?? '...';
           fullName = jwtDecodedToken['fullName'] ?? '...';
           address = jwtDecodedToken['address'] ?? '...';
-          print(fullName + address);
+          id = jwtDecodedToken['_id'] ?? '...';
+          print(fullName + address + id);
           print(token);
         });
       }
@@ -54,6 +64,63 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
       setState(() {
         token = 'Invalid token';
       });
+    }
+  }
+
+  Future<void> _confirmDeleteAccount() async {
+    bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Xác nhận xóa'),
+          content: Text('Bạn có chắc chắn muốn xóa tài khoản id: $id không?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Hủy'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text('Xác nhận'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true) {
+      await _deleteAccount();
+    }
+  }
+
+  Future<void> _deleteAccount() async {
+    try {
+      final response = await accountService.deleteAccount(id);
+
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Account deleted: ${responseData['message']}')),
+        );
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => AuthScreen(),
+        ));
+      } else if (response.statusCode == 404) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Account not found: ${responseData['message']}')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
   }
 
@@ -75,20 +142,20 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
                   builder: (context) => AccountPersonalWidget()));
             },
           ),
-           CustomDivider(height: 2),
+          CustomDivider(height: 2),
           const SizedBox(height: 20),
           AccountInfoRow(label: 'Họ và tên', value: fullName),
           AccountInfoRow(label: 'Email', value: email),
           AccountInfoRow(label: 'Địa chỉ', value: address),
           const SizedBox(height: 20),
-           CustomDivider(height: 2),
+          CustomDivider(height: 2),
           const SizedBox(height: 8),
           AccountShoppingRow(
               label: 'Số đơn hàng đặt thành công', value: '1 đơn hàng'),
           AccountShoppingRow(
               label: 'Số tiền đã thanh toán', value: '150.000.000.000 VNĐ'),
           const SizedBox(height: 26),
-           CustomDivider(height: 6),
+          CustomDivider(height: 6),
           AccountSelectWidget(
             value: 'Sản phẩm yêu thích',
             iconLeft: Icons.favorite,
@@ -98,7 +165,7 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
                   MaterialPageRoute(builder: (context) => FavoriteScreen()));
             },
           ),
-           CustomDivider(height: 2),
+          CustomDivider(height: 2),
           AccountSelectWidget(
             value: 'Lịch sử mua hàng',
             iconLeft: Icons.history,
@@ -108,7 +175,7 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
                   MaterialPageRoute(builder: (context) => OrderMainPage()));
             },
           ),
-           CustomDivider(height: 2),
+          CustomDivider(height: 2),
           AccountSelectWidget(
             value: 'Đăng xuất',
             iconLeft: Icons.logout,
@@ -117,7 +184,14 @@ class _AccountInfoWidgetState extends State<AccountInfoWidget> {
               logout(context);
             },
           ),
-           CustomDivider(height: 2),
+          CustomDivider(height: 2),
+          AccountSelectWidget(
+            value: 'Xóa tài khoản',
+            iconLeft: Icons.delete,
+            iconRight: Icons.arrow_forward_ios,
+            onTap: _confirmDeleteAccount,
+          ),
+          CustomDivider(height: 2),
         ],
       ),
     );

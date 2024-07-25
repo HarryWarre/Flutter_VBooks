@@ -23,21 +23,33 @@ class AccountService {
     return apiService.post('account/login', data);
   }
 
- Future<http.Response> update(String userId, String fullName, String address, String phoneNumber, DateTime bod, int sex) async {
+  Future<http.Response> update(String userId, String fullName, String address,
+      String phoneNumber, DateTime bod, int sex) async {
     var data = {
       'fullName': fullName,
       'address': address,
       'phoneNumber': phoneNumber,
-      'bod': bod.toIso8601String(), // Chuyển đổi thành chuỗi ISO 8601 để gửi lên server
+      'bod': bod
+          .toIso8601String(), // Chuyển đổi thành chuỗi ISO 8601 để gửi lên server
       'sex': sex,
     };
-  
-    return apiService.put('account/update/$userId', data); // Giả sử API endpoint là '/account/:id'
+
+    return apiService.put('account/update/$userId',
+        data); // Giả sử API endpoint là '/account/:id'
   }
 
-   Future<http.Response> getAccountById(String id) async {
+  Future<http.Response> getAccountById(String id) async {
     final response = await apiService.get('account/$id');
     return response;
   }
-  
+
+  Future<http.Response> deleteAccount(String id) async {
+    final response = await apiService.delete('account/delete/$id');
+
+    if (response.statusCode == 200 || response.statusCode == 404) {
+      return response;
+    } else {
+      throw Exception("Failed to delete account");
+    }
+  }
 }

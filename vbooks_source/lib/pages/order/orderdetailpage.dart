@@ -80,75 +80,76 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   void _cancelOrder() async {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        title: Text('Bạn muốn hủy đơn hàng này?'),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  child: const Text(
-                    'Không',
-                    style: TextStyle(color: Color(0xFF158B7D), fontSize: 16),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
+          title: Text('Bạn muốn hủy đơn hàng này?'),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    child: const Text(
+                      'Không',
+                      style: TextStyle(color: Color(0xFF158B7D), fontSize: 16),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                    side: BorderSide(color: Color(0xFF158B7D)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      side: BorderSide(color: Color(0xFF158B7D)),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF158B7D),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF158B7D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                    child: const Text(
+                      'Có',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      try {
+                        await orderService.updateOrderStatus(
+                          orderId: widget.idDonHang,
+                          status: 'Bị hủy',
+                        );
+                        setState(() {
+                          widget.trangThai = 'Bị hủy';
+                        });
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Không thể hủy đơn hàng: $e')),
+                        );
+                      }
+                    },
                   ),
-                  child: const Text(
-                    'Có',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    try {
-                      await orderService.updateOrderStatus(
-                        orderId: widget.idDonHang,
-                        status: 'Bị hủy',
-                      );
-                      setState(() {
-                        widget.trangThai = 'Bị hủy';
-                      });
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Không thể hủy đơn hàng: $e')),
-                      );
-                    }
-                  },
                 ),
-              ),
-            ],
-          ),
-        ],
-      );
-    },
-  );
-}
-
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -260,24 +261,6 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
               ),
             ),
           ),
-          if (widget.trangThai == 'Đang xử lý')
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _cancelOrder,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  ),
-                  child: Text(
-                    'Hủy đơn hàng',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
     );

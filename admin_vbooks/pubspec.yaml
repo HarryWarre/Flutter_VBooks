@@ -28,7 +28,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/json/
+    # - assets/json/
     - assets/images/
     - assets/images/product/chinhtri/
     - assets/images/product/kinangsong/
@@ -38,8 +38,6 @@ flutter:
     - assets/images/product/sachgiaokhoa/
     - assets/images/product/sachthieunhi/
     - assets/images/product/tamly/
-    - assets/images/product/trinhtham/
+    # - assets/images/product/trinhtham/
     - assets/images/product/truyentranh/
     - assets/images/product/vanhoc/
-    
-  
