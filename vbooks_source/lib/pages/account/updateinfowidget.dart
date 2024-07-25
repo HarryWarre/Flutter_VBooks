@@ -32,11 +32,12 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _loadToken();
     _apiService = ApiService();
     _accountService = AccountService(_apiService);
+    takeTime = DateTime.now(); // Khởi tạo takeTime với giá trị mặc định
+    _loadToken();
+    initSharedPref(); // Khởi tạo SharedPreferences
   }
 
   void initSharedPref() async {
@@ -44,45 +45,59 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
   }
 
   void updateAccount() async {
-    if( _phoneNumber.text.isEmpty 
-           || _address.text.isEmpty || _fullName.text.isEmpty || takeTime == null || takeGender == null){
-       ScaffoldMessenger.of(context).showSnackBar(
+    if (_phoneNumber.text.isEmpty ||
+        _address.text.isEmpty ||
+        _fullName.text.isEmpty ||
+        takeTime == null ||
+        takeGender == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-        content: Text('Vui lòng nhập đầy đủ thông tin'),
-        duration: Duration(seconds: 3),
-      ),
-    );     
+          content: Text('Vui lòng nhập đầy đủ thông tin'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return; // Thoát khỏi hàm nếu có thông tin thiếu
     }
 
-    if(_phoneNumber.text.isNotEmpty 
-          && _address.text.isNotEmpty && _fullName.text.isNotEmpty){
-        var response = await _accountService.update(
-          _id, _fullName.text, _address.text, _phoneNumber.text, takeTime, takeGender,
-        );
+    var response = await _accountService.update(
+      _id,
+      _fullName.text,
+      _address.text,
+      _phoneNumber.text,
+      takeTime,
+      takeGender,
+    );
 
-        if(response.statusCode == 200){
-          ScaffoldMessenger.of(context).showSnackBar(
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Thay đổi thông tin thành công'),
           duration: Duration(seconds: 2),
         ),
       );
-      }
-      else{
-        var jsonResponse = jsonDecode(response.body);
-      String errorMessage = jsonResponse['message'] ?? 'Cập nhật không thành công';
-      
+
+      // Cập nhật SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // await prefs.setString('email', _email.text);
+      await prefs.setString('fullName', _fullName.text);
+      await prefs.setString('address', _address.text);
+      await prefs.setString('phoneNumber', _phoneNumber.text);
+      await prefs.setInt('gender', takeGender);
+      await prefs.setString('dob', _dateController.text);
+      await prefs.setString('id', _id);
+    } else {
+      var jsonResponse = jsonDecode(response.body);
+      String errorMessage =
+          jsonResponse['message'] ?? 'Cập nhật không thành công';
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(errorMessage),
           duration: Duration(seconds: 3),
         ),
       );
-      }
     }
-    
   }
-  
 
   Future<void> _loadToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -92,7 +107,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
         setState(() {
           token = 'Invalid token';
         });
-        
+
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => AuthScreen(),
         ));
@@ -109,16 +124,20 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
       });
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
-        appBar: AppBar(centerTitle: true, title: Text('Thông tin của tôi',),),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'Thông tin của tôi',
+          ),
+        ),
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
           child: Padding(
@@ -144,12 +163,12 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child:  TextField(
+                  child: TextField(
                     controller: _fullName,
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
                       labelText: 'Nhập họ tên',
-                       floatingLabelStyle: TextStyle(color: Colors.teal),
+                      floatingLabelStyle: TextStyle(color: Colors.teal),
                       border: InputBorder.none,
                     ),
                   ),
@@ -173,13 +192,13 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child:  TextField(
+                  child: TextField(
                     controller: _address,
-                    textAlign: TextAlign.left,    
+                    textAlign: TextAlign.left,
                     decoration: InputDecoration(
-                       floatingLabelStyle: TextStyle(color: Colors.teal),
+                      floatingLabelStyle: TextStyle(color: Colors.teal),
                       labelText: 'Nhập địa chỉ',
-                      border: InputBorder.none,             
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
@@ -209,7 +228,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
-                       floatingLabelStyle: TextStyle(color: Colors.teal),
+                      floatingLabelStyle: TextStyle(color: Colors.teal),
                       border: InputBorder.none,
                       labelText: 'Nhập số điện thoại',
                     ),
@@ -236,11 +255,10 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                   ),
                   child: TextField(
                     controller: _dateController,
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                       suffixIcon: Icon(CupertinoIcons.calendar),
                       labelText: 'DD/MM/YYYY',
                       border: InputBorder.none,
-
                     ),
                     onTap: () {
                       _selectDate();
@@ -275,7 +293,9 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                         activeColor: Colors.teal,
                       ),
                     ),
-                    const SizedBox(width: 100,),
+                    const SizedBox(
+                      width: 100,
+                    ),
                     Expanded(
                       child: RadioListTile<String>(
                         title: Text('Nữ'),
@@ -290,19 +310,20 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                       ),
                     ),
                   ],
-                  
                 ),
-                
-                const SizedBox(height: 16,),
+
+                const SizedBox(
+                  height: 16,
+                ),
                 Column(
                   children: [
-                  Center(
+                    Center(
                       child: SizedBox(
                         width: 320,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: ()  {
-                             updateAccount();
+                          onPressed: () {
+                            updateAccount();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.teal,
@@ -329,7 +350,6 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
           ),
         ),
       ),
-      
     );
   }
 

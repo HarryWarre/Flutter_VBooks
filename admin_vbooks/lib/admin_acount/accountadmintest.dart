@@ -73,12 +73,12 @@ class AccountTest extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => DetailScreen(
-                                          email: item.email,
-                                          dob: item.dob,
-                                          fullName: item.fullName,
-                                          sex: item.sex,
-                                          phoneNumber: item.phoneNumber,
-                                          id: item.id,
+                                          email: item.email ?? '',
+                                          dob: item.dob ?? '',
+                                          fullName: item.fullName ?? '',
+                                          phoneNumber: item.phoneNumber ?? '',
+                                          sex: item.sex ?? 0,
+                                          id: item.id ?? '',
                                         )));
                           },
                         );

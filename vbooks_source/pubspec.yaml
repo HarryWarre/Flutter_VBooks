@@ -17,8 +17,6 @@ dependencies:
   flutter_otp_text_field: ^1.1.3+2
   flutter_native_splash: ^2.4.0
   jwt_decoder: ^2.0.1
-  
-  
 
 dev_dependencies:
   flutter_test:
@@ -45,7 +43,7 @@ flutter:
     - assets/images/product/sachgiaokhoa/
     - assets/images/product/sachthieunhi/
     - assets/images/product/tamly/
-    - assets/images/product/trinhtham/
+    # - assets/images/product/trinhtham/
     - assets/images/product/truyentranh/
     - assets/images/product/vanhoc/
     - assets/images/spy.png

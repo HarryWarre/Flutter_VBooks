@@ -18,26 +18,25 @@ class ProductList extends StatefulWidget {
 
 class _ProductListState extends State<ProductList> {
   final List<String> _selectedProducts = [];
-  late ProductViewModel _productViewModel; 
+  late ProductViewModel _productViewModel;
   List<Product_Model> allProduct = [];
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _productViewModel = ProductViewModel();
     fetchProducts();
-   
   }
 
   Future<void> fetchProducts() async {
-    final productViewModel = Provider.of<ProductViewModel>(context, listen: false);
+    final productViewModel =
+        Provider.of<ProductViewModel>(context, listen: false);
     await productViewModel.fetchProduct();
     setState(() {
       allProduct = productViewModel.products;
-    }); 
+    });
   }
-
 
   void _deleteSelectedProducts() {
     setState(() {
@@ -170,7 +169,7 @@ class _ProductListState extends State<ProductList> {
                           );
                         },
                       );
-      
+
                       if (confirmDelete) {
                         _deleteSelectedProducts();
                       }
